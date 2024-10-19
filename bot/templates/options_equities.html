@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
+        /* Your existing styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -78,27 +79,43 @@
         .stock-selector {
             margin: 20px 0;
         }
+        #historical-chart {
+            margin-top: 20px;
+        }
     </style>
     <script>
         function toggleTable(tableId) {
             const table = document.getElementById(tableId);
-            if (table.style.display === "none" || table.style.display === "") {
-                table.style.display = "table"; // Show the table
-            } else {
-                table.style.display = "none"; // Hide the table
-            }
+            table.style.display = (table.style.display === "none" || table.style.display === "") ? "table" : "none"; // Toggle visibility
         }
 
-        // Function to update options data based on selected stock
-        function updateOptionsData(stockSymbol) {
-            // Assuming you have an API endpoint to fetch options data based on stockSymbol
-            fetch(`/options_data?symbol=${stockSymbol}`)
-                .then(response => response.json())
+        function updateStockAndOptionsData() {
+            const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
+            const timePeriod = document.getElementById('time-period').value; // Get the selected time period
+            if (!stockSymbol) return;
+
+            // Fetch stock data
+            fetch(`/stock_data?symbol=${stockSymbol}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Stock data not found');
+                    return response.json();
+                })
                 .then(data => {
+                    const stockTitle = document.getElementById('stock-title');
+                    stockTitle.textContent = `${data.name} (${data.symbol}) - $${data.price.toFixed(2)}`;
+                    
+                    // Fetch options data
+                    return fetch(`/options_data?symbol=${stockSymbol}`);
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Options data not found');
+                    return response.json();
+                })
+                .then(optionsData => {
                     const optionsSection = document.getElementById('options-section');
                     optionsSection.innerHTML = ''; // Clear previous data
-                    
-                    data.forEach((item, index) => {
+
+                    optionsData.forEach((item, index) => {
                         const optionBox = document.createElement('div');
                         optionBox.className = 'option-box';
                         optionBox.innerHTML = `
@@ -152,8 +169,84 @@
                         `;
                         optionsSection.appendChild(optionBox);
                     });
+
+                    // Fetch and plot historical data
+                    return fetch(`/historical_data?symbol=${stockSymbol}&period=${timePeriod}`); // Include time period
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Historical data not found');
+                    return response.json();
+                })
+                .then(historicalData => {
+                    plotHistoricalData(historicalData);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('stock-title').textContent = 'Options Data';
+                    document.getElementById('options-section').innerHTML = `<p style="color:red;">${error.message}</p>`;
                 });
         }
+
+        function plotHistoricalData(data) {
+            const dates = data.map(entry => new Date(entry.date));
+            const closePrices = data.map(entry => entry.Close);
+            const sma20 = data.map(entry => entry.SMA_20);
+            const upperBand = data.map(entry => entry['Upper Band']);
+            const lowerBand = data.map(entry => entry['Lower Band']);
+
+            const trace1 = {
+                x: dates,
+                y: closePrices,
+                mode: 'lines',
+                name: 'Close Price',
+                line: { color: '#007bff' }
+            };
+            const trace2 = {
+                x: dates,
+                y: sma20,
+                mode: 'lines',
+                name: '20-day SMA',
+                line: { color: '#ffcc00' }
+            };
+            const trace3 = {
+                x: dates,
+                y: upperBand,
+                mode: 'lines',
+                name: 'Upper Band',
+                line: { color: '#ff0000', dash: 'dash' }
+            };
+            const trace4 = {
+                x: dates,
+                y: lowerBand,
+                mode: 'lines',
+                name: 'Lower Band',
+                line: { color: '#ff0000', dash: 'dash' }
+            };
+
+            const layout = {
+                title: 'Historical Close Prices and Bands',
+                xaxis: {
+                    title: 'Date',
+                    showgrid: true
+                },
+                yaxis: {
+                    title: 'Price ($)',
+                    showgrid: true
+                }
+            };
+
+            Plotly.newPlot('historical-chart', [trace1, trace2, trace3, trace4], layout);
+        }
+
+        // Event listener for Enter key
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('stock-symbol');
+            inputField.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    updateStockAndOptionsData(); // Call the update function on Enter key
+                }
+            });
+        });
     </script>
 </head>
 <body>
@@ -162,30 +255,35 @@
     <nav class="navbar">
         <div class="logo">StockBot Dashboard</div>
         <ul>
-            <li><a href="/">Home</a></li>
             <li><a href="/portfolio">Portfolio</a></li>
-            <li><a href="/options">Options</a></li>
-            <li><a href="/recommendation">Recommendations</a></li>
-            <li><a href="/visuals">Visuals</a></li>
-            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li>
+            <li><a href="/options_equities">Options & Equities</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Documentation</a></li>
         </ul>
     </nav>
 
     <section class="options section">
         <div class="stock-selector">
-            <label for="stock-symbol">Select Stock Symbol:</label>
-            <select id="stock-symbol" onchange="updateOptionsData(this.value)">
-                <option value="" disabled selected>Select a stock</option>
-                {% for symbol in stock_symbols %}
-                    <option value="{{ symbol }}">{{ symbol }}</option>
-                {% endfor %}
+            <label for="stock-symbol">Enter Stock Symbol:</label>
+            <input type="text" id="stock-symbol" placeholder="AAPL" required>
+            
+            <label for="time-period">Select Time Frame:</label>
+            <select id="time-period">
+                <option value="1d">1 Day</option>
+                <option value="5d">5 Days</option>
+                <option value="1m">1 Month</option>
+                <option value="3m">3 Months</option>
+                <option value="1y">1 Year</option>
+                <option value="5y">5 Years</option>
             </select>
+            <button onclick="updateStockAndOptionsData()">Get Data</button>
         </div>
 
-        <h1 id="stock-title">Options Data</h1>
-        <div id="options-section">
-            <!-- Options data will be populated here -->
-        </div>
+        <h1 id="stock-title">Data</h1>
+        <div id="options-section"></div>
+    </section>
+
+    <section class="historical-data section">
+        <div id="historical-chart"></div>
     </section>
 
 </body>
