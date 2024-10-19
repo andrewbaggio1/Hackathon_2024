@@ -9,18 +9,12 @@ from strategies.monte_carlo import monte_carlo_option_price
 import plotly.graph_objs as go
 import plotly.io as pio
 import pandas as pd
-# from alpaca.trading.client import TradingClient
-# from alpaca.trading.requests import GetAccountActivitiesRequest
-import os
 
 app = Flask(__name__)
 
 # Set up Alpaca API credentials
-# ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
-# ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
-
-# trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
-
+ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
+ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -67,24 +61,6 @@ def home():
     graphJSON = pio.to_json(fig)
 
     return render_template('index.html', stock_symbols=stock_symbols, graphJSON=graphJSON)
-
-def get_portfolio():
-    """Fetch current portfolio holdings from Alpaca."""
-    # Get all open positions
-    positions = trading_client.get_all_positions()
-    
-    portfolio = []
-    for position in positions:
-        stock_info = {
-            'name': position.symbol,
-            'shares': position.qty,
-            'avg_price': position.avg_entry_price,
-            'current_price': position.current_price,
-            'change': position.unrealized_plpc * 100  # Convert to percentage
-        }
-        portfolio.append(stock_info)
-    
-    return portfolio
 
 @app.route('/options', methods=['GET', 'POST'])
 

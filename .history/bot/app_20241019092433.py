@@ -9,17 +9,16 @@ from strategies.monte_carlo import monte_carlo_option_price
 import plotly.graph_objs as go
 import plotly.io as pio
 import pandas as pd
-# from alpaca.trading.client import TradingClient
-# from alpaca.trading.requests import GetAccountActivitiesRequest
-import os
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import GetAccountActivitiesRequest
 
 app = Flask(__name__)
 
 # Set up Alpaca API credentials
-# ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
-# ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
+ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
+ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
 
-# trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
+trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
 
 
 @app.route('/', methods=['GET', 'POST'])

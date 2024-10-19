@@ -90,9 +90,36 @@
         </ul>
     </nav>
 
+    <!-- Stock Selection Section -->
+    <section class="stock-selection">
+        <h2>Select Stocks for Analysis</h2>
+        <form method="POST" action="/">
+            <label for="stock_symbols">Choose Stocks:</label>
+            <select name="stock_symbols" id="stock_symbols" multiple>
+                <option value="AAPL" {% if 'AAPL' in stock_symbols %}selected{% endif %}>Apple (AAPL)</option>
+                <option value="MSFT" {% if 'MSFT' in stock_symbols %}selected{% endif %}>Microsoft (MSFT)</option>
+                <option value="GOOGL" {% if 'GOOGL' in stock_symbols %}selected{% endif %}>Alphabet (GOOGL)</option>
+                <option value="TSLA" {% if 'TSLA' in stock_symbols %}selected{% endif %}>Tesla (TSLA)</option>
+                <option value="AMZN" {% if 'AMZN' in stock_symbols %}selected{% endif %}>Amazon (AMZN)</option>
+                <!-- Add more stock options as needed -->
+            </select>
+            <button type="submit">Analyze</button>
+        </form>
+    </section>
+
+    <!-- Stock Info Section -->
+    <section class="stock-info">
+        <h1>{{ stock_symbol }} Stock Information</h1>
+        <div class="data-summary">
+            <p>Price: ${{ stock_price }}</p>
+            <p>52-Week High: ${{ week_high }}</p>
+            <p>52-Week Low: ${{ week_low }}</p>
+        </div>
+    </section>
+
     <!-- Portfolio Overview -->
     <section class="portfolio">
-        <h1>Your Portfolio</h1>
+        <h2>Your Portfolio</h2>
         <table>
             <thead>
                 <tr>
@@ -101,7 +128,6 @@
                     <th>Avg Price</th>
                     <th>Current Price</th>
                     <th>Change</th>
-                    <th>Value</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,51 +135,46 @@
                 <tr>
                     <td>{{ stock.name }}</td>
                     <td>{{ stock.shares }}</td>
-                    <td>${{ stock.avg_price | round(2) }}</td>
-                    <td>${{ stock.current_price | round(2) }}</td>
-                    <td style="color: {% if stock.change >= 0 %}green{% else %}red{% endif %};">
-                        {{ stock.change }}%
-                    </td>
-                    <td>${{ stock.value | round(2) }}</td>
+                    <td>${{ stock.avg_price }}</td>
+                    <td>${{ stock.current_price }}</td>
+                    <td>{{ stock.change }}%</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </section>
 
-    <!-- Total Portfolio Value -->
-    <section class="portfolio-summary">
-        <h2>Portfolio Summary</h2>
-        <div class="summary">
-            <p>Total Investment: ${{ total_investment | round(2) }}</p>
-            <p>Total Current Value: ${{ total_value | round(2) }}</p>
-            <p>Overall Change: {{ overall_change }}%</p>
-        </div>
-    </section>
-
-    <!-- Portfolio Visualization -->
+    <!-- Monte Carlo Simulation and Visuals -->
     <section class="visuals">
-        <h2>Portfolio Allocation</h2>
-        <div id="portfolio-pie-chart"></div>
+        <h2>Monte Carlo Simulations</h2>
+        <div class="plot-container" id="monte-carlo-plot"></div>
+
+        <h2>Stock Price History</h2>
+        <div class="plot-container" id="historical-plot"></div>
     </section>
 
     <script>
-        // Example data for portfolio pie chart
-        var portfolioData = {{ portfolio_data | safe }};
-        
-        var data = [{
-            values: portfolioData.values,
-            labels: portfolioData.labels,
-            type: 'pie'
-        }];
-        
+        // Example Plotly.js for Monte Carlo Simulations
+        var monteCarloData = {{ monte_carlo_data | safe }};
         var layout = {
-            title: 'Portfolio Allocation',
-            height: 400,
-            width: 500
+            title: 'Monte Carlo Simulation of Stock Prices',
+            xaxis: { title: 'Days' },
+            yaxis: { title: 'Price', rangemode: 'tozero' },
+            plot_bgcolor: '#f4f4f4',
+            paper_bgcolor: '#f4f4f4',
         };
-        
-        Plotly.newPlot('portfolio-pie-chart', data, layout);
+        Plotly.newPlot('monte-carlo-plot', monteCarloData, layout);
+
+        // Example Historical Data Visualization
+        var historicalData = {{ historical_data | safe }};
+        var layout2 = {
+            title: 'Stock Price History',
+            xaxis: { title: 'Date' },
+            yaxis: { title: 'Price', rangemode: 'tozero' },
+            plot_bgcolor: '#f4f4f4',
+            paper_bgcolor: '#f4f4f4',
+        };
+        Plotly.newPlot('historical-plot', historicalData, layout2);
     </script>
 
 </body>

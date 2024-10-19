@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">StockBot Dashboard</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/recommendation">Recommendations</a></li>
+            <li><a href="/visuals">Visuals</a></li>
+        </ul>
+    </nav>
+
+    <section class="options">
+        <h1>{{ stock_symbol }} Options Data</h1>
+        
+        {% for date, data in options_data.items() %}
+        <h2>Expiration Date: {{ date }}</h2>
+        
+        <h3>Calls</h3>
+        <table>
+            <tr>
+                <th>Strike</th>
+                <th>Last Price</th>
+                <th>Bid</th>
+                <th>Ask</th>
+                <th>Volume</th>
+            </tr>
+            {% for row in data.calls.iterrows() %}
+            <tr>
+                <td>{{ row[1]['strike'] }}</td>
+                <td>{{ row[1]['lastPrice'] }}</td>
+                <td>{{ row[1]['bid'] }}</td>
+                <td>{{ row[1]['ask'] }}</td>
+                <td>{{ row[1]['volume'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Puts</h3>
+        <table>
+            <tr>
+                <th>Strike</th>
+                <th>Last Price</th>
+                <th>Bid</th>
+                <th>Ask</th>
+                <th>Volume</th>
+            </tr>
+            {% for row in data.puts.iterrows() %}
+            <tr>
+                <td>{{ row[1]['strike'] }}</td>
+                <td>{{ row[1]['lastPrice'] }}</td>
+                <td>{{ row[1]['bid'] }}</td>
+                <td>{{ row[1]['ask'] }}</td>
+                <td>{{ row[1]['volume'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor %}
+    </section>
+
+</body>
+</html>

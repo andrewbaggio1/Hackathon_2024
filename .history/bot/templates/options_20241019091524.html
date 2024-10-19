@@ -78,7 +78,6 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">StockBot Dashboard</div>
         <ul>
@@ -90,71 +89,53 @@
         </ul>
     </nav>
 
-    <!-- Portfolio Overview -->
-    <section class="portfolio">
-        <h1>Your Portfolio</h1>
+    <section class="options">
+        <h1>{{ stock_symbol }} Options Data</h1>
+        
+        {% for date, data in options_data.items() %}
+        <h2>Expiration Date: {{ date }}</h2>
+        
+        <h3>Calls</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>Stock</th>
-                    <th>Shares</th>
-                    <th>Avg Price</th>
-                    <th>Current Price</th>
-                    <th>Change</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for stock in portfolio %}
-                <tr>
-                    <td>{{ stock.name }}</td>
-                    <td>{{ stock.shares }}</td>
-                    <td>${{ stock.avg_price | round(2) }}</td>
-                    <td>${{ stock.current_price | round(2) }}</td>
-                    <td style="color: {% if stock.change >= 0 %}green{% else %}red{% endif %};">
-                        {{ stock.change }}%
-                    </td>
-                    <td>${{ stock.value | round(2) }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
+            <tr>
+                <th>Strike</th>
+                <th>Last Price</th>
+                <th>Bid</th>
+                <th>Ask</th>
+                <th>Volume</th>
+            </tr>
+            {% for row in data.calls.iterrows() %}
+            <tr>
+                <td>{{ row[1]['strike'] }}</td>
+                <td>{{ row[1]['lastPrice'] }}</td>
+                <td>{{ row[1]['bid'] }}</td>
+                <td>{{ row[1]['ask'] }}</td>
+                <td>{{ row[1]['volume'] }}</td>
+            </tr>
+            {% endfor %}
         </table>
-    </section>
 
-    <!-- Total Portfolio Value -->
-    <section class="portfolio-summary">
-        <h2>Portfolio Summary</h2>
-        <div class="summary">
-            <p>Total Investment: ${{ total_investment | round(2) }}</p>
-            <p>Total Current Value: ${{ total_value | round(2) }}</p>
-            <p>Overall Change: {{ overall_change }}%</p>
-        </div>
+        <h3>Puts</h3>
+        <table>
+            <tr>
+                <th>Strike</th>
+                <th>Last Price</th>
+                <th>Bid</th>
+                <th>Ask</th>
+                <th>Volume</th>
+            </tr>
+            {% for row in data.puts.iterrows() %}
+            <tr>
+                <td>{{ row[1]['strike'] }}</td>
+                <td>{{ row[1]['lastPrice'] }}</td>
+                <td>{{ row[1]['bid'] }}</td>
+                <td>{{ row[1]['ask'] }}</td>
+                <td>{{ row[1]['volume'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endfor %}
     </section>
-
-    <!-- Portfolio Visualization -->
-    <section class="visuals">
-        <h2>Portfolio Allocation</h2>
-        <div id="portfolio-pie-chart"></div>
-    </section>
-
-    <script>
-        // Example data for portfolio pie chart
-        var portfolioData = {{ portfolio_data | safe }};
-        
-        var data = [{
-            values: portfolioData.values,
-            labels: portfolioData.labels,
-            type: 'pie'
-        }];
-        
-        var layout = {
-            title: 'Portfolio Allocation',
-            height: 400,
-            width: 500
-        };
-        
-        Plotly.newPlot('portfolio-pie-chart', data, layout);
-    </script>
 
 </body>
 </html>

@@ -9,8 +9,8 @@ from strategies.monte_carlo import monte_carlo_option_price
 import plotly.graph_objs as go
 import plotly.io as pio
 import pandas as pd
-# from alpaca.trading.client import TradingClient
-# from alpaca.trading.requests import GetAccountActivitiesRequest
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import GetAccountActivitiesRequest
 import os
 
 app = Flask(__name__)
