@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizations</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .container {
+            margin-bottom: 40px;
+        }
+        .graph {
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Equity Recommendations</h1>
+    <div id="equity-recommendations" class="graph"></div>
+    <script>
+        // Sample data for equity recommendations
+        var recommendationsData = {
+            x: {{ recommendations['stock_symbols'] | tojson }},
+            y: {{ recommendations['scores'] | tojson }},
+            type: 'bar',
+            marker: { color: 'blue' }
+        };
+        
+        var layout = {
+            title: 'Equity Recommendations',
+            xaxis: {
+                title: 'Stock Symbols',
+                showgrid: false,
+                zeroline: false
+            },
+            yaxis: {
+                title: 'Recommendation Score',
+                showline: false
+            }
+        };
+
+        Plotly.newPlot('equity-recommendations', [recommendationsData], layout);
+    </script>
+</div>
+
+<div class="container">
+    <h2>Options Pricing Comparisons</h2>
+    <div id="options-pricing" class="graph"></div>
+    <script>
+        // Sample data for options pricing comparisons
+        var pricingData = {
+            x: ['CRR', 'Black-Scholes', 'Monte Carlo'],
+            y: {{ option_prices | tojson }},
+            type: 'bar',
+            marker: { color: 'green' }
+        };
+
+        var layoutPricing = {
+            title: 'Options Pricing Comparison',
+            xaxis: {
+                title: 'Pricing Method',
+                showgrid: false,
+                zeroline: false
+            },
+            yaxis: {
+                title: 'Option Price',
+                showline: false
+            }
+        };
+
+        Plotly.newPlot('options-pricing', [pricingData], layoutPricing);
+    </script>
+</div>
+
+</body>
+</html>
