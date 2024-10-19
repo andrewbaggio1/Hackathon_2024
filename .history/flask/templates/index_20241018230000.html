@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Stock Trading Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Stock Trading Dashboard</h1>
+    
+    <form method="POST">
+        <label for="visual">Select Visual:</label>
+        <select name="visual" id="visual">
+            <option value="price_chart" {% if selected_visual == 'price_chart' %}selected{% endif %}>Stock Price Chart</option>
+            <option value="monte_carlo" {% if selected_visual == 'monte_carlo' %}selected{% endif %}>Monte Carlo Simulation</option>
+        </select>
+        <input type="submit" value="Show">
+    </form>
+
+    <h2>Visualization</h2>
+    <div id="stock-chart">
+        {{ stock_plot | safe }}
+    </div>
+</body>
+</html>

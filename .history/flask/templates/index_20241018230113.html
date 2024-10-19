@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Trading Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">StockBot Dashboard</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/recommendation">Recommendations</a></li>
+            <li><a href="/visuals">Visuals</a></li>
+        </ul>
+    </nav>
+
+    <!-- Stock Info Section -->
+    <section class="stock-info">
+        <h1>{{ stock_symbol }} Stock Information</h1>
+        <div class="data-summary">
+            <p>Price: ${{ stock_price }}</p>
+            <p>52-Week High: ${{ week_high }}</p>
+            <p>52-Week Low: ${{ week_low }}</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Overview -->
+    <section class="portfolio">
+        <h2>Your Portfolio</h2>
+        <table>
+            <tr>
+                <th>Stock</th>
+                <th>Shares</th>
+                <th>Avg Price</th>
+                <th>Current Price</th>
+                <th>Change</th>
+            </tr>
+            {% for stock in portfolio %}
+            <tr>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.shares }}</td>
+                <td>{{ stock.avg_price }}</td>
+                <td>{{ stock.current_price }}</td>
+                <td>{{ stock.change }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <!-- Monte Carlo Simulation and Visuals -->
+    <section class="visuals">
+        <h2>Monte Carlo Simulations</h2>
+        <div id="monte-carlo-plot"></div>
+
+        <h2>Stock Price History</h2>
+        <div id="historical-plot"></div>
+    </section>
+
+    <script>
+        // Example Plotly.js for Monte Carlo Simulations
+        var monteCarloData = {{ monte_carlo_data | safe }};
+        var layout = {
+            title: 'Monte Carlo Simulation of Stock Prices',
+            xaxis: {title: 'Days'},
+            yaxis: {title: 'Price'},
+        };
+        Plotly.newPlot('monte-carlo-plot', monteCarloData, layout);
+
+        // Example Historical Data Visualization
+        var historicalData = {{ historical_data | safe }};
+        var layout2 = {
+            title: 'Stock Price History',
+            xaxis: {title: 'Date'},
+            yaxis: {title: 'Price'},
+        };
+        Plotly.newPlot('historical-plot', historicalData, layout2);
+    </script>
+
+</body>
+</html>
