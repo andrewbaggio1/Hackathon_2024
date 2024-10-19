@@ -12,9 +12,10 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            color: #333;
         }
         .navbar {
-            background-color: #333;
+            background-color: #4CAF50; /* Match the navbar color */
             color: white;
             padding: 15px;
             text-align: center;
@@ -35,15 +36,16 @@
             color: white;
             text-decoration: none;
         }
-        .stock-info, .portfolio, .visuals {
+        .section {
             margin: 20px;
             padding: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #e0e0e0; /* Divider between sections */
         }
         h1, h2 {
-            color: #333;
+            color: #4CAF50; /* Match header colors */
         }
         .data-summary {
             margin: 15px 0;
@@ -87,11 +89,12 @@
             <li><a href="/options">Options</a></li>
             <li><a href="/recommendation">Recommendations</a></li>
             <li><a href="/visuals">Visuals</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li> <!-- Updated link -->
         </ul>
     </nav>
 
     <!-- Portfolio Overview -->
-    <section class="portfolio">
+    <section class="portfolio section">
         <h1>Your Portfolio</h1>
         <table>
             <thead>
@@ -122,7 +125,7 @@
     </section>
 
     <!-- Total Portfolio Value -->
-    <section class="portfolio-summary">
+    <section class="portfolio-summary section">
         <h2>Portfolio Summary</h2>
         <div class="summary">
             <p>Total Investment: ${{ total_investment | round(2) }}</p>
@@ -132,7 +135,7 @@
     </section>
 
     <!-- Portfolio Visualization -->
-    <section class="visuals">
+    <section class="visuals section">
         <h2>Portfolio Allocation</h2>
         <div id="portfolio-pie-chart"></div>
     </section>

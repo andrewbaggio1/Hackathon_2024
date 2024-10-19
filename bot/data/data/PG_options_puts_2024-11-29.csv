@@ -1,0 +1,2 @@
+,contractSymbol,lastTradeDate,strike,lastPrice,bid,ask,change,percentChange,volume,openInterest,impliedVolatility,inTheMoney,contractSize,currency
+0,PG241129P00160000,2024-10-18 18:49:06+00:00,160.0,0.51,0.39,0.59,-0.31,-37.80488,465,12,0.1729819030761719,False,REGULAR,USD

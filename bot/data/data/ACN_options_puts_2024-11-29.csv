@@ -1,0 +1,2 @@
+,contractSymbol,lastTradeDate,strike,lastPrice,bid,ask,change,percentChange,volume,openInterest,impliedVolatility,inTheMoney,contractSize,currency
+0,ACN241129P00350000,2024-10-18 16:35:37+00:00,350.0,1.86,1.5,2.05,-0.18999994,-9.26829,10,227,0.21167780517578122,False,REGULAR,USD

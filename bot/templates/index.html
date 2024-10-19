@@ -12,9 +12,10 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            color: #333;
         }
         .navbar {
-            background-color: #333;
+            background-color: #4CAF50;
             color: white;
             padding: 15px;
             text-align: center;
@@ -35,7 +36,16 @@
             color: white;
             text-decoration: none;
         }
-        .stock-info, .portfolio, .visuals {
+        .header-image {
+            text-align: center; /* Center the images */
+            margin: 20px 0; /* Add some margin */
+        }
+        .header-image img {
+            max-width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 10px; /* Add some spacing between images */
+        }
+        .section {
             margin: 20px;
             padding: 20px;
             background: white;
@@ -43,7 +53,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         h1, h2 {
-            color: #333;
+            color: #4CAF50;
         }
         .data-summary {
             margin: 15px 0;
@@ -64,15 +74,18 @@
         tr:hover {
             background-color: #f1f1f1;
         }
-        .plot-container {
-            margin-top: 20px;
-        }
-        .stock-selection {
-            margin: 20px;
-            padding: 20px;
-            background: #e0e0e0;
+        .description {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -87,95 +100,48 @@
             <li><a href="/options">Options</a></li>
             <li><a href="/recommendation">Recommendations</a></li>
             <li><a href="/visuals">Visuals</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li> <!-- Updated link -->
         </ul>
     </nav>
 
-    <!-- Stock Selection Section -->
-    <section class="stock-selection">
-        <h2>Select Stocks for Analysis</h2>
-        <form method="POST" action="/">
-            <label for="stock_symbols">Choose Stocks:</label>
-            <select name="stock_symbols" id="stock_symbols" multiple>
-                <option value="AAPL" {% if 'AAPL' in stock_symbols %}selected{% endif %}>Apple (AAPL)</option>
-                <option value="MSFT" {% if 'MSFT' in stock_symbols %}selected{% endif %}>Microsoft (MSFT)</option>
-                <option value="GOOGL" {% if 'GOOGL' in stock_symbols %}selected{% endif %}>Alphabet (GOOGL)</option>
-                <option value="TSLA" {% if 'TSLA' in stock_symbols %}selected{% endif %}>Tesla (TSLA)</option>
-                <option value="AMZN" {% if 'AMZN' in stock_symbols %}selected{% endif %}>Amazon (AMZN)</option>
-                <!-- Add more stock options as needed -->
-            </select>
-            <button type="submit">Analyze</button>
-        </form>
+    <!-- Header Images -->
+    <div class="header-image">
+        <img src="{{ url_for('static', filename='image1.png') }}" alt="Image 1">
+        <img src="{{ url_for('static', filename='image2.png') }}" alt="Image 2">
+    </div>
+
+    <!-- Description Section -->
+    <section class="section description">
+        <h2>About the Stock Trading Dashboard</h2>
+        <p>
+            The Stock Trading Dashboard is a powerful tool designed for investors and traders to monitor their stock portfolios and analyze market trends. With a user-friendly interface, users can easily navigate through various features that enhance their trading experience. This application is integrated with Alpaca, a commission-free trading platform that provides real-time market data and seamless trading capabilities.
+        </p>
+        <p>
+            Key features of the dashboard include:
+        </p>
+        <ul>
+            <li><strong>User-Friendly Interface:</strong> The intuitive design ensures that users of all experience levels can easily access critical trading information.</li>
+            <li><strong>Stock Information:</strong> Detailed information about selected stocks, including current prices, 52-week highs and lows, is readily available.</li>
+            <li><strong>Portfolio Overview:</strong> A comprehensive view of the user's stock portfolio, including the number of shares held, average purchase price, current price, and percentage change in value.</li>
+            <li><strong>AI-Powered Recommendations:</strong> Leveraging advanced algorithms, the dashboard provides personalized trading recommendations based on user behavior and market trends, helping users make informed decisions.</li>
+            <li><strong>Auto-Trading Functionality:</strong> Users can automate their trading strategies, allowing for execution of trades based on predefined criteria without the need for constant monitoring.</li>
+            <li><strong>Visual Analysis:</strong> Advanced visualizations powered by Plotly allow users to explore stock performance graphically, helping to make informed trading decisions.</li>
+        </ul>
+        <p>
+            This dashboard serves as an essential resource for both novice and experienced traders, providing the insights needed to navigate the complex world of stock trading effectively and efficiently. Join the trading revolution with StockBot and unlock the potential of automated and intelligent trading!
+        </p>
     </section>
 
-    <!-- Stock Info Section -->
-    <section class="stock-info">
-        <h1>{{ stock_symbol }} Stock Information</h1>
-        <div class="data-summary">
-            <p>Price: ${{ stock_price }}</p>
-            <p>52-Week High: ${{ week_high }}</p>
-            <p>52-Week Low: ${{ week_low }}</p>
-        </div>
+    <!-- Extra Information Section -->
+    <section class="section">
+        <h2>Extra Information</h2>
+        <p>
+            The "Extra Information" section is designed for users who seek a deeper understanding of the concepts and algorithms underpinning stock trading strategies. Here, users will find LaTeX proofs and detailed explanations of various trading theories and models, enhancing their knowledge and decision-making skills. 
+        </p>
+        <p>
+            This section aims to bridge the gap between theoretical knowledge and practical application, making it a valuable resource for both academic study and real-world trading. The inclusion of LaTeX ensures that complex mathematical proofs are presented clearly and professionally, making them accessible for users interested in the quantitative aspects of trading.
+        </p>
     </section>
-
-    <!-- Portfolio Overview -->
-    <section class="portfolio">
-        <h2>Your Portfolio</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Stock</th>
-                    <th>Shares</th>
-                    <th>Avg Price</th>
-                    <th>Current Price</th>
-                    <th>Change</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for stock in portfolio %}
-                <tr>
-                    <td>{{ stock.name }}</td>
-                    <td>{{ stock.shares }}</td>
-                    <td>${{ stock.avg_price }}</td>
-                    <td>${{ stock.current_price }}</td>
-                    <td>{{ stock.change }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Monte Carlo Simulation and Visuals -->
-    <section class="visuals">
-        <h2>Monte Carlo Simulations</h2>
-        <div class="plot-container" id="monte-carlo-plot"></div>
-
-        <h2>Stock Price History</h2>
-        <div class="plot-container" id="historical-plot"></div>
-    </section>
-
-    <script>
-        // Example Plotly.js for Monte Carlo Simulations
-        var monteCarloData = {{ monte_carlo_data | safe }};
-        var layout = {
-            title: 'Monte Carlo Simulation of Stock Prices',
-            xaxis: { title: 'Days' },
-            yaxis: { title: 'Price', rangemode: 'tozero' },
-            plot_bgcolor: '#f4f4f4',
-            paper_bgcolor: '#f4f4f4',
-        };
-        Plotly.newPlot('monte-carlo-plot', monteCarloData, layout);
-
-        // Example Historical Data Visualization
-        var historicalData = {{ historical_data | safe }};
-        var layout2 = {
-            title: 'Stock Price History',
-            xaxis: { title: 'Date' },
-            yaxis: { title: 'Price', rangemode: 'tozero' },
-            plot_bgcolor: '#f4f4f4',
-            paper_bgcolor: '#f4f4f4',
-        };
-        Plotly.newPlot('historical-plot', historicalData, layout2);
-    </script>
 
 </body>
 </html>

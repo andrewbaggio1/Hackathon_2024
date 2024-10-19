@@ -1,33 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-{% comment %} <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizations</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .container {
-            margin-bottom: 40px;
-        }
-        .graph {
-            width: 100%;
-            height: 400px;
-            margin: 20px 0;
-        }
-    </style>
-</head> {% endcomment %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Trading Dashboard</title>
+    <title>Stock Trading Dashboard - Visuals</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
@@ -36,129 +13,164 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            color: #333;
         }
+
         .navbar {
-            background-color: #333;
+            background-color: #4CAF50;
             color: white;
             padding: 15px;
             text-align: center;
         }
+
         .navbar .logo {
             font-size: 24px;
             font-weight: bold;
         }
+
         .navbar ul {
             list-style-type: none;
             padding: 0;
         }
+
         .navbar ul li {
             display: inline;
             margin: 0 15px;
         }
+
         .navbar ul li a {
             color: white;
             text-decoration: none;
         }
-        .stock-info, .portfolio, .visuals {
+
+        .header-image {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .header-image img {
+            max-width: 100%;
+            height: auto;
+            margin: 0 10px;
+        }
+
+        .section {
             margin: 20px;
             padding: 20px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        h1, h2 {
-            color: #333;
+
+        h1,
+        h2 {
+            color: #4CAF50;
         }
+
         .data-summary {
             margin: 15px 0;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 10px 0;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         tr:hover {
             background-color: #f1f1f1;
         }
-        .plot-container {
-            margin-top: 20px;
-        }
-        .stock-selection {
-            margin: 20px;
-            padding: 20px;
-            background: #e0e0e0;
+
+        .description {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 5px 0;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Equity Recommendations</h1>
-    <div id="equity-recommendations" class="graph"></div>
-    <script>
-        // Sample data for equity recommendations
-        var recommendationsData = {
-            x: {{ recommendations['stock_symbols'] | tojson }},
-            y: {{ recommendations['scores'] | tojson }},
-            type: 'bar',
-            marker: { color: 'blue' }
-        };
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">StockBot Dashboard</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/recommendation">Recommendations</a></li>
+            <li><a href="/visuals">Visuals</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li> <!-- Updated link -->
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Visuals</h1>
+        <div class="header-image">
+            <img src="{{ url_for('static', filename='path/to/your/image.jpg') }}" alt="Header Image">
+        </div>
         
-        var layout = {
-            title: 'Equity Recommendations',
-            xaxis: {
-                title: 'Stock Symbols',
-                showgrid: false,
-                zeroline: false
-            },
-            yaxis: {
-                title: 'Recommendation Score',
-                showline: false
-            }
-        };
+        <div class="section">
+            <h2>Chart Example</h2>
+            <div id="visuals-graph" class="graph"></div>
+            <script>
+                // Sample data for a chart
+                var data = [{
+                    x: ['A', 'B', 'C', 'D'],
+                    y: [10, 15, 13, 17],
+                    type: 'bar'
+                }];
 
-        Plotly.newPlot('equity-recommendations', [recommendationsData], layout);
-    </script>
-</div>
-
-<div class="container">
-    <h2>Options Pricing Comparisons</h2>
-    <div id="options-pricing" class="graph"></div>
-    <script>
-        // Sample data for options pricing comparisons
-        var pricingData = {
-            x: ['CRR', 'Black-Scholes', 'Monte Carlo'],
-            y: {{ option_prices | tojson }},
-            type: 'bar',
-            marker: { color: 'green' }
-        };
-
-        var layoutPricing = {
-            title: 'Options Pricing Comparison',
-            xaxis: {
-                title: 'Pricing Method',
-                showgrid: false,
-                zeroline: false
-            },
-            yaxis: {
-                title: 'Option Price',
-                showline: false
-            }
-        };
-
-        Plotly.newPlot('options-pricing', [pricingData], layoutPricing);
-    </script>
-</div>
+                Plotly.newPlot('visuals-graph', data);
+            </script>
+        </div>
+        
+        <div class="section">
+            <h2>Data Summary</h2>
+            <div class="data-summary">
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Total Trades</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Winning Trades</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Lossing Trades</td>
+                        <td>40</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 </body>
+
 </html>

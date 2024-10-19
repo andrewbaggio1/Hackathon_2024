@@ -53,7 +53,7 @@ def generate_trade_recommendation(stock_symbol):
     
     prices_series = pd.Series(prices)
     
-    short_ma = calculate_moving_average(prices_series, window=20)
+    short_ma = calculate_moving_average(prices_series, window=0)
     long_ma = calculate_moving_average(prices_series, window=50)
     
     if short_ma.iloc[-1] > long_ma.iloc[-1]:

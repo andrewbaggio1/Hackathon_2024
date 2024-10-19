@@ -144,3 +144,6 @@ cython_debug/
 
 # Added by user for Alpaca API and sensitive info
 .env  # Ignore environment file with API keys and secrets
+.history
+
+/DONT_OPEN

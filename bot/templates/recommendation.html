@@ -14,7 +14,7 @@
             padding: 0;
         }
         .navbar {
-            background-color: #333;
+            background-color: #4CAF50; /* Updated color for consistency */
             color: white;
             padding: 15px;
             text-align: center;
@@ -100,15 +100,18 @@
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="logo">Options & Derivatives Trading</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">StockBot Dashboard</div>
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#recommendations">Recommendations</a></li>
-            <li><a href="#analytics">Analytics</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/options">Options</a></li>
+            <li><a href="/recommendation">Recommendations</a></li>
+            <li><a href="/visuals">Visuals</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li> <!-- Updated link -->
         </ul>
-    </div>
+    </nav>
 
     <div class="container">
         <div class="left-section">

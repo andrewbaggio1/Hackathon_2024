@@ -9,21 +9,66 @@ from strategies.monte_carlo import monte_carlo_option_price
 import plotly.graph_objs as go
 import plotly.io as pio
 import pandas as pd
-# from alpaca.trading.client import TradingClient
-# from alpaca.trading.requests import GetAccountActivitiesRequest
 import os
+from dotenv import load_dotenv
+from alpaca.trading.client import TradingClient
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
 # Set up Alpaca API credentials
-# ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
-# ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
+ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
+ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
 
-# trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
-
+# Initialize Alpaca Trading client
+trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
+stock_functions = {
+    'AAPL': 'Apple (AAPL)',
+    'MSFT': 'Microsoft (MSFT)',
+    'GOOGL': 'Alphabet (GOOGL)',
+    'TSLA': 'Tesla (TSLA)',
+    'AMZN': 'Amazon (AMZN)',
+    # Add more stock options as needed
+}
 
 @app.route('/', methods=['GET', 'POST'])
+def index():
+    stock_symbols = request.form.getlist('stock_symbols') if request.method == 'POST' else []
+    
+    # Dummy stock information for the template
+    stock_symbol = stock_symbols[0] if stock_symbols else 'AAPL'
+    stock_price = 150  # Example price
+    week_high = 160  # Example high
+    week_low = 140  # Example low
+    
+    # Example portfolio data
+    portfolio = [
+        {'name': 'AAPL', 'shares': 10, 'avg_price': 145, 'current_price': 150, 'change': 3.45},
+        {'name': 'MSFT', 'shares': 5, 'avg_price': 250, 'current_price': 255, 'change': 2.00},
+        # Add more portfolio stocks as needed
+    ]
+    
+    return render_template('index.html', stock_symbols=stock_symbols, stock_functions=stock_functions, stock_symbol=stock_symbol, stock_price=stock_price, week_high=week_high, week_low=week_low, portfolio=portfolio)
 
+@app.route('/extra_info')
+def extra_information():
+    return render_template('extra_information.html')  # Ensure this file exists in your templates directory
+
+def get_alpaca_stock_data(symbol):
+    """Fetch stock data from Alpaca."""
+    try:
+        barset = trading_client.get_barset(symbol, 'day', limit=100)
+        bars = barset[symbol]
+        dates = [bar.t.date() for bar in bars]
+        prices = [bar.c for bar in bars]
+        return dates, prices
+    except Exception as e:
+        print(f"Error fetching data from Alpaca for {symbol}: {e}")
+        return [], []
+
+@app.route('/', methods=['GET', 'POST'])
 def home():
     use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Check if example data toggle is on
     stock_symbols = request.form.getlist('stock_symbols')  # Get list of selected stocks
@@ -45,8 +90,9 @@ def home():
             }
     else:
         for stock_symbol in stock_symbols:
-            dates, prices = get_stock_data(stock_symbol)
-            if prices is None:
+            # Fetch data from Alpaca
+            dates, prices = get_alpaca_stock_data(stock_symbol)
+            if not prices:
                 return render_template('index.html', error=f"Could not fetch data for {stock_symbol}.", stock_symbols=stock_symbols)
             
             stock_data[stock_symbol] = {
@@ -86,34 +132,7 @@ def get_portfolio():
     
     return portfolio
 
-@app.route('/options', methods=['GET', 'POST'])
-
-def options():
-    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
-    if request.method == 'POST':
-        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
-    else:
-        stock_symbol = 'AAPL'  # Default symbol
-
-    # Fetch options data
-    options_data = get_options_data(stock_symbol) if not use_example_data else []  # Example: Use empty list for example data
-    return render_template('options.html', options_data=options_data, stock_symbol=stock_symbol)
-
-@app.route('/recommendation', methods=['GET', 'POST'])
-
-def recommendation():
-    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
-    if request.method == 'POST':
-        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
-    else:
-        stock_symbol = 'AAPL'  # Default symbol
-
-    # Generate trade recommendation
-    recommendation = generate_trade_recommendation(stock_symbol) if not use_example_data else "Example Recommendation"
-    return render_template('recommendation.html', recommendation=recommendation, stock_symbol=stock_symbol)
-
 @app.route('/portfolio', methods=['GET', 'POST'])
-
 def portfolio():
     use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
     portfolio = []
@@ -139,9 +158,7 @@ def portfolio():
             },
         ]
     else:
-        # Actual data retrieval logic should be implemented here
-        # e.g., portfolio = get_actual_portfolio_data()
-        pass
+        portfolio = get_portfolio()  # Fetch actual portfolio from Alpaca
 
     total_investment = sum(stock['avg_price'] * stock['shares'] for stock in portfolio)
     total_value = sum(stock['value'] for stock in portfolio)
@@ -161,11 +178,33 @@ def portfolio():
                            total_value=total_value,
                            overall_change=overall_change,
                            graphJSON=graphJSON)
-    
-@app.route('/visuals', methods=['GET'])
 
+@app.route('/options', methods=['GET', 'POST'])
+def options():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
+    if request.method == 'POST':
+        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
+    else:
+        stock_symbol = 'AAPL'  # Default symbol
+
+    # Fetch options data
+    options_data = get_options_data(stock_symbol) if not use_example_data else []  # Example: Use empty list for example data
+    return render_template('options.html', options_data=options_data, stock_symbol=stock_symbol)
+
+@app.route('/recommendation', methods=['GET', 'POST'])
+def recommendation():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
+    if request.method == 'POST':
+        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
+    else:
+        stock_symbol = 'AAPL'  # Default symbol
+
+    # Generate trade recommendation
+    recommendation = generate_trade_recommendation(stock_symbol) if not use_example_data else "Example Recommendation"
+    return render_template('recommendation.html', recommendation=recommendation, stock_symbol=stock_symbol)
+
+@app.route('/visuals', methods=['GET'])
 def visuals():
-    
     # Sample data (replace with actual computations)
     recommendations = {
         'stock_symbols': ['AAPL', 'MSFT', 'GOOGL'],

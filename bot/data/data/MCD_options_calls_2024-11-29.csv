@@ -1,0 +1,3 @@
+,contractSymbol,lastTradeDate,strike,lastPrice,bid,ask,change,percentChange,volume,openInterest,impliedVolatility,inTheMoney,contractSize,currency
+0,MCD241129C00310000,2024-10-16 14:04:49+00:00,310.0,11.1,12.75,13.7,0.0,0.0,20,22,0.2378311080932617,True,REGULAR,USD
+1,MCD241129C00325000,2024-10-18 14:34:27+00:00,325.0,4.55,4.75,5.2,0.6700001,17.268042,3,44,0.20233951965332028,False,REGULAR,USD
