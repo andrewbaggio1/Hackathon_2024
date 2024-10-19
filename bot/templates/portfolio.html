@@ -15,7 +15,7 @@
             color: #333;
         }
         .navbar {
-            background-color: #4CAF50; /* Match the navbar color */
+            background-color: #4CAF50;
             color: white;
             padding: 15px;
             text-align: center;
@@ -42,10 +42,10 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-bottom: 2px solid #e0e0e0; /* Divider between sections */
+            border-bottom: 2px solid #e0e0e0;
         }
         h1, h2 {
-            color: #4CAF50; /* Match header colors */
+            color: #4CAF50;
         }
         .data-summary {
             margin: 15px 0;
@@ -86,10 +86,10 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/portfolio">Portfolio</a></li>
-            <li><a href="/options">Options</a></li>
+            <li><a href="/options_equities">Options</a></li>
             <li><a href="/recommendation">Recommendations</a></li>
             <li><a href="/visuals">Visuals</a></li>
-            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li> <!-- Updated link -->
+            <li><a href="{{ url_for('extra_information') }}">Extra Information</a></li>
         </ul>
     </nav>
 
@@ -108,16 +108,46 @@
                 </tr>
             </thead>
             <tbody>
-                {% for stock in portfolio %}
+                {% for stock in portfolio.positions %}
                 <tr>
-                    <td>{{ stock.name }}</td>
-                    <td>{{ stock.shares }}</td>
-                    <td>${{ stock.avg_price | round(2) }}</td>
-                    <td>${{ stock.current_price | round(2) }}</td>
-                    <td style="color: {% if stock.change >= 0 %}green{% else %}red{% endif %};">
-                        {{ stock.change }}%
+                    <td>{{ stock.symbol }}</td>
+                    <td>{{ stock.qty }}</td>
+
+                    <!-- Check if avg_entry_price is not None -->
+                    <td>
+                        {% if stock.avg_entry_price is not none %}
+                            ${{ stock.avg_entry_price | round(2) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
                     </td>
-                    <td>${{ stock.value | round(2) }}</td>
+
+                    <!-- Check if current_price is not None -->
+                    <td>
+                        {% if stock.current_price is not none %}
+                            ${{ stock.current_price | round(2) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+
+                    <!-- Check if unrealized_plpc is not None -->
+                    <td style="color: {% if stock.unrealized_plpc is not none and stock.unrealized_plpc >= 0 %}green{% else %}red{% endif %};">
+                        {% if stock.unrealized_plpc is not none %}
+                            {{ (stock.unrealized_plpc * 100) | round(2) }}%
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+
+                    <!-- Check if qty and current_price are not None -->
+                    <td>
+                        {% if stock.qty is not none and stock.current_price is not none %}
+                            ${{ (stock.qty * stock.current_price) | round(2) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -128,9 +158,35 @@
     <section class="portfolio-summary section">
         <h2>Portfolio Summary</h2>
         <div class="summary">
-            <p>Total Investment: ${{ total_investment | round(2) }}</p>
-            <p>Total Current Value: ${{ total_value | round(2) }}</p>
-            <p>Overall Change: {{ overall_change }}%</p>
+            <!-- Check if cash is not None -->
+            <p>
+                Total Investment: 
+                {% if portfolio.cash is not none %}
+                    ${{ portfolio.cash | round(2) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+
+            <!-- Check if equity is not None -->
+            <p>
+                Total Current Value: 
+                {% if portfolio.equity is not none %}
+                    ${{ portfolio.equity | round(2) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
+
+            <!-- Check if buying_power is not None -->
+            <p>
+                Buying Power: 
+                {% if portfolio.buying_power is not none %}
+                    ${{ portfolio.buying_power | round(2) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </p>
         </div>
     </section>
 
@@ -142,7 +198,10 @@
 
     <script>
         // Example data for portfolio pie chart
-        var portfolioData = {{ portfolio_data | safe }};
+        var portfolioData = {
+            values: [{{ portfolio_data.values|join(',') }}],
+            labels: [{{ portfolio_data.labels|join(',') }}]
+        };
         
         var data = [{
             values: portfolioData.values,

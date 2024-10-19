@@ -1,0 +1,212 @@
+from flask import Flask, render_template, request
+from strategies.strategy_methods import (
+    get_stock_data,
+    get_options_data,
+    generate_trade_recommendation,
+    calculate_moving_average
+)
+from strategies.monte_carlo import monte_carlo_option_price
+import plotly.graph_objs as go
+import plotly.io as pio
+import pandas as pd
+import os
+from dotenv import load_dotenv
+from alpaca.trading.client import TradingClient
+
+# Load environment variables from .env file
+load_dotenv()
+
+app = Flask(__name__)
+
+# Set up Alpaca API credentials
+ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
+ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
+
+# Initialize Alpaca Trading client
+trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
+stock_functions = {
+    'AAPL': 'Apple (AAPL)',
+    'MSFT': 'Microsoft (MSFT)',
+    'GOOGL': 'Alphabet (GOOGL)',
+    'TSLA': 'Tesla (TSLA)',
+    'AMZN': 'Amazon (AMZN)',
+    # Add more stock options as needed
+}
+
+def get_portfolio():
+    """Fetch current portfolio holdings from Alpaca."""
+    # Get all open positions
+    positions = trading_client.get_all_positions()
+    
+    portfolio = []
+    for position in positions:
+        stock_info = {
+            'name': position.symbol,
+            'shares': position.qty,
+            'avg_price': position.avg_entry_price,
+            'current_price': position.current_price,
+            'change': position.unrealized_plpc * 100  # Convert to percentage
+        }
+        portfolio.append(stock_info)
+    
+    return portfolio
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Check if example data toggle is on
+    stock_symbols = request.form.getlist('stock_symbols')  # Get list of selected stocks
+    if not stock_symbols:  # Default stock if none selected
+        stock_symbols = ['AAPL']
+    
+    stock_data = {}
+    if use_example_data:
+        # Using example data
+        for stock_symbol in stock_symbols:
+            # Create example data for stocks
+            dates = pd.date_range(start='2023-01-01', periods=100).tolist()
+            prices = [150 + i * 0.5 for i in range(100)]  # Example prices
+            stock_data[stock_symbol] = {
+                'dates': dates,
+                'prices': prices,
+                'short_ma': calculate_moving_average(pd.Series(prices), window=20),
+                'long_ma': calculate_moving_average(pd.Series(prices), window=50)
+            }
+    else:
+        for stock_symbol in stock_symbols:
+            # Fetch data from Alpaca
+            dates, prices = get_alpaca_stock_data(stock_symbol)
+            if not prices:
+                return render_template('index.html', error=f"Could not fetch data for {stock_symbol}.", stock_symbols=stock_symbols)
+            
+            stock_data[stock_symbol] = {
+                'dates': dates,
+                'prices': prices,
+                'short_ma': calculate_moving_average(pd.Series(prices), window=20),
+                'long_ma': calculate_moving_average(pd.Series(prices), window=50)
+            }
+    
+    # Create Plotly figure
+    fig = go.Figure()
+    
+    for stock_symbol, data in stock_data.items():
+        fig.add_trace(go.Scatter(x=data['dates'], y=data['prices'], mode='lines', name=f'{stock_symbol} Price'))
+        fig.add_trace(go.Scatter(x=data['dates'][19:], y=data['short_ma'][19:], mode='lines', name=f'{stock_symbol} 20-Day MA'))
+        fig.add_trace(go.Scatter(x=data['dates'][49:], y=data['long_ma'][49:], mode='lines', name=f'{stock_symbol} 50-Day MA'))
+
+    graphJSON = pio.to_json(fig)
+
+    return render_template('index.html', stock_symbols=stock_symbols, graphJSON=graphJSON)
+
+@app.route('/portfolio', methods=['GET', 'POST'])
+def portfolio():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
+    portfolio = []
+
+    if use_example_data:
+        # Using example portfolio data
+        portfolio = [
+            {
+                'name': 'AAPL',
+                'shares': 10,
+                'avg_price': 150.00,
+                'current_price': 160.00,
+                'change': round(((160.00 - 150.00) / 150.00) * 100, 2),
+                'value': 10 * 160.00  # current_price * shares
+            },
+            {
+                'name': 'MSFT',
+                'shares': 5,
+                'avg_price': 250.00,
+                'current_price': 240.00,
+                'change': round(((240.00 - 250.00) / 250.00) * 100, 2),
+                'value': 5 * 240.00  # current_price * shares
+            },
+        ]
+    else:
+        portfolio = get_portfolio()  # Fetch actual portfolio from Alpaca
+
+    total_investment = sum(stock['avg_price'] * stock['shares'] for stock in portfolio)
+    total_value = sum(stock['value'] for stock in portfolio)
+    overall_change = round(((total_value - total_investment) / total_investment) * 100, 2) if total_investment > 0 else 0
+
+    # Create plotly figure for portfolio value visualization
+    portfolio_data = {
+        'values': [stock['value'] for stock in portfolio],
+        'labels': [stock['name'] for stock in portfolio]
+    }
+    fig = go.Figure(data=[go.Pie(labels=portfolio_data['labels'], values=portfolio_data['values'])])
+    graphJSON = pio.to_json(fig)
+
+    return render_template('portfolio.html', 
+                           portfolio=portfolio,
+                           total_investment=total_investment,
+                           total_value=total_value,
+                           overall_change=overall_change,
+                           graphJSON=graphJSON)
+
+@app.route('/_equities', methods=['GET', 'POST'])
+def options_equities():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
+    if request.method == 'POST':
+        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
+    else:
+        stock_symbol = 'AAPL'  # Default symbol
+
+    # Fetch options data
+    options_data = get_options_data(stock_symbol) if not use_example_data else []  # Example: Use empty list for example data
+    return render_template('options.html', options_data=options_data, stock_symbol=stock_symbol)
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    stock_symbols = request.form.getlist('stock_symbols') if request.method == 'POST' else []
+    
+    # Dummy stock information for the template
+    stock_symbol = stock_symbols[0] if stock_symbols else 'AAPL'
+    stock_price = 150  # Example price
+    week_high = 160  # Example high
+    week_low = 140  # Example low
+    
+    # Example portfolio data
+    portfolio = [
+        {'name': 'AAPL', 'shares': 10, 'avg_price': 145, 'current_price': 150, 'change': 3.45},
+        {'name': 'MSFT', 'shares': 5, 'avg_price': 250, 'current_price': 255, 'change': 2.00},
+        # Add more portfolio stocks as needed
+    ]
+    
+    return render_template('index.html', stock_symbols=stock_symbols, stock_functions=stock_functions, stock_symbol=stock_symbol, stock_price=stock_price, week_high=week_high, week_low=week_low, portfolio=portfolio)
+
+@app.route('/recommendation', methods=['GET', 'POST'])
+def recommendation():
+    use_example_data = request.form.get('use_example_data', 'off') == 'on'  # Get toggle status
+    if request.method == 'POST':
+        stock_symbol = request.form.get('stock_symbol', 'AAPL').upper()
+    else:
+        stock_symbol = 'AAPL'  # Default symbol
+
+    # Generate trade recommendation
+    recommendation = generate_trade_recommendation(stock_symbol) if not use_example_data else "Example Recommendation"
+    return render_template('recommendation.html', recommendation=recommendation, stock_symbol=stock_symbol)
+
+@app.route('/visuals', methods=['GET'])
+def visuals():
+    # Sample data (replace with actual computations)
+    recommendations = {
+        'stock_symbols': ['AAPL', 'MSFT', 'GOOGL'],
+        'scores': [1.5, 2.0, 1.2]  # Example scores
+    }
+
+    option_prices = {
+        'CRR': 10.5,
+        'Black-Scholes': 10.8,
+        'Monte Carlo': 11.0
+    }
+
+    return render_template('visuals.html', recommendations=recommendations, option_prices=option_prices)
+
+@app.route('/extra_info')
+def extra_information():
+    return render_template('extra_information.html')  # Ensure this file exists in your templates directory
+    
+if __name__ == '__main__':
+    app.run(debug=True)

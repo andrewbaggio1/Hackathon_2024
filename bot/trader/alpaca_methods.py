@@ -2,8 +2,8 @@ import os
 import alpaca_trade_api as tradeapi
 
 # Set API keys and endpoint
-API_KEY = os.getenv('APCA_API_KEY_ID')  # Replace with your API key
-SECRET_KEY = os.getenv('APCA_API_SECRET_KEY')  # Replace with your secret key
+API_KEY = os.getenv('ALPACA_API_KEY')  # Replace with your API key
+SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')  # Replace with your secret key
 BASE_URL = 'https://paper-api.alpaca.markets'  # Change to live API URL for live trading
 
 # Initialize Alpaca API
