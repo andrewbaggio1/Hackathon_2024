@@ -494,44 +494,44 @@ def test_account_route():
         logger.error(f"Error accessing account: {e}")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/market_summary', methods=['GET'])
-def market_summary_route():
-    """
-    Route to display the market summary and forecasting output.
-    """
-    try:
-        # Get stock symbol and period from query parameters
-        stock_symbol = request.args.get('symbol', 'AAPL')  # Default to AAPL
-        period = request.args.get('period', '1mo')
+# @app.route('/market_summary', methods=['GET'])
+# def market_summary_route():
+#     """
+#     Route to display the market summary and forecasting output.
+#     """
+#     try:
+#         # Get stock symbol and period from query parameters
+#         stock_symbol = request.args.get('symbol', 'AAPL')  # Default to AAPL
+#         period = request.args.get('period', '1mo')
 
-        # Get stock data
-        stock_data = yf.Ticker(stock_symbol).history(period=period)
+#         # Get stock data
+#         stock_data = yf.Ticker(stock_symbol).history(period=period)
 
-        if stock_data.empty:
-            return jsonify({"error": "No data available for the specified symbol and period."}), 400
+#         if stock_data.empty:
+#             return jsonify({"error": "No data available for the specified symbol and period."}), 400
 
-        # Prepare market data for summary
-        market_data_text = stock_data[['Open', 'High', 'Low', 'Close', 'Volume']].tail(10).to_string()
+#         # Prepare market data for summary
+#         market_data_text = stock_data[['Open', 'High', 'Low', 'Close', 'Volume']].tail(10).to_string()
 
-        # Generate market summary using OpenAI API
-        summary = generate_market_summary(market_data_text)
+#         # Generate market summary using OpenAI API
+#         summary = generate_market_summary(market_data_text)
 
-        # Forecast using your model
-        forecasted_prices, model, y_test, X_test, y_train = forecast_stock(stock_data)
+#         # Forecast using your model
+#         forecasted_prices, model, y_test, X_test, y_train = forecast_stock(stock_data)
 
-        # Prepare data for display
-        forecasted_days = [f'Day {i+1}' for i in range(len(forecasted_prices))]
-        forecasted_values = forecasted_prices
+#         # Prepare data for display
+#         forecasted_days = [f'Day {i+1}' for i in range(len(forecasted_prices))]
+#         forecasted_values = forecasted_prices
 
-        # Render the template with summary and forecast
-        return render_template('market_summary.html', 
-                               summary=summary, 
-                               symbol=stock_symbol, 
-                               forecasted_days=forecasted_days, 
-                               forecasted_values=forecasted_values)
-    except Exception as e:
-        logger.error(f"Error in market_summary_route: {e}")
-        return jsonify({"error": "An error occurred while generating the market summary."}), 500
+#         # Render the template with summary and forecast
+#         return render_template('market_summary.html', 
+#                                summary=summary, 
+#                                symbol=stock_symbol, 
+#                                forecasted_days=forecasted_days, 
+#                                forecasted_values=forecasted_values)
+#     except Exception as e:
+#         logger.error(f"Error in market_summary_route: {e}")
+#         return jsonify({"error": "An error occurred while generating the market summary."}), 500
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
