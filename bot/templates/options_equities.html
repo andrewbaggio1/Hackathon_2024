@@ -75,7 +75,7 @@
             color: #4CAF50;
             font-weight: bold;
         }
-        .stock-selector {
+        .stock-selector, .options-selector {
             margin: 20px 0;
         }
         #chart {
@@ -110,21 +110,22 @@
             errorContainer.style.display = 'none';
         }
 
+        // Fetch stock data
         function updateStockData() {
             const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
             const timePeriod = document.getElementById('time-period').value;
             hideError(); // Clear previous errors
-        
+
             if (!stockSymbol) {
                 showError('Please enter a valid stock symbol.');
                 return;
             }
-        
+
             // Show the loading spinner
             showLoading();
-        
+
             console.log(`Fetching stock data for: symbol=${stockSymbol}, period=${timePeriod}`);
-        
+
             // Fetch stock data
             fetch(`/stock_data?symbol=${stockSymbol}&period=${timePeriod}`)
                 .then(response => {
@@ -139,49 +140,78 @@
                         console.error("Stock data is missing or undefined.");
                         return; // Exit if the data is invalid
                     }
-        
-                    // Plot stock data
-                    plotStockData(data.dates, data.prices);
+
+                    // Plot stock data including Bollinger Bands
+                    plotStockData(data.dates, data.prices, data.sma20, data.upper_band, data.lower_band);
                 })
                 .catch(error => {
                     console.error('Error fetching stock data:', error);
                     showError('An error occurred while fetching stock data. Please try again.');
                 });
         }
-        
-        // Plot the stock data from yfinance directly
-        function plotStockData(dates, prices) {
+
+        // Plot the stock data including Bollinger Bands
+        function plotStockData(dates, prices, sma20, upper_band, lower_band) {
             const trace1 = {
                 x: dates.map(date => new Date(date)),  // Convert date strings to Date objects
                 y: prices,
                 mode: 'lines',
-                name: 'Stock Price',
+                name: 'Close Price',
                 line: { color: '#007bff' }
             };
-        
+
+            const trace2 = {
+                x: dates.map(date => new Date(date)),
+                y: sma20,
+                mode: 'lines',
+                name: 'SMA 20',
+                line: { color: '#ff9900' }
+            };
+
+            const trace3 = {
+                x: dates.map(date => new Date(date)),
+                y: upper_band,
+                mode: 'lines',
+                name: 'Upper Band',
+                line: { color: 'green' }
+            };
+
+            const trace4 = {
+                x: dates.map(date => new Date(date)),
+                y: lower_band,
+                mode: 'lines',
+                name: 'Lower Band',
+                line: { color: 'red' }
+            };
+
             const layout = {
-                title: 'Stock Prices',
+                title: 'Stock Prices with Bollinger Bands',
                 xaxis: { title: 'Date', showgrid: true },
                 yaxis: { title: 'Price ($)', showgrid: true }
             };
-        
-            Plotly.newPlot('chart', [trace1], layout);
+
+            Plotly.newPlot('chart', [trace1, trace2, trace3, trace4], layout);
         }
+
         // Fetch and update options data
         function updateOptionsData() {
-            const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
+            const stockSymbol = document.getElementById('options-symbol').value.trim().toUpperCase();
             hideError(); // Clear previous errors
 
             if (!stockSymbol) {
-                showError('Please enter a valid stock symbol.');
+                showError('Please enter a valid stock symbol for options.');
                 return;
             }
+
+            // Show the loading spinner
+            showLoading();
 
             console.log(`Fetching options data for: symbol=${stockSymbol}`);
 
             // Fetch options data
             fetch(`/options_data?symbol=${stockSymbol}`)
                 .then(response => {
+                    hideLoading(); // Hide loading spinner after data is fetched
                     if (!response.ok) throw new Error('Options data not found');
                     return response.json();
                 })
@@ -200,6 +230,7 @@
             const optionsSection = document.getElementById('options-section');
             optionsSection.innerHTML = '';  // Clear previous data
 
+            // Iterate over each expiration date
             data.forEach((item, index) => {
                 const optionBox = document.createElement('div');
                 optionBox.className = 'option-box';
@@ -248,15 +279,160 @@
             `;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputField = document.getElementById('stock-symbol');
-            inputField.addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    updateStockData();  // Fetch stock data
-                    updateOptionsData();  // Fetch options data separately
+        // Toggle the visibility of option tables
+        function toggleTable(tableId) {
+            const table = document.getElementById(tableId);
+            if (table.style.display === 'none') {
+                table.style.display = 'table';
+            } else {
+                table.style.display = 'none';
+            }
+        }
+
+        // Submit a trade order via Alpaca API
+        function submitTradeOrder() {
+            const symbol = document.getElementById('trade-symbol').value.trim().toUpperCase();
+            const qty = document.getElementById('trade-quantity').value;
+            const side = document.getElementById('trade-side').value;
+
+            if (!symbol || !qty) {
+                showError('Please fill out all trade fields.');
+                return;
+            }
+
+            const tradeData = {
+                symbol: symbol,
+                qty: qty,
+                side: side
+            };
+
+            // Send trade request to backend
+            fetch('/submit_trade', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tradeData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    alert('Trade executed successfully!');
                 }
+            })
+            .catch(error => {
+                console.error('Error executing trade:', error);
+                showError('Failed to execute trade. Please try again.');
             });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tradeButton = document.getElementById('submit-trade');
+            tradeButton.addEventListener('click', submitTradeOrder);
         });
+        // Plot portfolio pie chart
+        function plotPortfolioChart(values, labels) {
+            const data = [{
+                type: 'pie',
+                values: values,
+                labels: labels,
+                textinfo: 'label+percent',
+                hole: 0.4
+            }];
+
+            const layout = {
+                title: 'Portfolio Distribution',
+            };
+
+            Plotly.newPlot('portfolio-chart', data, layout);
+        }
+
+        // Fetch portfolio data and plot the pie chart
+        function updatePortfolio() {
+            fetch('/port')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the portfolio pie chart
+                    plotPortfolioChart(data.portfolio_data.values, data.portfolio_data.labels);
+
+                    // Display portfolio details (cash, buying power, equity)
+                    const portfolioDetails = document.getElementById('portfolio-details');
+                    portfolioDetails.innerHTML = `
+                        <p>Buying Power: <span>$${parseFloat(data.portfolio.buying_power).toFixed(2)}</span></p>
+                        <p>Cash: <span>$${parseFloat(data.portfolio.cash).toFixed(2)}</span></p>
+                        <p>Equity: <span>$${parseFloat(data.portfolio.equity).toFixed(2)}</span></p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching portfolio data:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePortfolio();  // Load portfolio data and plot the chart on page load
+        });
+        // Fetch trade history and display in table
+        function updateTradeHistory() {
+            fetch('/trades_history')
+                .then(response => response.json())
+                .then(data => {
+                    const tradeTableBody = document.querySelector('#trade-history-table tbody');
+                    tradeTableBody.innerHTML = '';  // Clear existing rows
+
+                    data.trades.forEach(trade => {
+                        const row = document.createElement('tr');
+
+                        // Populate the trade data into the table
+                        row.innerHTML = `
+                            <td>${trade.symbol}</td>
+                            <td>${trade.qty}</td>
+                            <td>${trade.side}</td>
+                            <td>${trade.status}</td>
+                            <td>${trade.submitted_at}</td>
+                            <td>${trade.filled_at !== 'N/A' ? trade.filled_at : '-'}</td>
+                            <td>
+                                ${(trade.status === 'new' || trade.status === 'partially_filled') 
+                                    ? `<button onclick="cancelTrade('${trade.id}')">Cancel</button>`
+                                    : '-'}
+                            </td>
+                        `;
+                        tradeTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching trade history:', error);
+                });
+        }
+
+        // Function to cancel a trade
+        function cancelTrade(tradeId) {
+            fetch('/cancel_trade', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ trade_id: tradeId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    updateTradeHistory();  // Refresh the trade history after canceling
+                }
+            })
+            .catch(error => {
+                console.error('Error canceling trade:', error);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTradeHistory();  // Load the trade history when the page loads
+        });
+
     </script>
 </head>
 <body>
@@ -272,15 +448,13 @@
     </nav>
 
     <!-- Stock Selection Section -->
-    <section class="options section">
-        <div class="stock-selector">
+    <section class="stock-selector section">
+        <div>
             <label for="stock-symbol">Enter Stock Symbol:</label>
             <input type="text" id="stock-symbol" placeholder="AAPL" required>
 
             <label for="time-period">Select Time Frame (Stock Data):</label>
             <select id="time-period">
-                <option value="1d">1 Day</option>
-                <option value="5d">5 Days</option>
                 <option value="1mo">1 Month</option>
                 <option value="3mo">3 Months</option>
                 <option value="6mo">6 Months</option>
@@ -290,19 +464,14 @@
                 <option value="ytd">Year to Date</option>
                 <option value="max">Max</option>
             </select>
-            <button onclick="updateStockData(); updateOptionsData();">Get Data</button>
+            <button onclick="updateStockData();">Get Stock Data</button>
         </div>
-
-        <!-- Error Message -->
-        <div id="error-message" style="color: red; display: none;"></div>
-
-        <!-- Loading Spinner -->
-        <div id="loading-spinner" class="loading-spinner">
-            <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading...">
-        </div>
-
-        <h1 id="stock-title">Stock and Options Data</h1>
     </section>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading...">
+    </div>
 
     <!-- Stock Data Chart Section -->
     <section class="stock-data section">
@@ -310,10 +479,59 @@
         <div id="chart"></div>
     </section>
 
-    <!-- Options Data Section -->
-    <section class="options-data section">
-        <h2>Options Data</h2>
-        <div id="options-section"></div>
+    <!-- Trade Section (Alpaca Trading API) -->
+    <section class="trade-section section">
+        <h2>Execute a Trade</h2>
+        <form class="trade-form">
+            <label for="trade-symbol">Stock Symbol:</label>
+            <input type="text" id="trade-symbol" placeholder="AAPL" required>
+
+            <label for="trade-quantity">Quantity:</label>
+            <input type="number" id="trade-quantity" placeholder="1" required>
+
+            <label for="trade-side">Action:</label>
+            <select id="trade-side" required>
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
+            </select>
+
+            <button type="button" id="submit-trade">Submit Trade</button>
+        </form>
+        <!-- Error Message for Trade -->
+        <div id="error-message" style="color: red; display: none;"></div>
+    </section>
+
+     <!-- Trade History Section -->
+    <section class="trade-history-section section">
+        <h2>Trade History</h2>
+        <table id="trade-history-table">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                    <th>Submitted At</th>
+                    <th>Filled At</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Trade rows will be populated here by JavaScript -->
+            </tbody>
+        </table>
+    </section>
+
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section section">
+        <h2>Portfolio Overview</h2>
+        <div id="portfolio-chart"></div>
+
+        <!-- Portfolio Details (Buying Power, Cash, Equity) -->
+        <div id="portfolio-details" class="portfolio-details">
+            <!-- Details will be populated here by JavaScript -->
+        </div>
     </section>
 
 </body>

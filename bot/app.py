@@ -12,17 +12,13 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
+from alpaca.trading.requests import GetOrdersRequest
+from alpaca.trading.enums import OrderStatus
 import datetime
 import pandas as pd
 
 import math
 
-# load_dotenv()
-
-# Initialize Alpaca Data client
-# data_client = StockHistoricalDataClient(ALPACA_API_KEY, ALPACA_SECRET_KEY)
-
-# Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
@@ -36,8 +32,10 @@ data_client = StockHistoricalDataClient(ALPACA_API_KEY, ALPACA_SECRET_KEY)
 
 # Initialize Alpaca Trading client
 trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
+# print(dir(trading_client))
 
-# HF_KEY = os.getenv('HF_Key')
+# print(data_client)
+HF_KEY = os.getenv('HF_Key')
 ###########
 # HELPERS #
 ###########
@@ -81,98 +79,83 @@ def get_real_time_stock_data(symbol):
     bars = data_client.get_stock_bars(request_params).df
     return bars
 
-# # Helper function to fetch stock data with optional indicators
-# def get_stock_data(stock_symbol, period='1mo'):
-#     """Fetch historical stock data using yfinance and clean NaN values."""
-#     try:
-#         stock = yf.Ticker(stock_symbol)
-#         hist = stock.history(period=period)
-#         if hist.empty:
-#             return None, None, None, None, None, None
-
-#         # Calculate technical indicators: Bollinger Bands, Moving Averages
-#         hist['SMA_20'] = hist['Close'].rolling(window=20).mean()
-#         hist['Upper Band'] = hist['SMA_20'] + (2 * hist['Close'].rolling(window=20).std())
-#         hist['Lower Band'] = hist['SMA_20'] - (2 * hist['Close'].rolling(window=20).std())
-#         hist['EMA_20'] = hist['Close'].ewm(span=20, adjust=False).mean()
-
-#         # Clean NaN values before preparing the data for JSON
-#         hist = hist.fillna(value=None)
-
-#         # Prepare data for JSON response
-#         dates = hist.index.strftime('%Y-%m-%d').tolist()
-#         prices = hist['Close'].tolist()
-#         sma20 = hist['SMA_20'].tolist()
-#         upper_band = hist['Upper Band'].tolist()
-#         lower_band = hist['Lower Band'].tolist()
-#         ema20 = hist['EMA_20'].tolist()
-
-#         return dates, prices, sma20, upper_band, lower_band, ema20
-
-#     except Exception as e:
-#         print(f"Error fetching stock data for {stock_symbol}: {e}")
-#         return None, None, None, None, None, None
-
-# Helper function to fetch stock price data
+# Helper function to fetch stock data with optional indicators
 def get_stock_data(stock_symbol, period='1mo'):
-    """Fetch historical stock price data using yfinance."""
+    """Fetch historical stock data using yfinance and clean NaN values."""
     try:
         stock = yf.Ticker(stock_symbol)
         hist = stock.history(period=period)
-        
-        # Check if the historical data is empty
         if hist.empty:
-            return None, None
-        
+            return None, None, None, None, None, None
+
+        # Calculate technical indicators: Bollinger Bands, Moving Averages
+        hist['SMA_20'] = hist['Close'].rolling(window=20).mean()
+        hist['Upper Band'] = hist['SMA_20'] + (2 * hist['Close'].rolling(window=20).std())
+        hist['Lower Band'] = hist['SMA_20'] - (2 * hist['Close'].rolling(window=20).std())
+        hist['EMA_20'] = hist['Close'].ewm(span=20, adjust=False).mean()
+
+        # Drop rows where any NaN values exist in the technical indicators
+        hist = hist.dropna(subset=['SMA_20', 'Upper Band', 'Lower Band', 'EMA_20'])
+
         # Prepare data for JSON response
         dates = hist.index.strftime('%Y-%m-%d').tolist()
         prices = hist['Close'].tolist()
-        
-        return dates, prices
+        sma20 = hist['SMA_20'].tolist()
+        upper_band = hist['Upper Band'].tolist()
+        lower_band = hist['Lower Band'].tolist()
+        ema20 = hist['EMA_20'].tolist()
+
+        return dates, prices, sma20, upper_band, lower_band, ema20
 
     except Exception as e:
         print(f"Error fetching stock data for {stock_symbol}: {e}")
-        return None, None
+        return None, None, None, None, None, None
 
-# Function to fetch options data using yfinance
+## Function to fetch options data using yfinance
 def get_options_data(stock_symbol):
     """Fetch options data using yfinance."""
     try:
-        stock = yf.Ticker(stock_symbol)  # Corrected from yf.TTicker to yf.Ticker
-        expiration_dates = stock.options
-        options_data = []
-    
+        stock = yf.Ticker(stock_symbol)
+        expiration_dates = stock.options  # Get all available expiration dates
+        options_data = []  # List to hold all options data for each expiration date
+
+        # Loop over each expiration date and fetch calls and puts
         for date in expiration_dates:
-            print(f"Fetching options for {stock_symbol} with expiration date: {date}")
             try:
-                # Fetch calls and puts
-                calls = stock.option_chain(date).calls
-                puts = stock.option_chain(date).puts
+                # Fetch the option chain for the specific expiration date
+                option_chain = stock.option_chain(date)
 
-                # Clean NaN values in the calls and puts DataFrames
-                calls_cleaned = clean_nan_values(calls[['strike', 'lastPrice', 'bid', 'ask', 'volume']])
-                puts_cleaned = clean_nan_values(puts[['strike', 'lastPrice', 'bid', 'ask', 'volume']])
+                # Extract calls and puts
+                calls = option_chain.calls
+                puts = option_chain.puts
 
+                # Convert calls and puts data to dictionaries
+                calls_cleaned = calls.to_dict(orient='records')
+                puts_cleaned = puts.to_dict(orient='records')
+
+                # Append the expiration date and options data to the result
                 options_data.append({
                     'expiration_date': date,
                     'calls': calls_cleaned,
                     'puts': puts_cleaned
                 })
+
             except Exception as e:
                 print(f"Error fetching options for expiration {date}: {e}")
+                continue
 
-        print(f"Options data fetched and cleaned for {stock_symbol}")
-        return options_data
+        return options_data  # Return the complete options data with expiration dates
     except Exception as e:
         print(f"Error fetching options data for {stock_symbol}: {e}")
         return []
 
-
+# act = trading_client.get_account
+# print(act)
 
 # Alpaca Trading API Helpers
 def get_account():
     """Fetch account information."""
-    account = trading_client.get_account()
+    account = trading_client.get_account
     return account
 
 def get_positions():
@@ -196,13 +179,15 @@ def get_portfolio():
 
 def place_order1(symbol, qty, side, order_type='market', time_in_force='gtc'):
     """Place a new order."""
-    order = trading_client.submit_order(
+    # Create an order request object
+    order_data = MarketOrderRequest(
         symbol=symbol,
         qty=qty,
-        side=side,
-        type=order_type,
-        time_in_force=time_in_force
+        side=OrderSide.BUY if side.lower() == 'buy' else OrderSide.SELL,
+        time_in_force=TimeInForce(time_in_force.upper())
     )
+    # Submit the order
+    order = trading_client.submit_order(order_data)
     return order
 
 def place_order(symbol, qty, side):
@@ -210,7 +195,7 @@ def place_order(symbol, qty, side):
     market_order_data = MarketOrderRequest(
         symbol=symbol,
         qty=qty,
-        side=OrderSide.BUY if side == 'buy' else OrderSide.SELL,
+        side=OrderSide.BUY if side.lower() == 'buy' else OrderSide.SELL,
         time_in_force=TimeInForce.GTC
     )
     # Submit order
@@ -219,7 +204,12 @@ def place_order(symbol, qty, side):
 
 def get_order_history():
     """Fetch order history."""
-    orders = trading_client.get_orders(status='all', limit=50)
+    # Create a filter for orders
+    orders_request = GetOrdersRequest(
+        status=OrderStatus.ALL,
+        limit=100
+    )
+    orders = trading_client.get_orders(filter=orders_request)
     return orders
 
 def get_asset(symbol):
@@ -229,66 +219,12 @@ def get_asset(symbol):
 
 def get_recent_trades():
     """Fetch recent trades/orders."""
-    orders = trading_client.get_orders(status='all', limit=50)
+    orders_request = GetOrdersRequest(
+        status=OrderStatus.ALL,
+        limit=50
+    )
+    orders = trading_client.get_orders(filter=orders_request)
     return orders
-
-# # LLM Functions
-# def preprocess_data(historical_data):
-#     """Process historical stock data."""
-#     historical_data['daily_return'] = historical_data['Close'].pct_change()
-#     historical_data['volatility'] = historical_data['daily_return'].rolling(window=7).std()
-#     historical_data['daily_range'] = historical_data['High'] - historical_data['Low']
-#     historical_data['volume_change'] = historical_data['Volume'].pct_change()
-#     return historical_data
-
-# def prepare_data_summary(tickers):
-#     """Prepare data summary from processed data."""
-#     summaries = []
-#     for ticker in tickers:
-#         try:
-#             # Fetch historical data using yfinance
-#             stock = yf.Ticker(ticker)
-#             historical_data = stock.history(period='1mo')  # Get 1 month of data
-#             if historical_data.empty:
-#                 continue
-#             processed_data = preprocess_data(historical_data)
-
-#             # Extract key insights
-#             avg_return = processed_data['daily_return'].mean()
-#             avg_volatility = processed_data['volatility'].mean()
-#             avg_daily_range = processed_data['daily_range'].mean()
-#             avg_volume_change = processed_data['volume_change'].mean()
-#             summaries.append(
-#                 f"{ticker}: Avg Return: {avg_return:.2%}, Avg Volatility: {avg_volatility:.2%}, "
-#                 f"Avg Daily Range: {avg_daily_range:.2f}, Avg Volume Change: {avg_volume_change:.2%}"
-#             )
-#         except Exception as e:
-#             print(f"Error processing data for {ticker}: {e}")
-#             continue
-#     return "\n".join(summaries)
-
-# def generate_market_snapshot(data_summary):
-#     """
-#     Generate a market snapshot using an LLM.
-
-#     :param data_summary: Summary of processed data to feed into the LLM.
-#     :return: Market snapshot as plain text.
-#     """
-#     prompt = f"""
-#     You are a financial market analyst. Here is this hour's processed market data:
-#     {data_summary}
-
-#     Provide a concise summary in plain language about the market's performance this hour.
-#     Include insights on major trends, noteworthy stock movements, and any changes in options activity.
-#     """
-#     # Use transformers pipeline for text summarization
-#     summarizer = pipeline(
-#         "summarization", 
-#         model="facebook/bart-large-cnn",
-#         use_auth_token=HF_KEY
-#         )
-#     response = summarizer(prompt, max_length=150, min_length=50, do_sample=False)
-#     return response[0]['summary_text']
 
 ###########
 # ROUTES  #
@@ -338,40 +274,16 @@ def portfolio():
     
     return render_template('portfolio.html', portfolio=port, portfolio_data=portfolio_data)
 
-# Flask route to handle stock data API requests
-# @app.route('/stock_data', methods=['GET'])
-# def stock_data():
-#     symbol = request.args.get('symbol')
-#     period = request.args.get('period', default='1mo')  # Get period from query parameters, default to '1mo'
-
-#     # Fetch stock data using the helper function
-#     dates, prices, sma20, upper_band, lower_band, ema20 = get_stock_data(symbol, period)
-
-#     if dates is None or prices is None:
-#         return jsonify({"error": f"Failed to fetch data for symbol: {symbol}"}), 400
-
-#     # Format the data for response
-#     data = {
-#         'symbol': symbol,
-#         'name': yf.Ticker(symbol).info.get('longName', symbol),  # Get the company name
-#         'dates': dates,
-#         'prices': prices,
-#         'sma20': sma20,  # 20-day Simple Moving Average
-#         'upper_band': upper_band,  # Upper Bollinger Band
-#         'lower_band': lower_band,  # Lower Bollinger Band
-#         'ema20': ema20,  # 20-day Exponential Moving Average
-#     }
-
-#     print(f"Stock data fetched for {symbol}: {data}")
-#     return jsonify(data)
-
 @app.route('/stock_data', methods=['GET'])
 def stock_data():
     symbol = request.args.get('symbol')
     period = request.args.get('period', default='1mo')  # Get period from query parameters, default to '1mo'
 
-    # Fetch stock data using the updated helper function
-    dates, prices = get_stock_data(symbol, period)
+    if not symbol:
+        return jsonify({"error": "Stock symbol is required"}), 400
+
+    # Fetch stock data with Bollinger Bands
+    dates, prices, sma20, upper_band, lower_band, ema20 = get_stock_data(symbol, period)
 
     if dates is None or prices is None:
         return jsonify({"error": f"Failed to fetch data for symbol: {symbol}"}), 400
@@ -382,41 +294,120 @@ def stock_data():
         'name': yf.Ticker(symbol).info.get('longName', symbol),  # Get the company name
         'dates': dates,
         'prices': prices,
+        'sma20': sma20,
+        'upper_band': upper_band,
+        'lower_band': lower_band,
+        'ema20': ema20
     }
 
-    print(f"Stock data fetched for {symbol}: {data}")
+    print(f"Stock data with Bollinger Bands fetched for {symbol}")
     return jsonify(data)
 
 
 @app.route('/options_data', methods=['GET'])
 def options_data():
     symbol = request.args.get('symbol')
-    stock = yf.Ticker(symbol)
-    options_chain = stock.options
-    options_data = []
+    
+    if not symbol:
+        return jsonify({"error": "Stock symbol is required"}), 400
 
-    for expiration in options_chain:
-        # print(f"Processing expiration: {expiration}")
-        try:
-            calls = stock.option_chain(expiration).calls
-            puts = stock.option_chain(expiration).puts
+    # Fetch options data using the enhanced get_options_data function
+    options = get_options_data(symbol)
 
-            # Ensure to fill NaN values and convert to a list of dictionaries
-            calls_cleaned = calls.where(pd.notnull(calls), None).to_dict(orient='records')
-            puts_cleaned = puts.where(pd.notnull(puts), None).to_dict(orient='records')
+    if not options:
+        return jsonify({"error": "Failed to fetch options data"}), 500
 
-            options_data.append({
-                'expiration_date': expiration,
-                'calls': calls_cleaned,
-                'puts': puts_cleaned
-            })
-        except Exception as e:
-            print(f"Error processing options for expiration {expiration}: {e}")
+    return jsonify(options)
 
-    print(f"Final cleaned options data for {symbol}")  # Final cleaned data output
-    return jsonify(options_data)
+@app.route('/submit_trade', methods=['POST'])
+def submit_trade():
+    data = request.json
+    symbol = data.get('symbol')
+    qty = data.get('qty')
+    side = data.get('side')
+
+    if not symbol or not qty or not side:
+        return jsonify({'error': 'Invalid trade data provided.'}), 400
+
+    try:
+        # Place the order with Alpaca API
+        order_data = MarketOrderRequest(
+            symbol=symbol,
+            qty=qty,
+            side=OrderSide.BUY if side == 'buy' else OrderSide.SELL,
+            time_in_force=TimeInForce.GTC
+        )
+        order = trading_client.submit_order(order_data)
+        return jsonify({'message': 'Trade executed successfully', 'order_id': order.id}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/trades_history', methods=['GET'])
+def trades_history():
+    """Return a list of all trades (executed and pending)."""
+    trades = get_order_history()
+    
+    # Format trades for the frontend
+    formatted_trades = []
+    for trade in trades:
+        formatted_trades.append({
+            'id': trade.id,
+            'symbol': trade.symbol,
+            'qty': float(trade.qty),
+            'side': trade.side,
+            'type': trade.order_class,  # Use order_class or type depending on your needs
+            'status': trade.status,
+            'submitted_at': trade.submitted_at.strftime('%Y-%m-%d %H:%M:%S') if trade.submitted_at else 'N/A',
+            'filled_at': trade.filled_at.strftime('%Y-%m-%d %H:%M:%S') if trade.filled_at else 'N/A',
+            'filled_qty': float(trade.filled_qty),
+        })
+    
+    return jsonify({'trades': formatted_trades})
 
 
+
+
+@app.route('/cancel_trade', methods=['POST'])
+def cancel_trade():
+    """Cancel a pending or partially filled trade."""
+    data = request.json
+    trade_id = data.get('trade_id')
+
+    if not trade_id:
+        return jsonify({'error': 'Trade ID is required to cancel the trade.'}), 400
+
+    try:
+        # Attempt to cancel the trade
+        trading_client.cancel_order_by_id(trade_id)
+        return jsonify({'message': f'Trade {trade_id} canceled successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    
+@app.route('/port', methods=['GET'])
+def port():
+    """Render the portfolio page with current holdings."""
+    port = get_portfolio()
+    
+    # Prepare data for the pie chart visualization
+    portfolio_data = {
+        "values": [float(pos.market_value) for pos in port['positions']],
+        "labels": [pos.symbol for pos in port['positions']]
+    }
+    
+    # Prepare portfolio details like buying power, cash, and equity
+    portfolio_details = {
+        "buying_power": float(port['buying_power']),
+        "cash": float(port['cash']),
+        "equity": float(port['equity']),
+    }
+
+    # Return data in JSON format to be consumed by the frontend
+    return jsonify({
+        "portfolio_data": portfolio_data,
+        "portfolio_details": portfolio_details
+    })
 
 @app.route('/options_equities', methods=['GET', 'POST'])
 def options_equities():
