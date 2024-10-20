@@ -78,7 +78,7 @@
         .stock-selector {
             margin: 20px 0;
         }
-        #historical-chart, #realtime-chart {
+        #chart {
             margin-top: 20px;
         }
         .loading-spinner {
@@ -110,22 +110,21 @@
             errorContainer.style.display = 'none';
         }
 
-        // Fetch and update stock data
         function updateStockData() {
             const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
             const timePeriod = document.getElementById('time-period').value;
             hideError(); // Clear previous errors
-
+        
             if (!stockSymbol) {
                 showError('Please enter a valid stock symbol.');
                 return;
             }
-
+        
             // Show the loading spinner
             showLoading();
-
+        
             console.log(`Fetching stock data for: symbol=${stockSymbol}, period=${timePeriod}`);
-
+        
             // Fetch stock data
             fetch(`/stock_data?symbol=${stockSymbol}&period=${timePeriod}`)
                 .then(response => {
@@ -135,16 +134,39 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Stock Data received:", data);
-                    plotHistoricalData(data.historical);
-                    plotRealTimeData(data.real_time);
+                    console.log("Stock Data received:", data); // Log the full data received from the backend
+                    if (!data.dates || !data.prices) {
+                        console.error("Stock data is missing or undefined.");
+                        return; // Exit if the data is invalid
+                    }
+        
+                    // Plot stock data
+                    plotStockData(data.dates, data.prices);
                 })
                 .catch(error => {
                     console.error('Error fetching stock data:', error);
                     showError('An error occurred while fetching stock data. Please try again.');
                 });
         }
-
+        
+        // Plot the stock data from yfinance directly
+        function plotStockData(dates, prices) {
+            const trace1 = {
+                x: dates.map(date => new Date(date)),  // Convert date strings to Date objects
+                y: prices,
+                mode: 'lines',
+                name: 'Stock Price',
+                line: { color: '#007bff' }
+            };
+        
+            const layout = {
+                title: 'Stock Prices',
+                xaxis: { title: 'Date', showgrid: true },
+                yaxis: { title: 'Price ($)', showgrid: true }
+            };
+        
+            Plotly.newPlot('chart', [trace1], layout);
+        }
         // Fetch and update options data
         function updateOptionsData() {
             const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
@@ -157,73 +179,15 @@
 
             console.log(`Fetching options data for: symbol=${stockSymbol}`);
 
-            // Fetch options data (shorter time frame)
+            // Fetch options data
             fetch(`/options_data?symbol=${stockSymbol}`)
                 .then(response => {
-                    console.log("Response received:", response);
                     if (!response.ok) throw new Error('Options data not found');
                     return response.json();
                 })
                 .then(data => {
                     console.log("Options Data received:", data);
-
-                    const optionsSection = document.getElementById('options-section');
-                    optionsSection.innerHTML = '';  // Clear previous data
-
-                    data.options.forEach((item, index) => {
-                        const optionBox = document.createElement('div');
-                        optionBox.className = 'option-box';
-                        optionBox.innerHTML = `
-                            <h2>Expiration Date: ${item.expiration_date}</h2>
-                            <h3 class="toggle" onclick="toggleTable('calls-${index}')">Calls</h3>
-                            <table id="calls-${index}" style="display: none;">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Last Price</th>
-                                        <th>Bid</th>
-                                        <th>Ask</th>
-                                        <th>Volume</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${item.calls.map(call => `
-                                        <tr>
-                                            <td>${call.strike}</td>
-                                            <td>$${call.lastPrice.toFixed(2)}</td>
-                                            <td>$${call.bid.toFixed(2)}</td>
-                                            <td>$${call.ask.toFixed(2)}</td>
-                                            <td>${call.volume}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                            <h3 class="toggle" onclick="toggleTable('puts-${index}')">Puts</h3>
-                            <table id="puts-${index}" style="display: none;">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Last Price</th>
-                                        <th>Bid</th>
-                                        <th>Ask</th>
-                                        <th>Volume</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${item.puts.map(put => `
-                                        <tr>
-                                            <td>${put.strike}</td>
-                                            <td>$${put.lastPrice.toFixed(2)}</td>
-                                            <td>$${put.bid.toFixed(2)}</td>
-                                            <td>$${put.ask.toFixed(2)}</td>
-                                            <td>${put.volume}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                        optionsSection.appendChild(optionBox);
-                    });
+                    renderOptionsData(data);
                 })
                 .catch(error => {
                     console.error('Error fetching options data:', error);
@@ -231,70 +195,57 @@
                 });
         }
 
-        function plotHistoricalData(data) {
-            const dates = data.map(entry => new Date(entry.Date));
-            const closePrices = data.map(entry => entry.Close);
-            const sma20 = data.map(entry => entry.SMA_20);
-            const upperBand = data.map(entry => entry['Upper Band']);
-            const lowerBand = data.map(entry => entry['Lower Band']);
+        // Render options data into the HTML
+        function renderOptionsData(data) {
+            const optionsSection = document.getElementById('options-section');
+            optionsSection.innerHTML = '';  // Clear previous data
 
-            const trace1 = {
-                x: dates,
-                y: closePrices,
-                mode: 'lines',
-                name: 'Close Price',
-                line: { color: '#007bff' }
-            };
-            const trace2 = {
-                x: dates,
-                y: sma20,
-                mode: 'lines',
-                name: '20-day SMA',
-                line: { color: '#ffcc00' }
-            };
-            const trace3 = {
-                x: dates,
-                y: upperBand,
-                mode: 'lines',
-                name: 'Upper Band',
-                line: { color: '#ff0000', dash: 'dash' }
-            };
-            const trace4 = {
-                x: dates,
-                y: lowerBand,
-                mode: 'lines',
-                name: 'Lower Band',
-                line: { color: '#ff0000', dash: 'dash' }
-            };
+            data.forEach((item, index) => {
+                const optionBox = document.createElement('div');
+                optionBox.className = 'option-box';
 
-            const layout = {
-                title: 'Historical Close Prices and Bands',
-                xaxis: { title: 'Date', showgrid: true },
-                yaxis: { title: 'Price ($)', showgrid: true }
-            };
-
-            Plotly.newPlot('historical-chart', [trace1, trace2, trace3, trace4], layout);
+                optionBox.innerHTML = `
+                    <h2>Expiration Date: ${item.expiration_date}</h2>
+                    ${createOptionsTable('Calls', item.calls, index, 'calls')}
+                    ${createOptionsTable('Puts', item.puts, index, 'puts')}
+                `;
+                optionsSection.appendChild(optionBox);
+            });
         }
 
-        function plotRealTimeData(data) {
-            const dates = data.map(entry => new Date(entry.timestamp));
-            const prices = data.map(entry => entry.close);
-
-            const trace = {
-                x: dates,
-                y: prices,
-                mode: 'lines',
-                name: 'Real-Time Price',
-                line: { color: '#28a745' }
-            };
-
-            const layout = {
-                title: 'Real-Time Stock Prices',
-                xaxis: { title: 'Time', showgrid: true },
-                yaxis: { title: 'Price ($)', showgrid: true }
-            };
-
-            Plotly.newPlot('realtime-chart', [trace], layout);
+        // Create table HTML for options (calls or puts)
+        function createOptionsTable(type, options, index, prefix) {
+            return `
+                <h3 class="toggle" onclick="toggleTable('${prefix}-${index}')">${type}</h3>
+                <table id="${prefix}-${index}" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Contract Symbol</th>
+                            <th>Strike</th>
+                            <th>Last Price</th>
+                            <th>Bid</th>
+                            <th>Ask</th>
+                            <th>Volume</th>
+                            <th>Open Interest</th>
+                            <th>Implied Volatility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${options.map(option => `
+                            <tr>
+                                <td>${option.contractSymbol}</td>
+                                <td>${option.strike}</td>
+                                <td>$${option.lastPrice !== null ? option.lastPrice.toFixed(2) : '-'}</td>
+                                <td>$${option.bid !== null ? option.bid.toFixed(2) : '-'}</td>
+                                <td>$${option.ask !== null ? option.ask.toFixed(2) : '-'}</td>
+                                <td>${option.volume !== null ? option.volume : '-'}</td>
+                                <td>${option.openInterest !== null ? option.openInterest : '-'}</td>
+                                <td>${option.impliedVolatility !== null ? (option.impliedVolatility * 100).toFixed(2) + '%' : '-'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -353,16 +304,10 @@
         <h1 id="stock-title">Stock and Options Data</h1>
     </section>
 
-    <!-- Real-Time Stock Data Section -->
-    <section class="realtime-data section">
-        <h2>Real-Time Stock Prices</h2>
-        <div id="realtime-chart"></div>
-    </section>
-
-    <!-- Historical Stock Data Section -->
-    <section class="historical-data section">
-        <h2>Historical Stock Prices and Indicators</h2>
-        <div id="historical-chart"></div>
+    <!-- Stock Data Chart Section -->
+    <section class="stock-data section">
+        <h2>Stock Price Chart</h2>
+        <div id="chart"></div>
     </section>
 
     <!-- Options Data Section -->

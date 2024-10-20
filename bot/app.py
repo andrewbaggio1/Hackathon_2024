@@ -13,6 +13,9 @@ from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
 import datetime
+import pandas as pd
+
+import math
 
 # load_dotenv()
 
@@ -39,6 +42,29 @@ trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY, paper=True)
 # HELPERS #
 ###########
 
+def clean_nan_values(option_data):
+    """Replace NaN values in the option data with None."""
+    print("Cleaning NaN values from options data...")
+    for option in option_data:
+        # Iterate over calls and replace NaN values with None
+        for call in option['calls']:
+            call['lastPrice'] = None if pd.isna(call['lastPrice']) else call['lastPrice']
+            call['bid'] = None if pd.isna(call['bid']) else call['bid']
+            call['ask'] = None if pd.isna(call['ask']) else call['ask']
+            call['volume'] = None if pd.isna(call['volume']) else call['volume']
+
+        # Iterate over puts and replace NaN values with None
+        for put in option['puts']:
+            put['lastPrice'] = None if pd.isna(put['lastPrice']) else put['lastPrice']
+            put['bid'] = None if pd.isna(put['bid']) else put['bid']
+            put['ask'] = None if pd.isna(put['ask']) else put['ask']
+            put['volume'] = None if pd.isna(put['volume']) else put['volume']
+    
+    print("NaN values cleaning completed.")
+    return option_data
+
+
+
 # Example to fetch recent bars for a symbol
 def get_real_time_stock_data(symbol):
     start = datetime.datetime.now() - datetime.timedelta(days=1)
@@ -55,17 +81,55 @@ def get_real_time_stock_data(symbol):
     bars = data_client.get_stock_bars(request_params).df
     return bars
 
+# # Helper function to fetch stock data with optional indicators
+# def get_stock_data(stock_symbol, period='1mo'):
+#     """Fetch historical stock data using yfinance and clean NaN values."""
+#     try:
+#         stock = yf.Ticker(stock_symbol)
+#         hist = stock.history(period=period)
+#         if hist.empty:
+#             return None, None, None, None, None, None
+
+#         # Calculate technical indicators: Bollinger Bands, Moving Averages
+#         hist['SMA_20'] = hist['Close'].rolling(window=20).mean()
+#         hist['Upper Band'] = hist['SMA_20'] + (2 * hist['Close'].rolling(window=20).std())
+#         hist['Lower Band'] = hist['SMA_20'] - (2 * hist['Close'].rolling(window=20).std())
+#         hist['EMA_20'] = hist['Close'].ewm(span=20, adjust=False).mean()
+
+#         # Clean NaN values before preparing the data for JSON
+#         hist = hist.fillna(value=None)
+
+#         # Prepare data for JSON response
+#         dates = hist.index.strftime('%Y-%m-%d').tolist()
+#         prices = hist['Close'].tolist()
+#         sma20 = hist['SMA_20'].tolist()
+#         upper_band = hist['Upper Band'].tolist()
+#         lower_band = hist['Lower Band'].tolist()
+#         ema20 = hist['EMA_20'].tolist()
+
+#         return dates, prices, sma20, upper_band, lower_band, ema20
+
+#     except Exception as e:
+#         print(f"Error fetching stock data for {stock_symbol}: {e}")
+#         return None, None, None, None, None, None
+
+# Helper function to fetch stock price data
 def get_stock_data(stock_symbol, period='1mo'):
-    """Fetch historical stock data using yfinance."""
+    """Fetch historical stock price data using yfinance."""
     try:
         stock = yf.Ticker(stock_symbol)
         hist = stock.history(period=period)
+        
+        # Check if the historical data is empty
         if hist.empty:
             return None, None
-
+        
+        # Prepare data for JSON response
         dates = hist.index.strftime('%Y-%m-%d').tolist()
         prices = hist['Close'].tolist()
+        
         return dates, prices
+
     except Exception as e:
         print(f"Error fetching stock data for {stock_symbol}: {e}")
         return None, None
@@ -74,21 +138,36 @@ def get_stock_data(stock_symbol, period='1mo'):
 def get_options_data(stock_symbol):
     """Fetch options data using yfinance."""
     try:
-        stock = yf.Ticker(stock_symbol)
+        stock = yf.Ticker(stock_symbol)  # Corrected from yf.TTicker to yf.Ticker
         expiration_dates = stock.options
-        options_data = {}
+        options_data = []
     
         for date in expiration_dates:
-            calls = stock.option_chain(date).calls
-            puts = stock.option_chain(date).puts
-            options_data[date] = {
-                'calls': calls[['strike', 'lastPrice', 'bid', 'ask', 'volume']],
-                'puts': puts[['strike', 'lastPrice', 'bid', 'ask', 'volume']]
-            }
+            print(f"Fetching options for {stock_symbol} with expiration date: {date}")
+            try:
+                # Fetch calls and puts
+                calls = stock.option_chain(date).calls
+                puts = stock.option_chain(date).puts
+
+                # Clean NaN values in the calls and puts DataFrames
+                calls_cleaned = clean_nan_values(calls[['strike', 'lastPrice', 'bid', 'ask', 'volume']])
+                puts_cleaned = clean_nan_values(puts[['strike', 'lastPrice', 'bid', 'ask', 'volume']])
+
+                options_data.append({
+                    'expiration_date': date,
+                    'calls': calls_cleaned,
+                    'puts': puts_cleaned
+                })
+            except Exception as e:
+                print(f"Error fetching options for expiration {date}: {e}")
+
+        print(f"Options data fetched and cleaned for {stock_symbol}")
         return options_data
     except Exception as e:
         print(f"Error fetching options data for {stock_symbol}: {e}")
-        return {}
+        return []
+
+
 
 # Alpaca Trading API Helpers
 def get_account():
@@ -259,80 +338,39 @@ def portfolio():
     
     return render_template('portfolio.html', portfolio=port, portfolio_data=portfolio_data)
 
-@app.route('/real_time_data', methods=['GET'])
-def real_time_data():
-    symbol = request.args.get('symbol')
-    stock_data = get_real_time_stock_data(symbol)
-    return jsonify(stock_data.to_dict(orient='records'))
+# Flask route to handle stock data API requests
+# @app.route('/stock_data', methods=['GET'])
+# def stock_data():
+#     symbol = request.args.get('symbol')
+#     period = request.args.get('period', default='1mo')  # Get period from query parameters, default to '1mo'
 
-@app.route('/stock_combined_data', methods=['GET'])
-def stock_combined_data():
-    """Fetch historical stock data, options data, and real-time stock data using both yFinance and Alpaca."""
-    symbol = request.args.get('symbol')
-    period = request.args.get('period', default='1mo')  # Get period from query parameters with default value
+#     # Fetch stock data using the helper function
+#     dates, prices, sma20, upper_band, lower_band, ema20 = get_stock_data(symbol, period)
 
-    # Initialize response dictionary
-    combined_data = {}
+#     if dates is None or prices is None:
+#         return jsonify({"error": f"Failed to fetch data for symbol: {symbol}"}), 400
 
-    try:
-        # Get historical data using yFinance
-        stock = yf.Ticker(symbol)
-        historical_data = stock.history(period=period)
-        if historical_data.empty:
-            return jsonify({"error": "No historical data found"}), 404
+#     # Format the data for response
+#     data = {
+#         'symbol': symbol,
+#         'name': yf.Ticker(symbol).info.get('longName', symbol),  # Get the company name
+#         'dates': dates,
+#         'prices': prices,
+#         'sma20': sma20,  # 20-day Simple Moving Average
+#         'upper_band': upper_band,  # Upper Bollinger Band
+#         'lower_band': lower_band,  # Lower Bollinger Band
+#         'ema20': ema20,  # 20-day Exponential Moving Average
+#     }
 
-        historical_data.reset_index(inplace=True)  # Reset index to have dates as a column
-
-        # Calculate technical indicators (SMA and Bollinger Bands)
-        historical_data['SMA_20'] = historical_data['Close'].rolling(window=20).mean()
-        historical_data['Upper Band'] = historical_data['SMA_20'] + 2 * historical_data['Close'].rolling(window=20).std()
-        historical_data['Lower Band'] = historical_data['SMA_20'] - 2 * historical_data['Close'].rolling(window=20).std()
-
-        # Prepare historical data for JSON response
-        historical_data_list = historical_data[['Date', 'Close', 'SMA_20', 'Upper Band', 'Lower Band']].to_dict(orient='records')
-
-        # Add historical data to combined response
-        combined_data['historical'] = historical_data_list
-
-        # Get options data using yFinance
-        options_data = []
-        for expiration in stock.options:
-            calls = stock.option_chain(expiration).calls
-            puts = stock.option_chain(expiration).puts
-            options_data.append({
-                'expiration_date': expiration,
-                'calls': calls.to_dict(orient='records'),
-                'puts': puts.to_dict(orient='records')
-            })
-
-        # Add options data to combined response
-        combined_data['options'] = options_data
-
-        # Fetch real-time data using Alpaca
-        real_time_data = get_real_time_stock_data(symbol)
-        if real_time_data is not None:
-            combined_data['real_time'] = real_time_data.reset_index().to_dict(orient='records')
-        else:
-            combined_data['real_time'] = []
-
-        # Log the combined data for debugging
-        print('Combined Data:', combined_data)
-
-        # Return the combined data as JSON
-        return jsonify(combined_data)
-    
-    except Exception as e:
-        print(f"Error fetching data: {e}")
-        return jsonify({'error': str(e)}), 500
-
-
+#     print(f"Stock data fetched for {symbol}: {data}")
+#     return jsonify(data)
 
 @app.route('/stock_data', methods=['GET'])
 def stock_data():
     symbol = request.args.get('symbol')
     period = request.args.get('period', default='1mo')  # Get period from query parameters, default to '1mo'
-    
-    # Fetch stock data using the helper function
+
+    # Fetch stock data using the updated helper function
     dates, prices = get_stock_data(symbol, period)
 
     if dates is None or prices is None:
@@ -345,10 +383,10 @@ def stock_data():
         'dates': dates,
         'prices': prices,
     }
-    
+
     print(f"Stock data fetched for {symbol}: {data}")
-    print(data)
     return jsonify(data)
+
 
 @app.route('/options_data', methods=['GET'])
 def options_data():
@@ -358,40 +396,27 @@ def options_data():
     options_data = []
 
     for expiration in options_chain:
-        calls = stock.option_chain(expiration).calls
-        puts = stock.option_chain(expiration).puts
-        options_data.append({
-            'expiration_date': expiration,
-            'calls': calls.to_dict(orient='records'),
-            'puts': puts.to_dict(orient='records')
-        })
+        # print(f"Processing expiration: {expiration}")
+        try:
+            calls = stock.option_chain(expiration).calls
+            puts = stock.option_chain(expiration).puts
 
+            # Ensure to fill NaN values and convert to a list of dictionaries
+            calls_cleaned = calls.where(pd.notnull(calls), None).to_dict(orient='records')
+            puts_cleaned = puts.where(pd.notnull(puts), None).to_dict(orient='records')
+
+            options_data.append({
+                'expiration_date': expiration,
+                'calls': calls_cleaned,
+                'puts': puts_cleaned
+            })
+        except Exception as e:
+            print(f"Error processing options for expiration {expiration}: {e}")
+
+    print(f"Final cleaned options data for {symbol}")  # Final cleaned data output
     return jsonify(options_data)
 
-@app.route('/historical_data', methods=['GET'])
-def historical_data():
-    """Fetch historical stock data and calculate technical indicators."""
-    symbol = request.args.get('symbol')
-    period = request.args.get('period', default='1mo')  # Get period from query parameters with default value
-    stock = yf.Ticker(symbol)
-    
-    # Get historical data based on the specified period
-    historical_data = stock.history(period=period)  
-    historical_data.reset_index(inplace=True)  # Reset index to have dates as a column
 
-    # Calculate technical indicators (e.g., moving average, Bollinger Bands)
-    historical_data['SMA_20'] = historical_data['Close'].rolling(window=20).mean()
-    historical_data['Upper Band'] = historical_data['SMA_20'] + 2 * historical_data['Close'].rolling(window=20).std()
-    historical_data['Lower Band'] = historical_data['SMA_20'] - 2 * historical_data['Close'].rolling(window=20).std()
-
-    # Convert the DataFrame to a list of dictionaries and format dates
-    historical_data_list = historical_data[['Date', 'Close', 'SMA_20', 'Upper Band', 'Lower Band']].to_dict(orient='records')
-
-    # Adjust the date formatting to ISO format
-    for entry in historical_data_list:
-        entry['Date'] = entry['Date'].isoformat()  # Convert to ISO format string
-
-    return jsonify(historical_data_list)
 
 @app.route('/options_equities', methods=['GET', 'POST'])
 def options_equities():
