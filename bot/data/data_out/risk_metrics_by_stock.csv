@@ -1,0 +1,1601 @@
+Ticker,Strategy,Metric,Value
+AAPL,Mean Reversion,Volatility (Annualized),0.0219
+AAPL,Mean Reversion,Maximum Drawdown,-0.0337
+AAPL,Mean Reversion,Sharpe Ratio,-0.1078
+AAPL,Mean Reversion,Sortino Ratio,-0.0883
+AAPL,Moving Average Crossover,Volatility (Annualized),0.2221
+AAPL,Moving Average Crossover,Maximum Drawdown,-0.3143
+AAPL,Moving Average Crossover,Sharpe Ratio,0.6658
+AAPL,Moving Average Crossover,Sortino Ratio,0.6442
+AAPL,RSI,Volatility (Annualized),0.1907
+AAPL,RSI,Maximum Drawdown,-0.2589
+AAPL,RSI,Sharpe Ratio,0.7730
+AAPL,RSI,Sortino Ratio,0.6300
+AAPL,MACD,Volatility (Annualized),0.1796
+AAPL,MACD,Maximum Drawdown,-0.2674
+AAPL,MACD,Sharpe Ratio,1.3476
+AAPL,MACD,Sortino Ratio,1.3764
+AAPL,Bollinger Bands,Volatility (Annualized),0.2050
+AAPL,Bollinger Bands,Maximum Drawdown,-0.3204
+AAPL,Bollinger Bands,Sharpe Ratio,0.5478
+AAPL,Bollinger Bands,Sortino Ratio,0.4533
+AAPL,Buy and Hold,Volatility (Annualized),0.2890
+AAPL,Buy and Hold,Maximum Drawdown,-0.3852
+AAPL,Buy and Hold,Sharpe Ratio,1.0135
+AAPL,Buy and Hold,Sortino Ratio,1.3898
+AAPL,RSI with Trend Filter,Volatility (Annualized),0.1907
+AAPL,RSI with Trend Filter,Maximum Drawdown,-0.2589
+AAPL,RSI with Trend Filter,Sharpe Ratio,0.7730
+AAPL,RSI with Trend Filter,Sortino Ratio,0.6300
+AAPL,MACD with Trend Filter,Volatility (Annualized),0.1494
+AAPL,MACD with Trend Filter,Maximum Drawdown,-0.2578
+AAPL,MACD with Trend Filter,Sharpe Ratio,1.0082
+AAPL,MACD with Trend Filter,Sortino Ratio,0.8254
+MSFT,Mean Reversion,Volatility (Annualized),0.0393
+MSFT,Mean Reversion,Maximum Drawdown,-0.0801
+MSFT,Mean Reversion,Sharpe Ratio,0.3421
+MSFT,Mean Reversion,Sortino Ratio,0.2249
+MSFT,Moving Average Crossover,Volatility (Annualized),0.2032
+MSFT,Moving Average Crossover,Maximum Drawdown,-0.2804
+MSFT,Moving Average Crossover,Sharpe Ratio,0.8881
+MSFT,Moving Average Crossover,Sortino Ratio,0.8602
+MSFT,RSI,Volatility (Annualized),0.1408
+MSFT,RSI,Maximum Drawdown,-0.3177
+MSFT,RSI,Sharpe Ratio,0.2976
+MSFT,RSI,Sortino Ratio,0.2090
+MSFT,MACD,Volatility (Annualized),0.1743
+MSFT,MACD,Maximum Drawdown,-0.3874
+MSFT,MACD,Sharpe Ratio,0.2745
+MSFT,MACD,Sortino Ratio,0.2800
+MSFT,Bollinger Bands,Volatility (Annualized),0.2129
+MSFT,Bollinger Bands,Maximum Drawdown,-0.3523
+MSFT,Bollinger Bands,Sharpe Ratio,0.7114
+MSFT,Bollinger Bands,Sortino Ratio,0.6386
+MSFT,Buy and Hold,Volatility (Annualized),0.2716
+MSFT,Buy and Hold,Maximum Drawdown,-0.3715
+MSFT,Buy and Hold,Sharpe Ratio,1.0210
+MSFT,Buy and Hold,Sortino Ratio,1.3942
+MSFT,RSI with Trend Filter,Volatility (Annualized),0.1408
+MSFT,RSI with Trend Filter,Maximum Drawdown,-0.3177
+MSFT,RSI with Trend Filter,Sharpe Ratio,0.2976
+MSFT,RSI with Trend Filter,Sortino Ratio,0.2090
+MSFT,MACD with Trend Filter,Volatility (Annualized),0.1485
+MSFT,MACD with Trend Filter,Maximum Drawdown,-0.1957
+MSFT,MACD with Trend Filter,Sharpe Ratio,0.4180
+MSFT,MACD with Trend Filter,Sortino Ratio,0.3143
+AMZN,Mean Reversion,Volatility (Annualized),0.0258
+AMZN,Mean Reversion,Maximum Drawdown,-0.0783
+AMZN,Mean Reversion,Sharpe Ratio,-0.0313
+AMZN,Mean Reversion,Sortino Ratio,-0.0233
+AMZN,Moving Average Crossover,Volatility (Annualized),0.1973
+AMZN,Moving Average Crossover,Maximum Drawdown,-0.3004
+AMZN,Moving Average Crossover,Sharpe Ratio,0.4115
+AMZN,Moving Average Crossover,Sortino Ratio,0.3987
+AMZN,RSI,Volatility (Annualized),0.2104
+AMZN,RSI,Maximum Drawdown,-0.4464
+AMZN,RSI,Sharpe Ratio,0.4704
+AMZN,RSI,Sortino Ratio,0.3740
+AMZN,MACD,Volatility (Annualized),0.2110
+AMZN,MACD,Maximum Drawdown,-0.3608
+AMZN,MACD,Sharpe Ratio,0.3224
+AMZN,MACD,Sortino Ratio,0.3314
+AMZN,Bollinger Bands,Volatility (Annualized),0.2310
+AMZN,Bollinger Bands,Maximum Drawdown,-0.4883
+AMZN,Bollinger Bands,Sharpe Ratio,0.5209
+AMZN,Bollinger Bands,Sortino Ratio,0.4599
+AMZN,Buy and Hold,Volatility (Annualized),0.3271
+AMZN,Buy and Hold,Maximum Drawdown,-0.5615
+AMZN,Buy and Hold,Sharpe Ratio,0.7519
+AMZN,Buy and Hold,Sortino Ratio,1.0553
+AMZN,RSI with Trend Filter,Volatility (Annualized),0.2065
+AMZN,RSI with Trend Filter,Maximum Drawdown,-0.4464
+AMZN,RSI with Trend Filter,Sharpe Ratio,0.3449
+AMZN,RSI with Trend Filter,Sortino Ratio,0.2635
+AMZN,MACD with Trend Filter,Volatility (Annualized),0.2133
+AMZN,MACD with Trend Filter,Maximum Drawdown,-0.3351
+AMZN,MACD with Trend Filter,Sharpe Ratio,0.5026
+AMZN,MACD with Trend Filter,Sortino Ratio,0.4603
+GOOGL,Mean Reversion,Volatility (Annualized),0.0178
+GOOGL,Mean Reversion,Maximum Drawdown,-0.0325
+GOOGL,Mean Reversion,Sharpe Ratio,-0.0199
+GOOGL,Mean Reversion,Sortino Ratio,-0.0151
+GOOGL,Moving Average Crossover,Volatility (Annualized),0.2012
+GOOGL,Moving Average Crossover,Maximum Drawdown,-0.3087
+GOOGL,Moving Average Crossover,Sharpe Ratio,0.6665
+GOOGL,Moving Average Crossover,Sortino Ratio,0.5891
+GOOGL,RSI,Volatility (Annualized),0.2028
+GOOGL,RSI,Maximum Drawdown,-0.4363
+GOOGL,RSI,Sharpe Ratio,0.3862
+GOOGL,RSI,Sortino Ratio,0.3146
+GOOGL,MACD,Volatility (Annualized),0.1926
+GOOGL,MACD,Maximum Drawdown,-0.4254
+GOOGL,MACD,Sharpe Ratio,0.3059
+GOOGL,MACD,Sortino Ratio,0.3013
+GOOGL,Bollinger Bands,Volatility (Annualized),0.2057
+GOOGL,Bollinger Bands,Maximum Drawdown,-0.2730
+GOOGL,Bollinger Bands,Sharpe Ratio,0.6122
+GOOGL,Bollinger Bands,Sortino Ratio,0.5240
+GOOGL,Buy and Hold,Volatility (Annualized),0.2839
+GOOGL,Buy and Hold,Maximum Drawdown,-0.4432
+GOOGL,Buy and Hold,Sharpe Ratio,0.7032
+GOOGL,Buy and Hold,Sortino Ratio,0.9404
+GOOGL,RSI with Trend Filter,Volatility (Annualized),0.2028
+GOOGL,RSI with Trend Filter,Maximum Drawdown,-0.4363
+GOOGL,RSI with Trend Filter,Sharpe Ratio,0.3862
+GOOGL,RSI with Trend Filter,Sortino Ratio,0.3146
+GOOGL,MACD with Trend Filter,Volatility (Annualized),0.1889
+GOOGL,MACD with Trend Filter,Maximum Drawdown,-0.3664
+GOOGL,MACD with Trend Filter,Sharpe Ratio,0.3888
+GOOGL,MACD with Trend Filter,Sortino Ratio,0.3406
+GOOG,Mean Reversion,Volatility (Annualized),0.0367
+GOOG,Mean Reversion,Maximum Drawdown,-0.0899
+GOOG,Mean Reversion,Sharpe Ratio,0.0928
+GOOG,Mean Reversion,Sortino Ratio,0.0847
+GOOG,Moving Average Crossover,Volatility (Annualized),0.1999
+GOOG,Moving Average Crossover,Maximum Drawdown,-0.3079
+GOOG,Moving Average Crossover,Sharpe Ratio,0.6284
+GOOG,Moving Average Crossover,Sortino Ratio,0.5531
+GOOG,RSI,Volatility (Annualized),0.1998
+GOOG,RSI,Maximum Drawdown,-0.4360
+GOOG,RSI,Sharpe Ratio,0.3945
+GOOG,RSI,Sortino Ratio,0.3103
+GOOG,MACD,Volatility (Annualized),0.1917
+GOOG,MACD,Maximum Drawdown,-0.4258
+GOOG,MACD,Sharpe Ratio,0.3339
+GOOG,MACD,Sortino Ratio,0.3251
+GOOG,Bollinger Bands,Volatility (Annualized),0.2033
+GOOG,Bollinger Bands,Maximum Drawdown,-0.2922
+GOOG,Bollinger Bands,Sharpe Ratio,0.5453
+GOOG,Bollinger Bands,Sortino Ratio,0.4606
+GOOG,Buy and Hold,Volatility (Annualized),0.2837
+GOOG,Buy and Hold,Maximum Drawdown,-0.4460
+GOOG,Buy and Hold,Sharpe Ratio,0.7163
+GOOG,Buy and Hold,Sortino Ratio,0.9528
+GOOG,RSI with Trend Filter,Volatility (Annualized),0.1998
+GOOG,RSI with Trend Filter,Maximum Drawdown,-0.4360
+GOOG,RSI with Trend Filter,Sharpe Ratio,0.3945
+GOOG,RSI with Trend Filter,Sortino Ratio,0.3103
+GOOG,MACD with Trend Filter,Volatility (Annualized),0.1804
+GOOG,MACD with Trend Filter,Maximum Drawdown,-0.2578
+GOOG,MACD with Trend Filter,Sharpe Ratio,0.4438
+GOOG,MACD with Trend Filter,Sortino Ratio,0.3745
+NVDA,Mean Reversion,Volatility (Annualized),0.0269
+NVDA,Mean Reversion,Maximum Drawdown,-0.0549
+NVDA,Mean Reversion,Sharpe Ratio,0.3960
+NVDA,Mean Reversion,Sortino Ratio,0.4238
+NVDA,Moving Average Crossover,Volatility (Annualized),0.3640
+NVDA,Moving Average Crossover,Maximum Drawdown,-0.3755
+NVDA,Moving Average Crossover,Sharpe Ratio,1.2411
+NVDA,Moving Average Crossover,Sortino Ratio,1.4081
+NVDA,RSI,Volatility (Annualized),0.2587
+NVDA,RSI,Maximum Drawdown,-0.6080
+NVDA,RSI,Sharpe Ratio,-0.0313
+NVDA,RSI,Sortino Ratio,-0.0186
+NVDA,MACD,Volatility (Annualized),0.3440
+NVDA,MACD,Maximum Drawdown,-0.5217
+NVDA,MACD,Sharpe Ratio,0.9545
+NVDA,MACD,Sortino Ratio,1.0186
+NVDA,Bollinger Bands,Volatility (Annualized),0.3452
+NVDA,Bollinger Bands,Maximum Drawdown,-0.4846
+NVDA,Bollinger Bands,Sharpe Ratio,1.0886
+NVDA,Bollinger Bands,Sortino Ratio,0.9609
+NVDA,Buy and Hold,Volatility (Annualized),0.5025
+NVDA,Buy and Hold,Maximum Drawdown,-0.6634
+NVDA,Buy and Hold,Sharpe Ratio,1.3784
+NVDA,Buy and Hold,Sortino Ratio,2.0594
+NVDA,RSI with Trend Filter,Volatility (Annualized),0.2550
+NVDA,RSI with Trend Filter,Maximum Drawdown,-0.6080
+NVDA,RSI with Trend Filter,Sharpe Ratio,-0.1333
+NVDA,RSI with Trend Filter,Sortino Ratio,-0.0780
+NVDA,MACD with Trend Filter,Volatility (Annualized),0.2924
+NVDA,MACD with Trend Filter,Maximum Drawdown,-0.4931
+NVDA,MACD with Trend Filter,Sharpe Ratio,0.5780
+NVDA,MACD with Trend Filter,Sortino Ratio,0.4423
+TSLA,Mean Reversion,Volatility (Annualized),0.1095
+TSLA,Mean Reversion,Maximum Drawdown,-0.3235
+TSLA,Mean Reversion,Sharpe Ratio,0.2434
+TSLA,Mean Reversion,Sortino Ratio,0.2712
+TSLA,Moving Average Crossover,Volatility (Annualized),0.4494
+TSLA,Moving Average Crossover,Maximum Drawdown,-0.6501
+TSLA,Moving Average Crossover,Sharpe Ratio,0.7334
+TSLA,Moving Average Crossover,Sortino Ratio,0.7493
+TSLA,RSI,Volatility (Annualized),0.3969
+TSLA,RSI,Maximum Drawdown,-0.5270
+TSLA,RSI,Sharpe Ratio,0.6064
+TSLA,RSI,Sortino Ratio,0.6602
+TSLA,MACD,Volatility (Annualized),0.4109
+TSLA,MACD,Maximum Drawdown,-0.4983
+TSLA,MACD,Sharpe Ratio,1.1670
+TSLA,MACD,Sortino Ratio,1.3462
+TSLA,Bollinger Bands,Volatility (Annualized),0.3951
+TSLA,Bollinger Bands,Maximum Drawdown,-0.6184
+TSLA,Bollinger Bands,Sharpe Ratio,0.4637
+TSLA,Bollinger Bands,Sortino Ratio,0.4420
+TSLA,Buy and Hold,Volatility (Annualized),0.5813
+TSLA,Buy and Hold,Maximum Drawdown,-0.7363
+TSLA,Buy and Hold,Sharpe Ratio,0.8383
+TSLA,Buy and Hold,Sortino Ratio,1.2175
+TSLA,RSI with Trend Filter,Volatility (Annualized),0.3898
+TSLA,RSI with Trend Filter,Maximum Drawdown,-0.5270
+TSLA,RSI with Trend Filter,Sharpe Ratio,0.5790
+TSLA,RSI with Trend Filter,Sortino Ratio,0.6243
+TSLA,MACD with Trend Filter,Volatility (Annualized),0.3492
+TSLA,MACD with Trend Filter,Maximum Drawdown,-0.5486
+TSLA,MACD with Trend Filter,Sharpe Ratio,0.6341
+TSLA,MACD with Trend Filter,Sortino Ratio,0.6064
+BRK-B,Mean Reversion,Volatility (Annualized),0.0394
+BRK-B,Mean Reversion,Maximum Drawdown,-0.0575
+BRK-B,Mean Reversion,Sharpe Ratio,0.5441
+BRK-B,Mean Reversion,Sortino Ratio,0.5414
+BRK-B,Moving Average Crossover,Volatility (Annualized),0.1526
+BRK-B,Moving Average Crossover,Maximum Drawdown,-0.2957
+BRK-B,Moving Average Crossover,Sharpe Ratio,0.3981
+BRK-B,Moving Average Crossover,Sortino Ratio,0.3672
+BRK-B,RSI,Volatility (Annualized),0.1328
+BRK-B,RSI,Maximum Drawdown,-0.2558
+BRK-B,RSI,Sharpe Ratio,0.3289
+BRK-B,RSI,Sortino Ratio,0.2036
+BRK-B,MACD,Volatility (Annualized),0.1265
+BRK-B,MACD,Maximum Drawdown,-0.1399
+BRK-B,MACD,Sharpe Ratio,0.8576
+BRK-B,MACD,Sortino Ratio,0.8599
+BRK-B,Bollinger Bands,Volatility (Annualized),0.1503
+BRK-B,Bollinger Bands,Maximum Drawdown,-0.2939
+BRK-B,Bollinger Bands,Sharpe Ratio,0.5144
+BRK-B,Bollinger Bands,Sortino Ratio,0.4466
+BRK-B,Buy and Hold,Volatility (Annualized),0.1961
+BRK-B,Buy and Hold,Maximum Drawdown,-0.2957
+BRK-B,Buy and Hold,Sharpe Ratio,0.7828
+BRK-B,Buy and Hold,Sortino Ratio,1.0332
+BRK-B,RSI with Trend Filter,Volatility (Annualized),0.1328
+BRK-B,RSI with Trend Filter,Maximum Drawdown,-0.2558
+BRK-B,RSI with Trend Filter,Sharpe Ratio,0.3289
+BRK-B,RSI with Trend Filter,Sortino Ratio,0.2036
+BRK-B,MACD with Trend Filter,Volatility (Annualized),0.1141
+BRK-B,MACD with Trend Filter,Maximum Drawdown,-0.1617
+BRK-B,MACD with Trend Filter,Sharpe Ratio,0.6457
+BRK-B,MACD with Trend Filter,Sortino Ratio,0.5242
+META,Mean Reversion,Volatility (Annualized),0.0586
+META,Mean Reversion,Maximum Drawdown,-0.1363
+META,Mean Reversion,Sharpe Ratio,0.1590
+META,Mean Reversion,Sortino Ratio,0.0998
+META,Moving Average Crossover,Volatility (Annualized),0.2671
+META,Moving Average Crossover,Maximum Drawdown,-0.3803
+META,Moving Average Crossover,Sharpe Ratio,0.7555
+META,Moving Average Crossover,Sortino Ratio,0.7894
+META,RSI,Volatility (Annualized),0.2835
+META,RSI,Maximum Drawdown,-0.7485
+META,RSI,Sharpe Ratio,0.2067
+META,RSI,Sortino Ratio,0.1440
+META,MACD,Volatility (Annualized),0.2885
+META,MACD,Maximum Drawdown,-0.7827
+META,MACD,Sharpe Ratio,0.0386
+META,MACD,Sortino Ratio,0.0328
+META,Bollinger Bands,Volatility (Annualized),0.2885
+META,Bollinger Bands,Maximum Drawdown,-0.6902
+META,Bollinger Bands,Sharpe Ratio,0.2593
+META,Bollinger Bands,Sortino Ratio,0.1985
+META,Buy and Hold,Volatility (Annualized),0.3888
+META,Buy and Hold,Maximum Drawdown,-0.7674
+META,Buy and Hold,Sharpe Ratio,0.6800
+META,Buy and Hold,Sortino Ratio,0.8572
+META,RSI with Trend Filter,Volatility (Annualized),0.2835
+META,RSI with Trend Filter,Maximum Drawdown,-0.7485
+META,RSI with Trend Filter,Sharpe Ratio,0.2067
+META,RSI with Trend Filter,Sortino Ratio,0.1440
+META,MACD with Trend Filter,Volatility (Annualized),0.2687
+META,MACD with Trend Filter,Maximum Drawdown,-0.7442
+META,MACD with Trend Filter,Sharpe Ratio,0.0450
+META,MACD with Trend Filter,Sortino Ratio,0.0323
+UNH,Mean Reversion,Volatility (Annualized),0.0497
+UNH,Mean Reversion,Maximum Drawdown,-0.0734
+UNH,Mean Reversion,Sharpe Ratio,0.6081
+UNH,Mean Reversion,Sortino Ratio,0.4368
+UNH,Moving Average Crossover,Volatility (Annualized),0.2024
+UNH,Moving Average Crossover,Maximum Drawdown,-0.3590
+UNH,Moving Average Crossover,Sharpe Ratio,0.4099
+UNH,Moving Average Crossover,Sortino Ratio,0.3542
+UNH,RSI,Volatility (Annualized),0.1897
+UNH,RSI,Maximum Drawdown,-0.3238
+UNH,RSI,Sharpe Ratio,0.6284
+UNH,RSI,Sortino Ratio,0.4429
+UNH,MACD,Volatility (Annualized),0.1632
+UNH,MACD,Maximum Drawdown,-0.2793
+UNH,MACD,Sharpe Ratio,0.3211
+UNH,MACD,Sortino Ratio,0.3105
+UNH,Bollinger Bands,Volatility (Annualized),0.2042
+UNH,Bollinger Bands,Maximum Drawdown,-0.3590
+UNH,Bollinger Bands,Sharpe Ratio,0.6905
+UNH,Bollinger Bands,Sortino Ratio,0.5560
+UNH,Buy and Hold,Volatility (Annualized),0.2592
+UNH,Buy and Hold,Maximum Drawdown,-0.3590
+UNH,Buy and Hold,Sharpe Ratio,0.8633
+UNH,Buy and Hold,Sortino Ratio,1.1686
+UNH,RSI with Trend Filter,Volatility (Annualized),0.1897
+UNH,RSI with Trend Filter,Maximum Drawdown,-0.3238
+UNH,RSI with Trend Filter,Sharpe Ratio,0.6284
+UNH,RSI with Trend Filter,Sortino Ratio,0.4429
+UNH,MACD with Trend Filter,Volatility (Annualized),0.1818
+UNH,MACD with Trend Filter,Maximum Drawdown,-0.3275
+UNH,MACD with Trend Filter,Sharpe Ratio,0.4045
+UNH,MACD with Trend Filter,Sortino Ratio,0.2856
+XOM,Mean Reversion,Volatility (Annualized),0.0113
+XOM,Mean Reversion,Maximum Drawdown,-0.0294
+XOM,Mean Reversion,Sharpe Ratio,-0.5585
+XOM,Mean Reversion,Sortino Ratio,-0.5481
+XOM,Moving Average Crossover,Volatility (Annualized),0.1915
+XOM,Moving Average Crossover,Maximum Drawdown,-0.3742
+XOM,Moving Average Crossover,Sharpe Ratio,0.2539
+XOM,Moving Average Crossover,Sortino Ratio,0.2765
+XOM,RSI,Volatility (Annualized),0.2091
+XOM,RSI,Maximum Drawdown,-0.5793
+XOM,RSI,Sharpe Ratio,0.4914
+XOM,RSI,Sortino Ratio,0.4847
+XOM,MACD,Volatility (Annualized),0.2014
+XOM,MACD,Maximum Drawdown,-0.2860
+XOM,MACD,Sharpe Ratio,0.3716
+XOM,MACD,Sortino Ratio,0.4105
+XOM,Bollinger Bands,Volatility (Annualized),0.2016
+XOM,Bollinger Bands,Maximum Drawdown,-0.5785
+XOM,Bollinger Bands,Sharpe Ratio,0.1440
+XOM,Bollinger Bands,Sortino Ratio,0.1392
+XOM,Buy and Hold,Volatility (Annualized),0.2855
+XOM,Buy and Hold,Maximum Drawdown,-0.6134
+XOM,Buy and Hold,Sharpe Ratio,0.4322
+XOM,Buy and Hold,Sortino Ratio,0.6070
+XOM,RSI with Trend Filter,Volatility (Annualized),0.2091
+XOM,RSI with Trend Filter,Maximum Drawdown,-0.5793
+XOM,RSI with Trend Filter,Sharpe Ratio,0.4914
+XOM,RSI with Trend Filter,Sortino Ratio,0.4847
+XOM,MACD with Trend Filter,Volatility (Annualized),0.2058
+XOM,MACD with Trend Filter,Maximum Drawdown,-0.5092
+XOM,MACD with Trend Filter,Sharpe Ratio,0.3002
+XOM,MACD with Trend Filter,Sortino Ratio,0.2824
+JNJ,Mean Reversion,Volatility (Annualized),0.0166
+JNJ,Mean Reversion,Maximum Drawdown,-0.0301
+JNJ,Mean Reversion,Sharpe Ratio,-0.2969
+JNJ,Mean Reversion,Sortino Ratio,-0.2564
+JNJ,Moving Average Crossover,Volatility (Annualized),0.1535
+JNJ,Moving Average Crossover,Maximum Drawdown,-0.3588
+JNJ,Moving Average Crossover,Sharpe Ratio,-0.1139
+JNJ,Moving Average Crossover,Sortino Ratio,-0.1113
+JNJ,RSI,Volatility (Annualized),0.1423
+JNJ,RSI,Maximum Drawdown,-0.2260
+JNJ,RSI,Sharpe Ratio,0.5714
+JNJ,RSI,Sortino Ratio,0.5065
+JNJ,MACD,Volatility (Annualized),0.1182
+JNJ,MACD,Maximum Drawdown,-0.2122
+JNJ,MACD,Sharpe Ratio,0.3886
+JNJ,MACD,Sortino Ratio,0.3579
+JNJ,Bollinger Bands,Volatility (Annualized),0.1391
+JNJ,Bollinger Bands,Maximum Drawdown,-0.2889
+JNJ,Bollinger Bands,Sharpe Ratio,0.2606
+JNJ,Bollinger Bands,Sortino Ratio,0.2310
+JNJ,Buy and Hold,Volatility (Annualized),0.1833
+JNJ,Buy and Hold,Maximum Drawdown,-0.2737
+JNJ,Buy and Hold,Sharpe Ratio,0.4855
+JNJ,Buy and Hold,Sortino Ratio,0.6301
+JNJ,RSI with Trend Filter,Volatility (Annualized),0.1423
+JNJ,RSI with Trend Filter,Maximum Drawdown,-0.2260
+JNJ,RSI with Trend Filter,Sharpe Ratio,0.5714
+JNJ,RSI with Trend Filter,Sortino Ratio,0.5065
+JNJ,MACD with Trend Filter,Volatility (Annualized),0.1034
+JNJ,MACD with Trend Filter,Maximum Drawdown,-0.1272
+JNJ,MACD with Trend Filter,Sharpe Ratio,0.7422
+JNJ,MACD with Trend Filter,Sortino Ratio,0.7136
+JPM,Mean Reversion,Volatility (Annualized),0.0201
+JPM,Mean Reversion,Maximum Drawdown,-0.0475
+JPM,Mean Reversion,Sharpe Ratio,-0.2430
+JPM,Mean Reversion,Sortino Ratio,-0.1858
+JPM,Moving Average Crossover,Volatility (Annualized),0.1903
+JPM,Moving Average Crossover,Maximum Drawdown,-0.4363
+JPM,Moving Average Crossover,Sharpe Ratio,0.3956
+JPM,Moving Average Crossover,Sortino Ratio,0.3128
+JPM,RSI,Volatility (Annualized),0.2084
+JPM,RSI,Maximum Drawdown,-0.3877
+JPM,RSI,Sharpe Ratio,0.3443
+JPM,RSI,Sortino Ratio,0.2701
+JPM,MACD,Volatility (Annualized),0.1780
+JPM,MACD,Maximum Drawdown,-0.3571
+JPM,MACD,Sharpe Ratio,0.5986
+JPM,MACD,Sortino Ratio,0.6438
+JPM,Bollinger Bands,Volatility (Annualized),0.2166
+JPM,Bollinger Bands,Maximum Drawdown,-0.4273
+JPM,Bollinger Bands,Sharpe Ratio,0.8253
+JPM,Bollinger Bands,Sortino Ratio,0.7060
+JPM,Buy and Hold,Volatility (Annualized),0.2777
+JPM,Buy and Hold,Maximum Drawdown,-0.4363
+JPM,Buy and Hold,Sharpe Ratio,0.6949
+JPM,Buy and Hold,Sortino Ratio,0.9379
+JPM,RSI with Trend Filter,Volatility (Annualized),0.2032
+JPM,RSI with Trend Filter,Maximum Drawdown,-0.3877
+JPM,RSI with Trend Filter,Sharpe Ratio,0.2361
+JPM,RSI with Trend Filter,Sortino Ratio,0.1775
+JPM,MACD with Trend Filter,Volatility (Annualized),0.1680
+JPM,MACD with Trend Filter,Maximum Drawdown,-0.3484
+JPM,MACD with Trend Filter,Sharpe Ratio,0.4582
+JPM,MACD with Trend Filter,Sortino Ratio,0.4029
+V,Mean Reversion,Volatility (Annualized),0.0353
+V,Mean Reversion,Maximum Drawdown,-0.0534
+V,Mean Reversion,Sharpe Ratio,0.4627
+V,Mean Reversion,Sortino Ratio,0.3849
+V,Moving Average Crossover,Volatility (Annualized),0.1745
+V,Moving Average Crossover,Maximum Drawdown,-0.3636
+V,Moving Average Crossover,Sharpe Ratio,0.3415
+V,Moving Average Crossover,Sortino Ratio,0.2904
+V,RSI,Volatility (Annualized),0.1850
+V,RSI,Maximum Drawdown,-0.3014
+V,RSI,Sharpe Ratio,0.5150
+V,RSI,Sortino Ratio,0.3808
+V,MACD,Volatility (Annualized),0.1560
+V,MACD,Maximum Drawdown,-0.1956
+V,MACD,Sharpe Ratio,0.2172
+V,MACD,Sortino Ratio,0.2082
+V,Bollinger Bands,Volatility (Annualized),0.1986
+V,Bollinger Bands,Maximum Drawdown,-0.3014
+V,Bollinger Bands,Sharpe Ratio,0.5994
+V,Bollinger Bands,Sortino Ratio,0.4985
+V,Buy and Hold,Volatility (Annualized),0.2484
+V,Buy and Hold,Maximum Drawdown,-0.3636
+V,Buy and Hold,Sharpe Ratio,0.7072
+V,Buy and Hold,Sortino Ratio,0.9309
+V,RSI with Trend Filter,Volatility (Annualized),0.1793
+V,RSI with Trend Filter,Maximum Drawdown,-0.3014
+V,RSI with Trend Filter,Sharpe Ratio,0.4351
+V,RSI with Trend Filter,Sortino Ratio,0.3061
+V,MACD with Trend Filter,Volatility (Annualized),0.1474
+V,MACD with Trend Filter,Maximum Drawdown,-0.2386
+V,MACD with Trend Filter,Sharpe Ratio,0.3276
+V,MACD with Trend Filter,Sortino Ratio,0.2711
+WMT,Mean Reversion,Volatility (Annualized),0.0101
+WMT,Mean Reversion,Maximum Drawdown,-0.0218
+WMT,Mean Reversion,Sharpe Ratio,-0.0813
+WMT,Mean Reversion,Sortino Ratio,-0.0835
+WMT,Moving Average Crossover,Volatility (Annualized),0.1795
+WMT,Moving Average Crossover,Maximum Drawdown,-0.4146
+WMT,Moving Average Crossover,Sharpe Ratio,0.4582
+WMT,Moving Average Crossover,Sortino Ratio,0.4851
+WMT,RSI,Volatility (Annualized),0.1511
+WMT,RSI,Maximum Drawdown,-0.1421
+WMT,RSI,Sharpe Ratio,0.8341
+WMT,RSI,Sortino Ratio,0.7631
+WMT,MACD,Volatility (Annualized),0.1393
+WMT,MACD,Maximum Drawdown,-0.2491
+WMT,MACD,Sharpe Ratio,0.4779
+WMT,MACD,Sortino Ratio,0.4347
+WMT,Bollinger Bands,Volatility (Annualized),0.1539
+WMT,Bollinger Bands,Maximum Drawdown,-0.2261
+WMT,Bollinger Bands,Sharpe Ratio,0.7248
+WMT,Bollinger Bands,Sortino Ratio,0.6153
+WMT,Buy and Hold,Volatility (Annualized),0.2125
+WMT,Buy and Hold,Maximum Drawdown,-0.2574
+WMT,Buy and Hold,Sharpe Ratio,0.8908
+WMT,Buy and Hold,Sortino Ratio,1.1883
+WMT,RSI with Trend Filter,Volatility (Annualized),0.1511
+WMT,RSI with Trend Filter,Maximum Drawdown,-0.1421
+WMT,RSI with Trend Filter,Sharpe Ratio,0.8341
+WMT,RSI with Trend Filter,Sortino Ratio,0.7631
+WMT,MACD with Trend Filter,Volatility (Annualized),0.1326
+WMT,MACD with Trend Filter,Maximum Drawdown,-0.1439
+WMT,MACD with Trend Filter,Sharpe Ratio,0.5616
+WMT,MACD with Trend Filter,Sortino Ratio,0.4196
+PG,Mean Reversion,Volatility (Annualized),0.0255
+PG,Mean Reversion,Maximum Drawdown,-0.0420
+PG,Mean Reversion,Sharpe Ratio,0.1596
+PG,Mean Reversion,Sortino Ratio,0.1719
+PG,Moving Average Crossover,Volatility (Annualized),0.1619
+PG,Moving Average Crossover,Maximum Drawdown,-0.2316
+PG,Moving Average Crossover,Sharpe Ratio,0.3396
+PG,Moving Average Crossover,Sortino Ratio,0.3604
+PG,RSI,Volatility (Annualized),0.1372
+PG,RSI,Maximum Drawdown,-0.2208
+PG,RSI,Sharpe Ratio,0.4154
+PG,RSI,Sortino Ratio,0.2997
+PG,MACD,Volatility (Annualized),0.1122
+PG,MACD,Maximum Drawdown,-0.3045
+PG,MACD,Sharpe Ratio,0.2754
+PG,MACD,Sortino Ratio,0.2500
+PG,Bollinger Bands,Volatility (Annualized),0.1539
+PG,Bollinger Bands,Maximum Drawdown,-0.2316
+PG,Bollinger Bands,Sharpe Ratio,0.5251
+PG,Bollinger Bands,Sortino Ratio,0.4807
+PG,Buy and Hold,Volatility (Annualized),0.1881
+PG,Buy and Hold,Maximum Drawdown,-0.2377
+PG,Buy and Hold,Sharpe Ratio,0.6721
+PG,Buy and Hold,Sortino Ratio,0.8846
+PG,RSI with Trend Filter,Volatility (Annualized),0.1372
+PG,RSI with Trend Filter,Maximum Drawdown,-0.2208
+PG,RSI with Trend Filter,Sharpe Ratio,0.4154
+PG,RSI with Trend Filter,Sortino Ratio,0.2997
+PG,MACD with Trend Filter,Volatility (Annualized),0.0954
+PG,MACD with Trend Filter,Maximum Drawdown,-0.1598
+PG,MACD with Trend Filter,Sharpe Ratio,0.7865
+PG,MACD with Trend Filter,Sortino Ratio,0.6253
+MA,Mean Reversion,Volatility (Annualized),0.0487
+MA,Mean Reversion,Maximum Drawdown,-0.0919
+MA,Mean Reversion,Sharpe Ratio,0.4496
+MA,Mean Reversion,Sortino Ratio,0.3111
+MA,Moving Average Crossover,Volatility (Annualized),0.2031
+MA,Moving Average Crossover,Maximum Drawdown,-0.4100
+MA,Moving Average Crossover,Sharpe Ratio,0.3772
+MA,Moving Average Crossover,Sortino Ratio,0.3418
+MA,RSI,Volatility (Annualized),0.2316
+MA,RSI,Maximum Drawdown,-0.3372
+MA,RSI,Sharpe Ratio,0.5187
+MA,RSI,Sortino Ratio,0.4897
+MA,MACD,Volatility (Annualized),0.1765
+MA,MACD,Maximum Drawdown,-0.2640
+MA,MACD,Sharpe Ratio,0.3680
+MA,MACD,Sortino Ratio,0.3641
+MA,Bollinger Bands,Volatility (Annualized),0.2173
+MA,Bollinger Bands,Maximum Drawdown,-0.3372
+MA,Bollinger Bands,Sharpe Ratio,0.6384
+MA,Bollinger Bands,Sortino Ratio,0.5526
+MA,Buy and Hold,Volatility (Annualized),0.2753
+MA,Buy and Hold,Maximum Drawdown,-0.4100
+MA,Buy and Hold,Sharpe Ratio,0.8103
+MA,Buy and Hold,Sortino Ratio,1.0714
+MA,RSI with Trend Filter,Volatility (Annualized),0.2279
+MA,RSI with Trend Filter,Maximum Drawdown,-0.3372
+MA,RSI with Trend Filter,Sharpe Ratio,0.4618
+MA,RSI with Trend Filter,Sortino Ratio,0.4246
+MA,MACD with Trend Filter,Volatility (Annualized),0.1580
+MA,MACD with Trend Filter,Maximum Drawdown,-0.1712
+MA,MACD with Trend Filter,Sharpe Ratio,0.5596
+MA,MACD with Trend Filter,Sortino Ratio,0.4007
+HD,Mean Reversion,Volatility (Annualized),0.0412
+HD,Mean Reversion,Maximum Drawdown,-0.0806
+HD,Mean Reversion,Sharpe Ratio,-0.0900
+HD,Mean Reversion,Sortino Ratio,-0.0623
+HD,Moving Average Crossover,Volatility (Annualized),0.2061
+HD,Moving Average Crossover,Maximum Drawdown,-0.3799
+HD,Moving Average Crossover,Sharpe Ratio,0.3347
+HD,Moving Average Crossover,Sortino Ratio,0.3194
+HD,RSI,Volatility (Annualized),0.1957
+HD,RSI,Maximum Drawdown,-0.3647
+HD,RSI,Sharpe Ratio,0.4678
+HD,RSI,Sortino Ratio,0.3444
+HD,MACD,Volatility (Annualized),0.1581
+HD,MACD,Maximum Drawdown,-0.2506
+HD,MACD,Sharpe Ratio,0.8718
+HD,MACD,Sortino Ratio,0.9001
+HD,Bollinger Bands,Volatility (Annualized),0.1984
+HD,Bollinger Bands,Maximum Drawdown,-0.3647
+HD,Bollinger Bands,Sharpe Ratio,0.5220
+HD,Bollinger Bands,Sortino Ratio,0.4149
+HD,Buy and Hold,Volatility (Annualized),0.2490
+HD,Buy and Hold,Maximum Drawdown,-0.3799
+HD,Buy and Hold,Sharpe Ratio,0.7014
+HD,Buy and Hold,Sortino Ratio,0.8587
+HD,RSI with Trend Filter,Volatility (Annualized),0.1945
+HD,RSI with Trend Filter,Maximum Drawdown,-0.3647
+HD,RSI with Trend Filter,Sharpe Ratio,0.3624
+HD,RSI with Trend Filter,Sortino Ratio,0.2622
+HD,MACD with Trend Filter,Volatility (Annualized),0.1478
+HD,MACD with Trend Filter,Maximum Drawdown,-0.2714
+HD,MACD with Trend Filter,Sharpe Ratio,0.8833
+HD,MACD with Trend Filter,Sortino Ratio,0.7647
+CVX,Mean Reversion,Volatility (Annualized),0.0195
+CVX,Mean Reversion,Maximum Drawdown,-0.0488
+CVX,Mean Reversion,Sharpe Ratio,0.0013
+CVX,Mean Reversion,Sortino Ratio,0.0011
+CVX,Moving Average Crossover,Volatility (Annualized),0.1808
+CVX,Moving Average Crossover,Maximum Drawdown,-0.3037
+CVX,Moving Average Crossover,Sharpe Ratio,0.2959
+CVX,Moving Average Crossover,Sortino Ratio,0.2984
+CVX,RSI,Volatility (Annualized),0.2353
+CVX,RSI,Maximum Drawdown,-0.5483
+CVX,RSI,Sharpe Ratio,0.3193
+CVX,RSI,Sortino Ratio,0.2459
+CVX,MACD,Volatility (Annualized),0.1962
+CVX,MACD,Maximum Drawdown,-0.3244
+CVX,MACD,Sharpe Ratio,0.4355
+CVX,MACD,Sortino Ratio,0.4662
+CVX,Bollinger Bands,Volatility (Annualized),0.2488
+CVX,Bollinger Bands,Maximum Drawdown,-0.5307
+CVX,Bollinger Bands,Sharpe Ratio,0.3942
+CVX,Bollinger Bands,Sortino Ratio,0.3504
+CVX,Buy and Hold,Volatility (Annualized),0.3007
+CVX,Buy and Hold,Maximum Drawdown,-0.5577
+CVX,Buy and Hold,Sharpe Ratio,0.4528
+CVX,Buy and Hold,Sortino Ratio,0.5743
+CVX,RSI with Trend Filter,Volatility (Annualized),0.2353
+CVX,RSI with Trend Filter,Maximum Drawdown,-0.5483
+CVX,RSI with Trend Filter,Sharpe Ratio,0.3193
+CVX,RSI with Trend Filter,Sortino Ratio,0.2459
+CVX,MACD with Trend Filter,Volatility (Annualized),0.2333
+CVX,MACD with Trend Filter,Maximum Drawdown,-0.5565
+CVX,MACD with Trend Filter,Sharpe Ratio,0.1824
+CVX,MACD with Trend Filter,Sortino Ratio,0.1533
+ABBV,Mean Reversion,Volatility (Annualized),0.0355
+ABBV,Mean Reversion,Maximum Drawdown,-0.0680
+ABBV,Mean Reversion,Sharpe Ratio,0.3292
+ABBV,Mean Reversion,Sortino Ratio,0.2995
+ABBV,Moving Average Crossover,Volatility (Annualized),0.2046
+ABBV,Moving Average Crossover,Maximum Drawdown,-0.3883
+ABBV,Moving Average Crossover,Sharpe Ratio,0.6925
+ABBV,Moving Average Crossover,Sortino Ratio,0.7091
+ABBV,RSI,Volatility (Annualized),0.1757
+ABBV,RSI,Maximum Drawdown,-0.3697
+ABBV,RSI,Sharpe Ratio,0.7734
+ABBV,RSI,Sortino Ratio,0.6578
+ABBV,MACD,Volatility (Annualized),0.1809
+ABBV,MACD,Maximum Drawdown,-0.3617
+ABBV,MACD,Sharpe Ratio,0.5540
+ABBV,MACD,Sortino Ratio,0.4941
+ABBV,Bollinger Bands,Volatility (Annualized),0.1663
+ABBV,Bollinger Bands,Maximum Drawdown,-0.2445
+ABBV,Bollinger Bands,Sharpe Ratio,0.4489
+ABBV,Bollinger Bands,Sortino Ratio,0.3738
+ABBV,Buy and Hold,Volatility (Annualized),0.2577
+ABBV,Buy and Hold,Maximum Drawdown,-0.4509
+ABBV,Buy and Hold,Sharpe Ratio,0.8054
+ABBV,Buy and Hold,Sortino Ratio,1.0033
+ABBV,RSI with Trend Filter,Volatility (Annualized),0.1757
+ABBV,RSI with Trend Filter,Maximum Drawdown,-0.3697
+ABBV,RSI with Trend Filter,Sharpe Ratio,0.7734
+ABBV,RSI with Trend Filter,Sortino Ratio,0.6578
+ABBV,MACD with Trend Filter,Volatility (Annualized),0.1620
+ABBV,MACD with Trend Filter,Maximum Drawdown,-0.3100
+ABBV,MACD with Trend Filter,Sharpe Ratio,0.5117
+ABBV,MACD with Trend Filter,Sortino Ratio,0.3924
+KO,Mean Reversion,Volatility (Annualized),0.0201
+KO,Mean Reversion,Maximum Drawdown,-0.0383
+KO,Mean Reversion,Sharpe Ratio,0.0594
+KO,Mean Reversion,Sortino Ratio,0.0645
+KO,Moving Average Crossover,Volatility (Annualized),0.1518
+KO,Moving Average Crossover,Maximum Drawdown,-0.3699
+KO,Moving Average Crossover,Sharpe Ratio,0.1980
+KO,Moving Average Crossover,Sortino Ratio,0.1862
+KO,RSI,Volatility (Annualized),0.1316
+KO,RSI,Maximum Drawdown,-0.3569
+KO,RSI,Sharpe Ratio,0.2263
+KO,RSI,Sortino Ratio,0.1488
+KO,MACD,Volatility (Annualized),0.1166
+KO,MACD,Maximum Drawdown,-0.2006
+KO,MACD,Sharpe Ratio,0.2780
+KO,MACD,Sortino Ratio,0.2541
+KO,Bollinger Bands,Volatility (Annualized),0.1435
+KO,Bollinger Bands,Maximum Drawdown,-0.3569
+KO,Bollinger Bands,Sharpe Ratio,0.4940
+KO,Bollinger Bands,Sortino Ratio,0.4089
+KO,Buy and Hold,Volatility (Annualized),0.1822
+KO,Buy and Hold,Maximum Drawdown,-0.3699
+KO,Buy and Hold,Sharpe Ratio,0.5434
+KO,Buy and Hold,Sortino Ratio,0.6549
+KO,RSI with Trend Filter,Volatility (Annualized),0.1316
+KO,RSI with Trend Filter,Maximum Drawdown,-0.3569
+KO,RSI with Trend Filter,Sharpe Ratio,0.2263
+KO,RSI with Trend Filter,Sortino Ratio,0.1488
+KO,MACD with Trend Filter,Volatility (Annualized),0.1044
+KO,MACD with Trend Filter,Maximum Drawdown,-0.1198
+KO,MACD with Trend Filter,Sharpe Ratio,0.4715
+KO,MACD with Trend Filter,Sortino Ratio,0.3622
+MRK,Mean Reversion,Volatility (Annualized),0.0271
+MRK,Mean Reversion,Maximum Drawdown,-0.0474
+MRK,Mean Reversion,Sharpe Ratio,0.0852
+MRK,Mean Reversion,Sortino Ratio,0.0791
+MRK,Moving Average Crossover,Volatility (Annualized),0.1659
+MRK,Moving Average Crossover,Maximum Drawdown,-0.3295
+MRK,Moving Average Crossover,Sharpe Ratio,0.3878
+MRK,Moving Average Crossover,Sortino Ratio,0.3805
+MRK,RSI,Volatility (Annualized),0.1327
+MRK,RSI,Maximum Drawdown,-0.1931
+MRK,RSI,Sharpe Ratio,0.4923
+MRK,RSI,Sortino Ratio,0.3360
+MRK,MACD,Volatility (Annualized),0.1455
+MRK,MACD,Maximum Drawdown,-0.2382
+MRK,MACD,Sharpe Ratio,0.3501
+MRK,MACD,Sortino Ratio,0.3228
+MRK,Bollinger Bands,Volatility (Annualized),0.1632
+MRK,Bollinger Bands,Maximum Drawdown,-0.2423
+MRK,Bollinger Bands,Sharpe Ratio,0.7853
+MRK,Bollinger Bands,Sortino Ratio,0.6997
+MRK,Buy and Hold,Volatility (Annualized),0.2162
+MRK,Buy and Hold,Maximum Drawdown,-0.2726
+MRK,Buy and Hold,Sharpe Ratio,0.6362
+MRK,Buy and Hold,Sortino Ratio,0.8684
+MRK,RSI with Trend Filter,Volatility (Annualized),0.1327
+MRK,RSI with Trend Filter,Maximum Drawdown,-0.1931
+MRK,RSI with Trend Filter,Sharpe Ratio,0.4923
+MRK,RSI with Trend Filter,Sortino Ratio,0.3360
+MRK,MACD with Trend Filter,Volatility (Annualized),0.1342
+MRK,MACD with Trend Filter,Maximum Drawdown,-0.2090
+MRK,MACD with Trend Filter,Sharpe Ratio,0.6566
+MRK,MACD with Trend Filter,Sortino Ratio,0.4819
+LLY,Mean Reversion,Volatility (Annualized),0.0457
+LLY,Mean Reversion,Maximum Drawdown,-0.0662
+LLY,Mean Reversion,Sharpe Ratio,0.5826
+LLY,Mean Reversion,Sortino Ratio,0.4937
+LLY,Moving Average Crossover,Volatility (Annualized),0.2515
+LLY,Moving Average Crossover,Maximum Drawdown,-0.2198
+LLY,Moving Average Crossover,Sharpe Ratio,0.9394
+LLY,Moving Average Crossover,Sortino Ratio,1.2448
+LLY,RSI,Volatility (Annualized),0.1863
+LLY,RSI,Maximum Drawdown,-0.2249
+LLY,RSI,Sharpe Ratio,0.7586
+LLY,RSI,Sortino Ratio,0.6764
+LLY,MACD,Volatility (Annualized),0.1821
+LLY,MACD,Maximum Drawdown,-0.2838
+LLY,MACD,Sharpe Ratio,0.7742
+LLY,MACD,Sortino Ratio,0.7232
+LLY,Bollinger Bands,Volatility (Annualized),0.2055
+LLY,Bollinger Bands,Maximum Drawdown,-0.1686
+LLY,Bollinger Bands,Sharpe Ratio,0.9576
+LLY,Bollinger Bands,Sortino Ratio,0.9704
+LLY,Buy and Hold,Volatility (Annualized),0.2789
+LLY,Buy and Hold,Maximum Drawdown,-0.2249
+LLY,Buy and Hold,Sharpe Ratio,1.1427
+LLY,Buy and Hold,Sortino Ratio,1.7215
+LLY,RSI with Trend Filter,Volatility (Annualized),0.1806
+LLY,RSI with Trend Filter,Maximum Drawdown,-0.2249
+LLY,RSI with Trend Filter,Sharpe Ratio,0.7313
+LLY,RSI with Trend Filter,Sortino Ratio,0.6096
+LLY,MACD with Trend Filter,Volatility (Annualized),0.1399
+LLY,MACD with Trend Filter,Maximum Drawdown,-0.1684
+LLY,MACD with Trend Filter,Sharpe Ratio,1.0516
+LLY,MACD with Trend Filter,Sortino Ratio,0.8741
+BAC,Mean Reversion,Volatility (Annualized),0.0057
+BAC,Mean Reversion,Maximum Drawdown,-0.0143
+BAC,Mean Reversion,Sharpe Ratio,-1.5601
+BAC,Mean Reversion,Sortino Ratio,-1.2434
+BAC,Moving Average Crossover,Volatility (Annualized),0.2065
+BAC,Moving Average Crossover,Maximum Drawdown,-0.4967
+BAC,Moving Average Crossover,Sharpe Ratio,-0.0167
+BAC,Moving Average Crossover,Sortino Ratio,-0.0137
+BAC,RSI,Volatility (Annualized),0.2625
+BAC,RSI,Maximum Drawdown,-0.4146
+BAC,RSI,Sharpe Ratio,0.6981
+BAC,RSI,Sortino Ratio,0.7045
+BAC,MACD,Volatility (Annualized),0.2052
+BAC,MACD,Maximum Drawdown,-0.3583
+BAC,MACD,Sharpe Ratio,0.8538
+BAC,MACD,Sortino Ratio,0.9667
+BAC,Bollinger Bands,Volatility (Annualized),0.2437
+BAC,Bollinger Bands,Maximum Drawdown,-0.4835
+BAC,Bollinger Bands,Sharpe Ratio,0.3956
+BAC,Bollinger Bands,Sortino Ratio,0.3597
+BAC,Buy and Hold,Volatility (Annualized),0.3182
+BAC,Buy and Hold,Maximum Drawdown,-0.4895
+BAC,Buy and Hold,Sharpe Ratio,0.5136
+BAC,Buy and Hold,Sortino Ratio,0.7218
+BAC,RSI with Trend Filter,Volatility (Annualized),0.2551
+BAC,RSI with Trend Filter,Maximum Drawdown,-0.4146
+BAC,RSI with Trend Filter,Sharpe Ratio,0.6478
+BAC,RSI with Trend Filter,Sortino Ratio,0.6361
+BAC,MACD with Trend Filter,Volatility (Annualized),0.1914
+BAC,MACD with Trend Filter,Maximum Drawdown,-0.3318
+BAC,MACD with Trend Filter,Sharpe Ratio,0.5564
+BAC,MACD with Trend Filter,Sortino Ratio,0.5387
+PEP,Mean Reversion,Volatility (Annualized),0.0171
+PEP,Mean Reversion,Maximum Drawdown,-0.0295
+PEP,Mean Reversion,Sharpe Ratio,-0.1585
+PEP,Mean Reversion,Sortino Ratio,-0.1160
+PEP,Moving Average Crossover,Volatility (Annualized),0.1678
+PEP,Moving Average Crossover,Maximum Drawdown,-0.2882
+PEP,Moving Average Crossover,Sharpe Ratio,0.2985
+PEP,Moving Average Crossover,Sortino Ratio,0.3088
+PEP,RSI,Volatility (Annualized),0.1534
+PEP,RSI,Maximum Drawdown,-0.2652
+PEP,RSI,Sharpe Ratio,0.4982
+PEP,RSI,Sortino Ratio,0.3789
+PEP,MACD,Volatility (Annualized),0.1110
+PEP,MACD,Maximum Drawdown,-0.1363
+PEP,MACD,Sharpe Ratio,0.4983
+PEP,MACD,Sortino Ratio,0.4854
+PEP,Bollinger Bands,Volatility (Annualized),0.1542
+PEP,Bollinger Bands,Maximum Drawdown,-0.2652
+PEP,Bollinger Bands,Sharpe Ratio,0.6204
+PEP,Bollinger Bands,Sortino Ratio,0.4662
+PEP,Buy and Hold,Volatility (Annualized),0.1904
+PEP,Buy and Hold,Maximum Drawdown,-0.2882
+PEP,Buy and Hold,Sharpe Ratio,0.5228
+PEP,Buy and Hold,Sortino Ratio,0.6546
+PEP,RSI with Trend Filter,Volatility (Annualized),0.1534
+PEP,RSI with Trend Filter,Maximum Drawdown,-0.2652
+PEP,RSI with Trend Filter,Sharpe Ratio,0.4982
+PEP,RSI with Trend Filter,Sortino Ratio,0.3789
+PEP,MACD with Trend Filter,Volatility (Annualized),0.0965
+PEP,MACD with Trend Filter,Maximum Drawdown,-0.1535
+PEP,MACD with Trend Filter,Sharpe Ratio,0.5883
+PEP,MACD with Trend Filter,Sortino Ratio,0.5129
+PFE,Mean Reversion,Volatility (Annualized),0.0156
+PFE,Mean Reversion,Maximum Drawdown,-0.0715
+PFE,Mean Reversion,Sharpe Ratio,-0.6883
+PFE,Mean Reversion,Sortino Ratio,-0.7413
+PFE,Moving Average Crossover,Volatility (Annualized),0.1684
+PFE,Moving Average Crossover,Maximum Drawdown,-0.4830
+PFE,Moving Average Crossover,Sharpe Ratio,0.0045
+PFE,Moving Average Crossover,Sortino Ratio,0.0048
+PFE,RSI,Volatility (Annualized),0.1813
+PFE,RSI,Maximum Drawdown,-0.4349
+PFE,RSI,Sharpe Ratio,0.2490
+PFE,RSI,Sortino Ratio,0.2620
+PFE,MACD,Volatility (Annualized),0.1591
+PFE,MACD,Maximum Drawdown,-0.3106
+PFE,MACD,Sharpe Ratio,0.4010
+PFE,MACD,Sortino Ratio,0.4425
+PFE,Bollinger Bands,Volatility (Annualized),0.1785
+PFE,Bollinger Bands,Maximum Drawdown,-0.3649
+PFE,Bollinger Bands,Sharpe Ratio,0.2798
+PFE,Bollinger Bands,Sortino Ratio,0.2868
+PFE,Buy and Hold,Volatility (Annualized),0.2353
+PFE,Buy and Hold,Maximum Drawdown,-0.5482
+PFE,Buy and Hold,Sharpe Ratio,0.2208
+PFE,Buy and Hold,Sortino Ratio,0.3230
+PFE,RSI with Trend Filter,Volatility (Annualized),0.1780
+PFE,RSI with Trend Filter,Maximum Drawdown,-0.4349
+PFE,RSI with Trend Filter,Sharpe Ratio,0.1882
+PFE,RSI with Trend Filter,Sortino Ratio,0.1914
+PFE,MACD with Trend Filter,Volatility (Annualized),0.1733
+PFE,MACD with Trend Filter,Maximum Drawdown,-0.3958
+PFE,MACD with Trend Filter,Sharpe Ratio,0.2597
+PFE,MACD with Trend Filter,Sortino Ratio,0.2670
+COST,Mean Reversion,Volatility (Annualized),0.0840
+COST,Mean Reversion,Maximum Drawdown,-0.1856
+COST,Mean Reversion,Sharpe Ratio,0.5778
+COST,Mean Reversion,Sortino Ratio,0.5915
+COST,Moving Average Crossover,Volatility (Annualized),0.1927
+COST,Moving Average Crossover,Maximum Drawdown,-0.3390
+COST,Moving Average Crossover,Sharpe Ratio,0.8347
+COST,Moving Average Crossover,Sortino Ratio,0.8969
+COST,RSI,Volatility (Annualized),0.1593
+COST,RSI,Maximum Drawdown,-0.2077
+COST,RSI,Sharpe Ratio,0.5276
+COST,RSI,Sortino Ratio,0.4103
+COST,MACD,Volatility (Annualized),0.1450
+COST,MACD,Maximum Drawdown,-0.1556
+COST,MACD,Sharpe Ratio,0.9775
+COST,MACD,Sortino Ratio,0.9558
+COST,Bollinger Bands,Volatility (Annualized),0.1521
+COST,Bollinger Bands,Maximum Drawdown,-0.2590
+COST,Bollinger Bands,Sharpe Ratio,0.6806
+COST,Bollinger Bands,Sortino Ratio,0.5495
+COST,Buy and Hold,Volatility (Annualized),0.2206
+COST,Buy and Hold,Maximum Drawdown,-0.3140
+COST,Buy and Hold,Sharpe Ratio,1.0428
+COST,Buy and Hold,Sortino Ratio,1.3515
+COST,RSI with Trend Filter,Volatility (Annualized),0.1536
+COST,RSI with Trend Filter,Maximum Drawdown,-0.2077
+COST,RSI with Trend Filter,Sharpe Ratio,0.4379
+COST,RSI with Trend Filter,Sortino Ratio,0.3137
+COST,MACD with Trend Filter,Volatility (Annualized),0.1210
+COST,MACD with Trend Filter,Maximum Drawdown,-0.1365
+COST,MACD with Trend Filter,Sharpe Ratio,1.1718
+COST,MACD with Trend Filter,Sortino Ratio,1.0157
+TMO,Mean Reversion,Volatility (Annualized),0.0588
+TMO,Mean Reversion,Maximum Drawdown,-0.0884
+TMO,Mean Reversion,Sharpe Ratio,0.3221
+TMO,Mean Reversion,Sortino Ratio,0.2839
+TMO,Moving Average Crossover,Volatility (Annualized),0.2094
+TMO,Moving Average Crossover,Maximum Drawdown,-0.2843
+TMO,Moving Average Crossover,Sharpe Ratio,0.7532
+TMO,Moving Average Crossover,Sortino Ratio,0.8647
+TMO,RSI,Volatility (Annualized),0.1868
+TMO,RSI,Maximum Drawdown,-0.2178
+TMO,RSI,Sharpe Ratio,0.5507
+TMO,RSI,Sortino Ratio,0.5155
+TMO,MACD,Volatility (Annualized),0.1653
+TMO,MACD,Maximum Drawdown,-0.3722
+TMO,MACD,Sharpe Ratio,0.2897
+TMO,MACD,Sortino Ratio,0.2797
+TMO,Bollinger Bands,Volatility (Annualized),0.1746
+TMO,Bollinger Bands,Maximum Drawdown,-0.2480
+TMO,Bollinger Bands,Sharpe Ratio,0.6319
+TMO,Bollinger Bands,Sortino Ratio,0.5411
+TMO,Buy and Hold,Volatility (Annualized),0.2522
+TMO,Buy and Hold,Maximum Drawdown,-0.3507
+TMO,Buy and Hold,Sharpe Ratio,0.7769
+TMO,Buy and Hold,Sortino Ratio,1.0966
+TMO,RSI with Trend Filter,Volatility (Annualized),0.1868
+TMO,RSI with Trend Filter,Maximum Drawdown,-0.2178
+TMO,RSI with Trend Filter,Sharpe Ratio,0.5507
+TMO,RSI with Trend Filter,Sortino Ratio,0.5155
+TMO,MACD with Trend Filter,Volatility (Annualized),0.1508
+TMO,MACD with Trend Filter,Maximum Drawdown,-0.1803
+TMO,MACD with Trend Filter,Sharpe Ratio,0.7528
+TMO,MACD with Trend Filter,Sortino Ratio,0.6792
+DIS,Mean Reversion,Volatility (Annualized),0.0414
+DIS,Mean Reversion,Maximum Drawdown,-0.1722
+DIS,Mean Reversion,Sharpe Ratio,-0.5320
+DIS,Mean Reversion,Sortino Ratio,-0.5083
+DIS,Moving Average Crossover,Volatility (Annualized),0.1733
+DIS,Moving Average Crossover,Maximum Drawdown,-0.3850
+DIS,Moving Average Crossover,Sharpe Ratio,0.1752
+DIS,Moving Average Crossover,Sortino Ratio,0.1809
+DIS,RSI,Volatility (Annualized),0.2258
+DIS,RSI,Maximum Drawdown,-0.5338
+DIS,RSI,Sharpe Ratio,-0.0023
+DIS,RSI,Sortino Ratio,-0.0021
+DIS,MACD,Volatility (Annualized),0.2011
+DIS,MACD,Maximum Drawdown,-0.3722
+DIS,MACD,Sharpe Ratio,0.1975
+DIS,MACD,Sortino Ratio,0.2166
+DIS,Bollinger Bands,Volatility (Annualized),0.2183
+DIS,Bollinger Bands,Maximum Drawdown,-0.4568
+DIS,Bollinger Bands,Sharpe Ratio,0.0174
+DIS,Bollinger Bands,Sortino Ratio,0.0180
+DIS,Buy and Hold,Volatility (Annualized),0.2849
+DIS,Buy and Hold,Maximum Drawdown,-0.6072
+DIS,Buy and Hold,Sharpe Ratio,0.1061
+DIS,Buy and Hold,Sortino Ratio,0.1460
+DIS,RSI with Trend Filter,Volatility (Annualized),0.2258
+DIS,RSI with Trend Filter,Maximum Drawdown,-0.5338
+DIS,RSI with Trend Filter,Sharpe Ratio,-0.0023
+DIS,RSI with Trend Filter,Sortino Ratio,-0.0021
+DIS,MACD with Trend Filter,Volatility (Annualized),0.2379
+DIS,MACD with Trend Filter,Maximum Drawdown,-0.5158
+DIS,MACD with Trend Filter,Sharpe Ratio,0.0384
+DIS,MACD with Trend Filter,Sortino Ratio,0.0387
+CSCO,Mean Reversion,Volatility (Annualized),0.0237
+CSCO,Mean Reversion,Maximum Drawdown,-0.0557
+CSCO,Mean Reversion,Sharpe Ratio,-0.2143
+CSCO,Mean Reversion,Sortino Ratio,-0.2188
+CSCO,Moving Average Crossover,Volatility (Annualized),0.1642
+CSCO,Moving Average Crossover,Maximum Drawdown,-0.3229
+CSCO,Moving Average Crossover,Sharpe Ratio,0.4423
+CSCO,Moving Average Crossover,Sortino Ratio,0.3992
+CSCO,RSI,Volatility (Annualized),0.2110
+CSCO,RSI,Maximum Drawdown,-0.4202
+CSCO,RSI,Sharpe Ratio,0.2773
+CSCO,RSI,Sortino Ratio,0.2345
+CSCO,MACD,Volatility (Annualized),0.1704
+CSCO,MACD,Maximum Drawdown,-0.2989
+CSCO,MACD,Sharpe Ratio,0.2688
+CSCO,MACD,Sortino Ratio,0.2326
+CSCO,Bollinger Bands,Volatility (Annualized),0.1958
+CSCO,Bollinger Bands,Maximum Drawdown,-0.3549
+CSCO,Bollinger Bands,Sharpe Ratio,0.5065
+CSCO,Bollinger Bands,Sortino Ratio,0.4128
+CSCO,Buy and Hold,Volatility (Annualized),0.2542
+CSCO,Buy and Hold,Maximum Drawdown,-0.4195
+CSCO,Buy and Hold,Sharpe Ratio,0.5251
+CSCO,Buy and Hold,Sortino Ratio,0.6523
+CSCO,RSI with Trend Filter,Volatility (Annualized),0.2064
+CSCO,RSI with Trend Filter,Maximum Drawdown,-0.4202
+CSCO,RSI with Trend Filter,Sharpe Ratio,0.1687
+CSCO,RSI with Trend Filter,Sortino Ratio,0.1381
+CSCO,MACD with Trend Filter,Volatility (Annualized),0.1524
+CSCO,MACD with Trend Filter,Maximum Drawdown,-0.2658
+CSCO,MACD with Trend Filter,Sharpe Ratio,0.3602
+CSCO,MACD with Trend Filter,Sortino Ratio,0.2758
+MCD,Mean Reversion,Volatility (Annualized),0.0272
+MCD,Mean Reversion,Maximum Drawdown,-0.0668
+MCD,Mean Reversion,Sharpe Ratio,0.0617
+MCD,Mean Reversion,Sortino Ratio,0.0455
+MCD,Moving Average Crossover,Volatility (Annualized),0.1544
+MCD,Moving Average Crossover,Maximum Drawdown,-0.4356
+MCD,Moving Average Crossover,Sharpe Ratio,0.1829
+MCD,Moving Average Crossover,Sortino Ratio,0.1655
+MCD,RSI,Volatility (Annualized),0.1612
+MCD,RSI,Maximum Drawdown,-0.3377
+MCD,RSI,Sharpe Ratio,0.2611
+MCD,RSI,Sortino Ratio,0.1855
+MCD,MACD,Volatility (Annualized),0.1244
+MCD,MACD,Maximum Drawdown,-0.2254
+MCD,MACD,Sharpe Ratio,0.2687
+MCD,MACD,Sortino Ratio,0.2778
+MCD,Bollinger Bands,Volatility (Annualized),0.1641
+MCD,Bollinger Bands,Maximum Drawdown,-0.3910
+MCD,Bollinger Bands,Sharpe Ratio,0.2683
+MCD,Bollinger Bands,Sortino Ratio,0.2015
+MCD,Buy and Hold,Volatility (Annualized),0.2062
+MCD,Buy and Hold,Maximum Drawdown,-0.3690
+MCD,Buy and Hold,Sharpe Ratio,0.7027
+MCD,Buy and Hold,Sortino Ratio,0.9047
+MCD,RSI with Trend Filter,Volatility (Annualized),0.1612
+MCD,RSI with Trend Filter,Maximum Drawdown,-0.3377
+MCD,RSI with Trend Filter,Sharpe Ratio,0.2611
+MCD,RSI with Trend Filter,Sortino Ratio,0.1855
+MCD,MACD with Trend Filter,Volatility (Annualized),0.1158
+MCD,MACD with Trend Filter,Maximum Drawdown,-0.1487
+MCD,MACD with Trend Filter,Sharpe Ratio,0.4996
+MCD,MACD with Trend Filter,Sortino Ratio,0.4752
+ABT,Mean Reversion,Volatility (Annualized),0.0137
+ABT,Mean Reversion,Maximum Drawdown,-0.0223
+ABT,Mean Reversion,Sharpe Ratio,-0.2739
+ABT,Mean Reversion,Sortino Ratio,-0.2182
+ABT,Moving Average Crossover,Volatility (Annualized),0.1933
+ABT,Moving Average Crossover,Maximum Drawdown,-0.4179
+ABT,Moving Average Crossover,Sharpe Ratio,0.3117
+ABT,Moving Average Crossover,Sortino Ratio,0.3422
+ABT,RSI,Volatility (Annualized),0.1698
+ABT,RSI,Maximum Drawdown,-0.2619
+ABT,RSI,Sharpe Ratio,0.7435
+ABT,RSI,Sortino Ratio,0.6307
+ABT,MACD,Volatility (Annualized),0.1549
+ABT,MACD,Maximum Drawdown,-0.3514
+ABT,MACD,Sharpe Ratio,0.5408
+ABT,MACD,Sortino Ratio,0.5454
+ABT,Bollinger Bands,Volatility (Annualized),0.1691
+ABT,Bollinger Bands,Maximum Drawdown,-0.2718
+ABT,Bollinger Bands,Sharpe Ratio,0.2352
+ABT,Bollinger Bands,Sortino Ratio,0.1876
+ABT,Buy and Hold,Volatility (Annualized),0.2391
+ABT,Buy and Hold,Maximum Drawdown,-0.3388
+ABT,Buy and Hold,Sharpe Ratio,0.6252
+ABT,Buy and Hold,Sortino Ratio,0.8363
+ABT,RSI with Trend Filter,Volatility (Annualized),0.1672
+ABT,RSI with Trend Filter,Maximum Drawdown,-0.2619
+ABT,RSI with Trend Filter,Sharpe Ratio,0.6571
+ABT,RSI with Trend Filter,Sortino Ratio,0.5418
+ABT,MACD with Trend Filter,Volatility (Annualized),0.1625
+ABT,MACD with Trend Filter,Maximum Drawdown,-0.2699
+ABT,MACD with Trend Filter,Sharpe Ratio,0.7546
+ABT,MACD with Trend Filter,Sortino Ratio,0.6551
+DHR,Mean Reversion,Volatility (Annualized),0.0585
+DHR,Mean Reversion,Maximum Drawdown,-0.1027
+DHR,Mean Reversion,Sharpe Ratio,0.5113
+DHR,Mean Reversion,Sortino Ratio,0.6159
+DHR,Moving Average Crossover,Volatility (Annualized),0.1970
+DHR,Moving Average Crossover,Maximum Drawdown,-0.4599
+DHR,Moving Average Crossover,Sharpe Ratio,0.5966
+DHR,Moving Average Crossover,Sortino Ratio,0.6597
+DHR,RSI,Volatility (Annualized),0.1563
+DHR,RSI,Maximum Drawdown,-0.2787
+DHR,RSI,Sharpe Ratio,0.6014
+DHR,RSI,Sortino Ratio,0.4573
+DHR,MACD,Volatility (Annualized),0.2633
+DHR,MACD,Maximum Drawdown,-0.3818
+DHR,MACD,Sharpe Ratio,0.6175
+DHR,MACD,Sortino Ratio,0.9998
+DHR,Bollinger Bands,Volatility (Annualized),0.1718
+DHR,Bollinger Bands,Maximum Drawdown,-0.2434
+DHR,Bollinger Bands,Sharpe Ratio,0.6101
+DHR,Bollinger Bands,Sortino Ratio,0.5433
+DHR,Buy and Hold,Volatility (Annualized),0.3174
+DHR,Buy and Hold,Maximum Drawdown,-0.3665
+DHR,Buy and Hold,Sharpe Ratio,0.8273
+DHR,Buy and Hold,Sortino Ratio,1.5490
+DHR,RSI with Trend Filter,Volatility (Annualized),0.1563
+DHR,RSI with Trend Filter,Maximum Drawdown,-0.2787
+DHR,RSI with Trend Filter,Sharpe Ratio,0.6014
+DHR,RSI with Trend Filter,Sortino Ratio,0.4573
+DHR,MACD with Trend Filter,Volatility (Annualized),0.1572
+DHR,MACD with Trend Filter,Maximum Drawdown,-0.2180
+DHR,MACD with Trend Filter,Sharpe Ratio,0.7866
+DHR,MACD with Trend Filter,Sortino Ratio,0.6972
+ACN,Mean Reversion,Volatility (Annualized),0.0393
+ACN,Mean Reversion,Maximum Drawdown,-0.0923
+ACN,Mean Reversion,Sharpe Ratio,-0.1167
+ACN,Mean Reversion,Sortino Ratio,-0.0891
+ACN,Moving Average Crossover,Volatility (Annualized),0.1642
+ACN,Moving Average Crossover,Maximum Drawdown,-0.3345
+ACN,Moving Average Crossover,Sharpe Ratio,0.2963
+ACN,Moving Average Crossover,Sortino Ratio,0.2419
+ACN,RSI,Volatility (Annualized),0.1845
+ACN,RSI,Maximum Drawdown,-0.2942
+ACN,RSI,Sharpe Ratio,0.1562
+ACN,RSI,Sortino Ratio,0.1248
+ACN,MACD,Volatility (Annualized),0.1589
+ACN,MACD,Maximum Drawdown,-0.1873
+ACN,MACD,Sharpe Ratio,0.6946
+ACN,MACD,Sortino Ratio,0.6854
+ACN,Bollinger Bands,Volatility (Annualized),0.1891
+ACN,Bollinger Bands,Maximum Drawdown,-0.3171
+ACN,Bollinger Bands,Sharpe Ratio,0.6881
+ACN,Bollinger Bands,Sortino Ratio,0.5843
+ACN,Buy and Hold,Volatility (Annualized),0.2532
+ACN,Buy and Hold,Maximum Drawdown,-0.3969
+ACN,Buy and Hold,Sharpe Ratio,0.7136
+ACN,Buy and Hold,Sortino Ratio,0.9449
+ACN,RSI with Trend Filter,Volatility (Annualized),0.1845
+ACN,RSI with Trend Filter,Maximum Drawdown,-0.2942
+ACN,RSI with Trend Filter,Sharpe Ratio,0.1562
+ACN,RSI with Trend Filter,Sortino Ratio,0.1248
+ACN,MACD with Trend Filter,Volatility (Annualized),0.1500
+ACN,MACD with Trend Filter,Maximum Drawdown,-0.2478
+ACN,MACD with Trend Filter,Sharpe Ratio,0.4145
+ACN,MACD with Trend Filter,Sortino Ratio,0.3398
+WFC,Mean Reversion,Volatility (Annualized),0.0089
+WFC,Mean Reversion,Maximum Drawdown,-0.0293
+WFC,Mean Reversion,Sharpe Ratio,-1.0505
+WFC,Mean Reversion,Sortino Ratio,-0.9514
+WFC,Moving Average Crossover,Volatility (Annualized),0.1990
+WFC,Moving Average Crossover,Maximum Drawdown,-0.4614
+WFC,Moving Average Crossover,Sharpe Ratio,0.0169
+WFC,Moving Average Crossover,Sortino Ratio,0.0164
+WFC,RSI,Volatility (Annualized),0.2462
+WFC,RSI,Maximum Drawdown,-0.5809
+WFC,RSI,Sharpe Ratio,0.2969
+WFC,RSI,Sortino Ratio,0.2862
+WFC,MACD,Volatility (Annualized),0.2118
+WFC,MACD,Maximum Drawdown,-0.3172
+WFC,MACD,Sharpe Ratio,0.2442
+WFC,MACD,Sortino Ratio,0.2561
+WFC,Bollinger Bands,Volatility (Annualized),0.2534
+WFC,Bollinger Bands,Maximum Drawdown,-0.5306
+WFC,Bollinger Bands,Sharpe Ratio,0.4981
+WFC,Bollinger Bands,Sortino Ratio,0.4956
+WFC,Buy and Hold,Volatility (Annualized),0.3232
+WFC,Buy and Hold,Maximum Drawdown,-0.6446
+WFC,Buy and Hold,Sharpe Ratio,0.2447
+WFC,Buy and Hold,Sortino Ratio,0.3322
+WFC,RSI with Trend Filter,Volatility (Annualized),0.2405
+WFC,RSI with Trend Filter,Maximum Drawdown,-0.5809
+WFC,RSI with Trend Filter,Sharpe Ratio,0.2364
+WFC,RSI with Trend Filter,Sortino Ratio,0.2135
+WFC,MACD with Trend Filter,Volatility (Annualized),0.2535
+WFC,MACD with Trend Filter,Maximum Drawdown,-0.5878
+WFC,MACD with Trend Filter,Sharpe Ratio,0.1468
+WFC,MACD with Trend Filter,Sortino Ratio,0.1329
+AVGO,Mean Reversion,Volatility (Annualized),0.0133
+AVGO,Mean Reversion,Maximum Drawdown,-0.0155
+AVGO,Mean Reversion,Sharpe Ratio,0.1227
+AVGO,Mean Reversion,Sortino Ratio,0.0834
+AVGO,Moving Average Crossover,Volatility (Annualized),0.2926
+AVGO,Moving Average Crossover,Maximum Drawdown,-0.4830
+AVGO,Moving Average Crossover,Sharpe Ratio,0.5808
+AVGO,Moving Average Crossover,Sortino Ratio,0.5693
+AVGO,RSI,Volatility (Annualized),0.2272
+AVGO,RSI,Maximum Drawdown,-0.4119
+AVGO,RSI,Sharpe Ratio,0.5091
+AVGO,RSI,Sortino Ratio,0.3486
+AVGO,MACD,Volatility (Annualized),0.2326
+AVGO,MACD,Maximum Drawdown,-0.3479
+AVGO,MACD,Sharpe Ratio,0.6066
+AVGO,MACD,Sortino Ratio,0.6693
+AVGO,Bollinger Bands,Volatility (Annualized),0.2626
+AVGO,Bollinger Bands,Maximum Drawdown,-0.4830
+AVGO,Bollinger Bands,Sharpe Ratio,0.8544
+AVGO,Bollinger Bands,Sortino Ratio,0.6935
+AVGO,Buy and Hold,Volatility (Annualized),0.3583
+AVGO,Buy and Hold,Maximum Drawdown,-0.4830
+AVGO,Buy and Hold,Sharpe Ratio,1.0327
+AVGO,Buy and Hold,Sortino Ratio,1.4191
+AVGO,RSI with Trend Filter,Volatility (Annualized),0.2196
+AVGO,RSI with Trend Filter,Maximum Drawdown,-0.4119
+AVGO,RSI with Trend Filter,Sharpe Ratio,0.4024
+AVGO,RSI with Trend Filter,Sortino Ratio,0.2636
+AVGO,MACD with Trend Filter,Volatility (Annualized),0.1817
+AVGO,MACD with Trend Filter,Maximum Drawdown,-0.2248
+AVGO,MACD with Trend Filter,Sharpe Ratio,0.6161
+AVGO,MACD with Trend Filter,Sortino Ratio,0.4865
+ADBE,Mean Reversion,Volatility (Annualized),0.1616
+ADBE,Mean Reversion,Maximum Drawdown,-0.3756
+ADBE,Mean Reversion,Sharpe Ratio,0.2756
+ADBE,Mean Reversion,Sortino Ratio,0.2623
+ADBE,Moving Average Crossover,Volatility (Annualized),0.2384
+ADBE,Moving Average Crossover,Maximum Drawdown,-0.3579
+ADBE,Moving Average Crossover,Sharpe Ratio,0.3737
+ADBE,Moving Average Crossover,Sortino Ratio,0.3150
+ADBE,RSI,Volatility (Annualized),0.2236
+ADBE,RSI,Maximum Drawdown,-0.4865
+ADBE,RSI,Sharpe Ratio,0.3907
+ADBE,RSI,Sortino Ratio,0.2962
+ADBE,MACD,Volatility (Annualized),0.2195
+ADBE,MACD,Maximum Drawdown,-0.3920
+ADBE,MACD,Sharpe Ratio,0.6101
+ADBE,MACD,Sortino Ratio,0.5715
+ADBE,Bollinger Bands,Volatility (Annualized),0.2657
+ADBE,Bollinger Bands,Maximum Drawdown,-0.4924
+ADBE,Bollinger Bands,Sharpe Ratio,0.4804
+ADBE,Bollinger Bands,Sortino Ratio,0.3977
+ADBE,Buy and Hold,Volatility (Annualized),0.3395
+ADBE,Buy and Hold,Maximum Drawdown,-0.6002
+ADBE,Buy and Hold,Sharpe Ratio,0.7247
+ADBE,Buy and Hold,Sortino Ratio,0.9213
+ADBE,RSI with Trend Filter,Volatility (Annualized),0.2169
+ADBE,RSI with Trend Filter,Maximum Drawdown,-0.4865
+ADBE,RSI with Trend Filter,Sharpe Ratio,0.3353
+ADBE,RSI with Trend Filter,Sortino Ratio,0.2471
+ADBE,MACD with Trend Filter,Volatility (Annualized),0.2033
+ADBE,MACD with Trend Filter,Maximum Drawdown,-0.3269
+ADBE,MACD with Trend Filter,Sharpe Ratio,0.5866
+ADBE,MACD with Trend Filter,Sortino Ratio,0.4569
+VZ,Mean Reversion,Volatility (Annualized),0.0062
+VZ,Mean Reversion,Maximum Drawdown,-0.0113
+VZ,Mean Reversion,Sharpe Ratio,-1.0734
+VZ,Mean Reversion,Sortino Ratio,-1.1201
+VZ,Moving Average Crossover,Volatility (Annualized),0.1347
+VZ,Moving Average Crossover,Maximum Drawdown,-0.3794
+VZ,Moving Average Crossover,Sharpe Ratio,0.0135
+VZ,Moving Average Crossover,Sortino Ratio,0.0118
+VZ,RSI,Volatility (Annualized),0.1471
+VZ,RSI,Maximum Drawdown,-0.3012
+VZ,RSI,Sharpe Ratio,0.3702
+VZ,RSI,Sortino Ratio,0.3752
+VZ,MACD,Volatility (Annualized),0.1356
+VZ,MACD,Maximum Drawdown,-0.3893
+VZ,MACD,Sharpe Ratio,0.2749
+VZ,MACD,Sortino Ratio,0.2836
+VZ,Bollinger Bands,Volatility (Annualized),0.1521
+VZ,Bollinger Bands,Maximum Drawdown,-0.2675
+VZ,Bollinger Bands,Sharpe Ratio,0.4006
+VZ,Bollinger Bands,Sortino Ratio,0.4088
+VZ,Buy and Hold,Volatility (Annualized),0.1970
+VZ,Buy and Hold,Maximum Drawdown,-0.4121
+VZ,Buy and Hold,Sharpe Ratio,0.2912
+VZ,Buy and Hold,Sortino Ratio,0.4031
+VZ,RSI with Trend Filter,Volatility (Annualized),0.1471
+VZ,RSI with Trend Filter,Maximum Drawdown,-0.3012
+VZ,RSI with Trend Filter,Sharpe Ratio,0.3702
+VZ,RSI with Trend Filter,Sortino Ratio,0.3752
+VZ,MACD with Trend Filter,Volatility (Annualized),0.1543
+VZ,MACD with Trend Filter,Maximum Drawdown,-0.3107
+VZ,MACD with Trend Filter,Sharpe Ratio,0.5182
+VZ,MACD with Trend Filter,Sortino Ratio,0.5400
+CRM,Mean Reversion,Volatility (Annualized),0.0443
+CRM,Mean Reversion,Maximum Drawdown,-0.1204
+CRM,Mean Reversion,Sharpe Ratio,-0.0690
+CRM,Mean Reversion,Sortino Ratio,-0.0445
+CRM,Moving Average Crossover,Volatility (Annualized),0.2718
+CRM,Moving Average Crossover,Maximum Drawdown,-0.3889
+CRM,Moving Average Crossover,Sharpe Ratio,0.4579
+CRM,Moving Average Crossover,Sortino Ratio,0.4437
+CRM,RSI,Volatility (Annualized),0.2987
+CRM,RSI,Maximum Drawdown,-0.5196
+CRM,RSI,Sharpe Ratio,0.4732
+CRM,RSI,Sortino Ratio,0.4651
+CRM,MACD,Volatility (Annualized),0.2400
+CRM,MACD,Maximum Drawdown,-0.5124
+CRM,MACD,Sharpe Ratio,0.4218
+CRM,MACD,Sortino Ratio,0.4539
+CRM,Bollinger Bands,Volatility (Annualized),0.2507
+CRM,Bollinger Bands,Maximum Drawdown,-0.3579
+CRM,Bollinger Bands,Sharpe Ratio,0.6873
+CRM,Bollinger Bands,Sortino Ratio,0.5942
+CRM,Buy and Hold,Volatility (Annualized),0.3527
+CRM,Buy and Hold,Maximum Drawdown,-0.5862
+CRM,Buy and Hold,Sharpe Ratio,0.5629
+CRM,Buy and Hold,Sortino Ratio,0.7412
+CRM,RSI with Trend Filter,Volatility (Annualized),0.2866
+CRM,RSI with Trend Filter,Maximum Drawdown,-0.5196
+CRM,RSI with Trend Filter,Sharpe Ratio,0.4068
+CRM,RSI with Trend Filter,Sortino Ratio,0.3937
+CRM,MACD with Trend Filter,Volatility (Annualized),0.2341
+CRM,MACD with Trend Filter,Maximum Drawdown,-0.4499
+CRM,MACD with Trend Filter,Sharpe Ratio,0.2462
+CRM,MACD with Trend Filter,Sortino Ratio,0.1959
+TXN,Mean Reversion,Volatility (Annualized),0.0634
+TXN,Mean Reversion,Maximum Drawdown,-0.0879
+TXN,Mean Reversion,Sharpe Ratio,0.4414
+TXN,Mean Reversion,Sortino Ratio,0.5240
+TXN,Moving Average Crossover,Volatility (Annualized),0.2013
+TXN,Moving Average Crossover,Maximum Drawdown,-0.2985
+TXN,Moving Average Crossover,Sharpe Ratio,0.3801
+TXN,Moving Average Crossover,Sortino Ratio,0.3620
+TXN,RSI,Volatility (Annualized),0.1714
+TXN,RSI,Maximum Drawdown,-0.2327
+TXN,RSI,Sharpe Ratio,0.3214
+TXN,RSI,Sortino Ratio,0.2085
+TXN,MACD,Volatility (Annualized),0.1920
+TXN,MACD,Maximum Drawdown,-0.2396
+TXN,MACD,Sharpe Ratio,0.6240
+TXN,MACD,Sortino Ratio,0.6478
+TXN,Bollinger Bands,Volatility (Annualized),0.2094
+TXN,Bollinger Bands,Maximum Drawdown,-0.2977
+TXN,Bollinger Bands,Sharpe Ratio,0.7136
+TXN,Bollinger Bands,Sortino Ratio,0.6462
+TXN,Buy and Hold,Volatility (Annualized),0.2843
+TXN,Buy and Hold,Maximum Drawdown,-0.2985
+TXN,Buy and Hold,Sharpe Ratio,0.7412
+TXN,Buy and Hold,Sortino Ratio,1.0354
+TXN,RSI with Trend Filter,Volatility (Annualized),0.1714
+TXN,RSI with Trend Filter,Maximum Drawdown,-0.2327
+TXN,RSI with Trend Filter,Sharpe Ratio,0.3214
+TXN,RSI with Trend Filter,Sortino Ratio,0.2085
+TXN,MACD with Trend Filter,Volatility (Annualized),0.1599
+TXN,MACD with Trend Filter,Maximum Drawdown,-0.2233
+TXN,MACD with Trend Filter,Sharpe Ratio,0.4872
+TXN,MACD with Trend Filter,Sortino Ratio,0.3870
+NEE,Mean Reversion,Volatility (Annualized),0.0389
+NEE,Mean Reversion,Maximum Drawdown,-0.1053
+NEE,Mean Reversion,Sharpe Ratio,0.1893
+NEE,Mean Reversion,Sortino Ratio,0.2049
+NEE,Moving Average Crossover,Volatility (Annualized),0.2057
+NEE,Moving Average Crossover,Maximum Drawdown,-0.3563
+NEE,Moving Average Crossover,Sharpe Ratio,0.5361
+NEE,Moving Average Crossover,Sortino Ratio,0.5406
+NEE,RSI,Volatility (Annualized),0.1855
+NEE,RSI,Maximum Drawdown,-0.4228
+NEE,RSI,Sharpe Ratio,0.5353
+NEE,RSI,Sortino Ratio,0.4325
+NEE,MACD,Volatility (Annualized),0.1593
+NEE,MACD,Maximum Drawdown,-0.2099
+NEE,MACD,Sharpe Ratio,0.8234
+NEE,MACD,Sortino Ratio,0.8598
+NEE,Bollinger Bands,Volatility (Annualized),0.1927
+NEE,Bollinger Bands,Maximum Drawdown,-0.3563
+NEE,Bollinger Bands,Sharpe Ratio,0.4315
+NEE,Bollinger Bands,Sortino Ratio,0.3440
+NEE,Buy and Hold,Volatility (Annualized),0.2487
+NEE,Buy and Hold,Maximum Drawdown,-0.4497
+NEE,Buy and Hold,Sharpe Ratio,0.7307
+NEE,Buy and Hold,Sortino Ratio,0.9297
+NEE,RSI with Trend Filter,Volatility (Annualized),0.1855
+NEE,RSI with Trend Filter,Maximum Drawdown,-0.4228
+NEE,RSI with Trend Filter,Sharpe Ratio,0.5353
+NEE,RSI with Trend Filter,Sortino Ratio,0.4325
+NEE,MACD with Trend Filter,Volatility (Annualized),0.1566
+NEE,MACD with Trend Filter,Maximum Drawdown,-0.3457
+NEE,MACD with Trend Filter,Sharpe Ratio,0.7423
+NEE,MACD with Trend Filter,Sortino Ratio,0.6130
+CMCSA,Mean Reversion,Volatility (Annualized),0.0162
+CMCSA,Mean Reversion,Maximum Drawdown,-0.0607
+CMCSA,Mean Reversion,Sharpe Ratio,-0.4857
+CMCSA,Mean Reversion,Sortino Ratio,-0.4898
+CMCSA,Moving Average Crossover,Volatility (Annualized),0.1743
+CMCSA,Moving Average Crossover,Maximum Drawdown,-0.3268
+CMCSA,Moving Average Crossover,Sharpe Ratio,0.0828
+CMCSA,Moving Average Crossover,Sortino Ratio,0.0749
+CMCSA,RSI,Volatility (Annualized),0.1869
+CMCSA,RSI,Maximum Drawdown,-0.4619
+CMCSA,RSI,Sharpe Ratio,0.1862
+CMCSA,RSI,Sortino Ratio,0.1547
+CMCSA,MACD,Volatility (Annualized),0.1674
+CMCSA,MACD,Maximum Drawdown,-0.4198
+CMCSA,MACD,Sharpe Ratio,0.0236
+CMCSA,MACD,Sortino Ratio,0.0235
+CMCSA,Bollinger Bands,Volatility (Annualized),0.1987
+CMCSA,Bollinger Bands,Maximum Drawdown,-0.4409
+CMCSA,Bollinger Bands,Sharpe Ratio,0.3075
+CMCSA,Bollinger Bands,Sortino Ratio,0.2805
+CMCSA,Buy and Hold,Volatility (Annualized),0.2551
+CMCSA,Buy and Hold,Maximum Drawdown,-0.5211
+CMCSA,Buy and Hold,Sharpe Ratio,0.3554
+CMCSA,Buy and Hold,Sortino Ratio,0.4797
+CMCSA,RSI with Trend Filter,Volatility (Annualized),0.1869
+CMCSA,RSI with Trend Filter,Maximum Drawdown,-0.4619
+CMCSA,RSI with Trend Filter,Sharpe Ratio,0.1862
+CMCSA,RSI with Trend Filter,Sortino Ratio,0.1547
+CMCSA,MACD with Trend Filter,Volatility (Annualized),0.1681
+CMCSA,MACD with Trend Filter,Maximum Drawdown,-0.4385
+CMCSA,MACD with Trend Filter,Sharpe Ratio,0.0653
+CMCSA,MACD with Trend Filter,Sortino Ratio,0.0571
+NFLX,Mean Reversion,Volatility (Annualized),0.0904
+NFLX,Mean Reversion,Maximum Drawdown,-0.3248
+NFLX,Mean Reversion,Sharpe Ratio,0.1261
+NFLX,Mean Reversion,Sortino Ratio,0.0803
+NFLX,Moving Average Crossover,Volatility (Annualized),0.2767
+NFLX,Moving Average Crossover,Maximum Drawdown,-0.4800
+NFLX,Moving Average Crossover,Sharpe Ratio,0.4227
+NFLX,Moving Average Crossover,Sortino Ratio,0.4030
+NFLX,RSI,Volatility (Annualized),0.2866
+NFLX,RSI,Maximum Drawdown,-0.7349
+NFLX,RSI,Sharpe Ratio,0.2342
+NFLX,RSI,Sortino Ratio,0.1456
+NFLX,MACD,Volatility (Annualized),0.2806
+NFLX,MACD,Maximum Drawdown,-0.4747
+NFLX,MACD,Sharpe Ratio,0.4601
+NFLX,MACD,Sortino Ratio,0.4855
+NFLX,Bollinger Bands,Volatility (Annualized),0.3049
+NFLX,Bollinger Bands,Maximum Drawdown,-0.7351
+NFLX,Bollinger Bands,Sharpe Ratio,0.2621
+NFLX,Bollinger Bands,Sortino Ratio,0.1847
+NFLX,Buy and Hold,Volatility (Annualized),0.4302
+NFLX,Buy and Hold,Maximum Drawdown,-0.7595
+NFLX,Buy and Hold,Sharpe Ratio,0.6935
+NFLX,Buy and Hold,Sortino Ratio,0.9092
+NFLX,RSI with Trend Filter,Volatility (Annualized),0.2789
+NFLX,RSI with Trend Filter,Maximum Drawdown,-0.7349
+NFLX,RSI with Trend Filter,Sharpe Ratio,0.1501
+NFLX,RSI with Trend Filter,Sortino Ratio,0.0887
+NFLX,MACD with Trend Filter,Volatility (Annualized),0.2782
+NFLX,MACD with Trend Filter,Maximum Drawdown,-0.7413
+NFLX,MACD with Trend Filter,Sharpe Ratio,0.1650
+NFLX,MACD with Trend Filter,Sortino Ratio,0.1087
+INTC,Mean Reversion,Volatility (Annualized),0.0153
+INTC,Mean Reversion,Maximum Drawdown,-0.0564
+INTC,Mean Reversion,Sharpe Ratio,-0.7365
+INTC,Mean Reversion,Sortino Ratio,-0.5184
+INTC,Moving Average Crossover,Volatility (Annualized),0.2575
+INTC,Moving Average Crossover,Maximum Drawdown,-0.4678
+INTC,Moving Average Crossover,Sharpe Ratio,0.0668
+INTC,Moving Average Crossover,Sortino Ratio,0.0548
+INTC,RSI,Volatility (Annualized),0.2627
+INTC,RSI,Maximum Drawdown,-0.4201
+INTC,RSI,Sharpe Ratio,0.1650
+INTC,RSI,Sortino Ratio,0.1409
+INTC,MACD,Volatility (Annualized),0.2528
+INTC,MACD,Maximum Drawdown,-0.6067
+INTC,MACD,Sharpe Ratio,0.1228
+INTC,MACD,Sortino Ratio,0.1138
+INTC,Bollinger Bands,Volatility (Annualized),0.2655
+INTC,Bollinger Bands,Maximum Drawdown,-0.4756
+INTC,Bollinger Bands,Sharpe Ratio,0.4737
+INTC,Bollinger Bands,Sortino Ratio,0.3948
+INTC,Buy and Hold,Volatility (Annualized),0.3646
+INTC,Buy and Hold,Maximum Drawdown,-0.6957
+INTC,Buy and Hold,Sharpe Ratio,0.1157
+INTC,Buy and Hold,Sortino Ratio,0.1408
+INTC,RSI with Trend Filter,Volatility (Annualized),0.2627
+INTC,RSI with Trend Filter,Maximum Drawdown,-0.4201
+INTC,RSI with Trend Filter,Sharpe Ratio,0.1650
+INTC,RSI with Trend Filter,Sortino Ratio,0.1409
+INTC,MACD with Trend Filter,Volatility (Annualized),0.2307
+INTC,MACD with Trend Filter,Maximum Drawdown,-0.5234
+INTC,MACD with Trend Filter,Sharpe Ratio,0.0420
+INTC,MACD with Trend Filter,Sortino Ratio,0.0344
+LIN,Mean Reversion,Volatility (Annualized),0.0978
+LIN,Mean Reversion,Maximum Drawdown,-0.1556
+LIN,Mean Reversion,Sharpe Ratio,0.7159
+LIN,Mean Reversion,Sortino Ratio,0.8745
+LIN,Moving Average Crossover,Volatility (Annualized),0.1742
+LIN,Moving Average Crossover,Maximum Drawdown,-0.3259
+LIN,Moving Average Crossover,Sharpe Ratio,0.4839
+LIN,Moving Average Crossover,Sortino Ratio,0.4733
+LIN,RSI,Volatility (Annualized),0.1549
+LIN,RSI,Maximum Drawdown,-0.2667
+LIN,RSI,Sharpe Ratio,0.4779
+LIN,RSI,Sortino Ratio,0.3096
+LIN,MACD,Volatility (Annualized),0.1530
+LIN,MACD,Maximum Drawdown,-0.2022
+LIN,MACD,Sharpe Ratio,0.4236
+LIN,MACD,Sortino Ratio,0.4549
+LIN,Bollinger Bands,Volatility (Annualized),0.1737
+LIN,Bollinger Bands,Maximum Drawdown,-0.2667
+LIN,Bollinger Bands,Sharpe Ratio,0.6911
+LIN,Bollinger Bands,Sortino Ratio,0.5768
+LIN,Buy and Hold,Volatility (Annualized),0.2349
+LIN,Buy and Hold,Maximum Drawdown,-0.3259
+LIN,Buy and Hold,Sharpe Ratio,0.9069
+LIN,Buy and Hold,Sortino Ratio,1.2705
+LIN,RSI with Trend Filter,Volatility (Annualized),0.1549
+LIN,RSI with Trend Filter,Maximum Drawdown,-0.2667
+LIN,RSI with Trend Filter,Sharpe Ratio,0.4779
+LIN,RSI with Trend Filter,Sortino Ratio,0.3096
+LIN,MACD with Trend Filter,Volatility (Annualized),0.1312
+LIN,MACD with Trend Filter,Maximum Drawdown,-0.1333
+LIN,MACD with Trend Filter,Sharpe Ratio,0.9270
+LIN,MACD with Trend Filter,Sortino Ratio,0.7827
+NKE,Mean Reversion,Volatility (Annualized),0.0664
+NKE,Mean Reversion,Maximum Drawdown,-0.1938
+NKE,Mean Reversion,Sharpe Ratio,0.0147
+NKE,Mean Reversion,Sortino Ratio,0.0178
+NKE,Moving Average Crossover,Volatility (Annualized),0.2123
+NKE,Moving Average Crossover,Maximum Drawdown,-0.3978
+NKE,Moving Average Crossover,Sharpe Ratio,0.0500
+NKE,Moving Average Crossover,Sortino Ratio,0.0532
+NKE,RSI,Volatility (Annualized),0.2295
+NKE,RSI,Maximum Drawdown,-0.4595
+NKE,RSI,Sharpe Ratio,0.2915
+NKE,RSI,Sortino Ratio,0.2378
+NKE,MACD,Volatility (Annualized),0.1952
+NKE,MACD,Maximum Drawdown,-0.3025
+NKE,MACD,Sharpe Ratio,0.1896
+NKE,MACD,Sortino Ratio,0.1967
+NKE,Bollinger Bands,Volatility (Annualized),0.2243
+NKE,Bollinger Bands,Maximum Drawdown,-0.5193
+NKE,Bollinger Bands,Sharpe Ratio,0.1761
+NKE,Bollinger Bands,Sortino Ratio,0.1702
+NKE,Buy and Hold,Volatility (Annualized),0.3053
+NKE,Buy and Hold,Maximum Drawdown,-0.5862
+NKE,Buy and Hold,Sharpe Ratio,0.2940
+NKE,Buy and Hold,Sortino Ratio,0.3886
+NKE,RSI with Trend Filter,Volatility (Annualized),0.2295
+NKE,RSI with Trend Filter,Maximum Drawdown,-0.4595
+NKE,RSI with Trend Filter,Sharpe Ratio,0.2915
+NKE,RSI with Trend Filter,Sortino Ratio,0.2378
+NKE,MACD with Trend Filter,Volatility (Annualized),0.1879
+NKE,MACD with Trend Filter,Maximum Drawdown,-0.4181
+NKE,MACD with Trend Filter,Sharpe Ratio,0.1883
+NKE,MACD with Trend Filter,Sortino Ratio,0.1930
+AMD,Mean Reversion,Volatility (Annualized),0.0813
+AMD,Mean Reversion,Maximum Drawdown,-0.1896
+AMD,Mean Reversion,Sharpe Ratio,0.3652
+AMD,Mean Reversion,Sortino Ratio,0.4316
+AMD,Moving Average Crossover,Volatility (Annualized),0.4179
+AMD,Moving Average Crossover,Maximum Drawdown,-0.4911
+AMD,Moving Average Crossover,Sharpe Ratio,0.7924
+AMD,Moving Average Crossover,Sortino Ratio,0.9127
+AMD,RSI,Volatility (Annualized),0.3202
+AMD,RSI,Maximum Drawdown,-0.4455
+AMD,RSI,Sharpe Ratio,0.6834
+AMD,RSI,Sortino Ratio,0.5935
+AMD,MACD,Volatility (Annualized),0.4144
+AMD,MACD,Maximum Drawdown,-0.5610
+AMD,MACD,Sharpe Ratio,0.8599
+AMD,MACD,Sortino Ratio,0.9263
+AMD,Bollinger Bands,Volatility (Annualized),0.3944
+AMD,Bollinger Bands,Maximum Drawdown,-0.4987
+AMD,Bollinger Bands,Sharpe Ratio,0.6613
+AMD,Bollinger Bands,Sortino Ratio,0.6185
+AMD,Buy and Hold,Volatility (Annualized),0.5939
+AMD,Buy and Hold,Maximum Drawdown,-0.6545
+AMD,Buy and Hold,Sharpe Ratio,1.0611
+AMD,Buy and Hold,Sortino Ratio,1.6822
+AMD,RSI with Trend Filter,Volatility (Annualized),0.3202
+AMD,RSI with Trend Filter,Maximum Drawdown,-0.4455
+AMD,RSI with Trend Filter,Sharpe Ratio,0.6834
+AMD,RSI with Trend Filter,Sortino Ratio,0.5935
+AMD,MACD with Trend Filter,Volatility (Annualized),0.3829
+AMD,MACD with Trend Filter,Maximum Drawdown,-0.4455
+AMD,MACD with Trend Filter,Sharpe Ratio,0.8095
+AMD,MACD with Trend Filter,Sortino Ratio,0.7927
+MDT,Mean Reversion,Volatility (Annualized),0.0222
+MDT,Mean Reversion,Maximum Drawdown,-0.0745
+MDT,Mean Reversion,Sharpe Ratio,-0.2036
+MDT,Mean Reversion,Sortino Ratio,-0.1695
+MDT,Moving Average Crossover,Volatility (Annualized),0.1629
+MDT,Moving Average Crossover,Maximum Drawdown,-0.3988
+MDT,Moving Average Crossover,Sharpe Ratio,-0.0813
+MDT,Moving Average Crossover,Sortino Ratio,-0.0701
+MDT,RSI,Volatility (Annualized),0.1877
+MDT,RSI,Maximum Drawdown,-0.3281
+MDT,RSI,Sharpe Ratio,0.2144
+MDT,RSI,Sortino Ratio,0.1786
+MDT,MACD,Volatility (Annualized),0.1523
+MDT,MACD,Maximum Drawdown,-0.4792
+MDT,MACD,Sharpe Ratio,0.1451
+MDT,MACD,Sortino Ratio,0.1431
+MDT,Bollinger Bands,Volatility (Annualized),0.1952
+MDT,Bollinger Bands,Maximum Drawdown,-0.3596
+MDT,Bollinger Bands,Sharpe Ratio,0.2167
+MDT,Bollinger Bands,Sortino Ratio,0.2028
+MDT,Buy and Hold,Volatility (Annualized),0.2332
+MDT,Buy and Hold,Maximum Drawdown,-0.4510
+MDT,Buy and Hold,Sharpe Ratio,0.2642
+MDT,Buy and Hold,Sortino Ratio,0.3407
+MDT,RSI with Trend Filter,Volatility (Annualized),0.1877
+MDT,RSI with Trend Filter,Maximum Drawdown,-0.3281
+MDT,RSI with Trend Filter,Sharpe Ratio,0.2144
+MDT,RSI with Trend Filter,Sortino Ratio,0.1786
+MDT,MACD with Trend Filter,Volatility (Annualized),0.1559
+MDT,MACD with Trend Filter,Maximum Drawdown,-0.3305
+MDT,MACD with Trend Filter,Sharpe Ratio,0.1708
+MDT,MACD with Trend Filter,Sortino Ratio,0.1464
+UNP,Mean Reversion,Volatility (Annualized),0.0552
+UNP,Mean Reversion,Maximum Drawdown,-0.1096
+UNP,Mean Reversion,Sharpe Ratio,0.3653
+UNP,Mean Reversion,Sortino Ratio,0.4376
+UNP,Moving Average Crossover,Volatility (Annualized),0.2013
+UNP,Moving Average Crossover,Maximum Drawdown,-0.4403
+UNP,Moving Average Crossover,Sharpe Ratio,0.1830
+UNP,Moving Average Crossover,Sortino Ratio,0.1835
+UNP,RSI,Volatility (Annualized),0.1879
+UNP,RSI,Maximum Drawdown,-0.3872
+UNP,RSI,Sharpe Ratio,0.8024
+UNP,RSI,Sortino Ratio,0.6840
+UNP,MACD,Volatility (Annualized),0.1687
+UNP,MACD,Maximum Drawdown,-0.2437
+UNP,MACD,Sharpe Ratio,0.5575
+UNP,MACD,Sortino Ratio,0.6106
+UNP,Bollinger Bands,Volatility (Annualized),0.1898
+UNP,Bollinger Bands,Maximum Drawdown,-0.3512
+UNP,Bollinger Bands,Sharpe Ratio,0.6414
+UNP,Bollinger Bands,Sortino Ratio,0.5587
+UNP,Buy and Hold,Volatility (Annualized),0.2575
+UNP,Buy and Hold,Maximum Drawdown,-0.3872
+UNP,Buy and Hold,Sharpe Ratio,0.6834
+UNP,Buy and Hold,Sortino Ratio,0.9494
+UNP,RSI with Trend Filter,Volatility (Annualized),0.1879
+UNP,RSI with Trend Filter,Maximum Drawdown,-0.3872
+UNP,RSI with Trend Filter,Sharpe Ratio,0.8024
+UNP,RSI with Trend Filter,Sortino Ratio,0.6840
+UNP,MACD with Trend Filter,Volatility (Annualized),0.1400
+UNP,MACD with Trend Filter,Maximum Drawdown,-0.1841
+UNP,MACD with Trend Filter,Sharpe Ratio,0.9104
+UNP,MACD with Trend Filter,Sortino Ratio,0.8326
+QCOM,Mean Reversion,Volatility (Annualized),0.0276
+QCOM,Mean Reversion,Maximum Drawdown,-0.0516
+QCOM,Mean Reversion,Sharpe Ratio,-0.3109
+QCOM,Mean Reversion,Sortino Ratio,-0.2378
+QCOM,Moving Average Crossover,Volatility (Annualized),0.2759
+QCOM,Moving Average Crossover,Maximum Drawdown,-0.5833
+QCOM,Moving Average Crossover,Sharpe Ratio,-0.0943
+QCOM,Moving Average Crossover,Sortino Ratio,-0.0891
+QCOM,RSI,Volatility (Annualized),0.2237
+QCOM,RSI,Maximum Drawdown,-0.2554
+QCOM,RSI,Sharpe Ratio,0.6417
+QCOM,RSI,Sortino Ratio,0.5234
+QCOM,MACD,Volatility (Annualized),0.2419
+QCOM,MACD,Maximum Drawdown,-0.4511
+QCOM,MACD,Sharpe Ratio,0.4971
+QCOM,MACD,Sortino Ratio,0.5155
+QCOM,Bollinger Bands,Volatility (Annualized),0.2871
+QCOM,Bollinger Bands,Maximum Drawdown,-0.3110
+QCOM,Bollinger Bands,Sharpe Ratio,0.4277
+QCOM,Bollinger Bands,Sortino Ratio,0.4076
+QCOM,Buy and Hold,Volatility (Annualized),0.3755
+QCOM,Buy and Hold,Maximum Drawdown,-0.4429
+QCOM,Buy and Hold,Sharpe Ratio,0.6107
+QCOM,Buy and Hold,Sortino Ratio,0.8612
+QCOM,RSI with Trend Filter,Volatility (Annualized),0.2237
+QCOM,RSI with Trend Filter,Maximum Drawdown,-0.2554
+QCOM,RSI with Trend Filter,Sharpe Ratio,0.6417
+QCOM,RSI with Trend Filter,Sortino Ratio,0.5234
+QCOM,MACD with Trend Filter,Volatility (Annualized),0.2106
+QCOM,MACD with Trend Filter,Maximum Drawdown,-0.3169
+QCOM,MACD with Trend Filter,Sharpe Ratio,0.3922
+QCOM,MACD with Trend Filter,Sortino Ratio,0.3435

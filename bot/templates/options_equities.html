@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-        /* Your existing styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -79,43 +78,99 @@
         .stock-selector {
             margin: 20px 0;
         }
-        #historical-chart {
+        #historical-chart, #realtime-chart {
+            margin-top: 20px;
+        }
+        .loading-spinner {
+            display: none;
             margin-top: 20px;
         }
     </style>
     <script>
-        function toggleTable(tableId) {
-            const table = document.getElementById(tableId);
-            table.style.display = (table.style.display === "none" || table.style.display === "") ? "table" : "none"; // Toggle visibility
+        // Show the loading spinner
+        function showLoading() {
+            document.getElementById('loading-spinner').style.display = 'block';
         }
 
-        function updateStockAndOptionsData() {
+        // Hide the loading spinner
+        function hideLoading() {
+            document.getElementById('loading-spinner').style.display = 'none';
+        }
+
+        // Show error message in case of failure
+        function showError(message) {
+            const errorContainer = document.getElementById('error-message');
+            errorContainer.textContent = message;
+            errorContainer.style.display = 'block';
+        }
+
+        // Hide error message
+        function hideError() {
+            const errorContainer = document.getElementById('error-message');
+            errorContainer.style.display = 'none';
+        }
+
+        // Fetch and update stock data
+        function updateStockData() {
             const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
-            const timePeriod = document.getElementById('time-period').value; // Get the selected time period
-            if (!stockSymbol) return;
+            const timePeriod = document.getElementById('time-period').value;
+            hideError(); // Clear previous errors
+
+            if (!stockSymbol) {
+                showError('Please enter a valid stock symbol.');
+                return;
+            }
+
+            // Show the loading spinner
+            showLoading();
+
+            console.log(`Fetching stock data for: symbol=${stockSymbol}, period=${timePeriod}`);
 
             // Fetch stock data
-            fetch(`/stock_data?symbol=${stockSymbol}`)
+            fetch(`/stock_data?symbol=${stockSymbol}&period=${timePeriod}`)
                 .then(response => {
+                    console.log("Response received:", response);
+                    hideLoading(); // Hide the loading spinner after data is fetched
                     if (!response.ok) throw new Error('Stock data not found');
                     return response.json();
                 })
                 .then(data => {
-                    const stockTitle = document.getElementById('stock-title');
-                    stockTitle.textContent = `${data.name} (${data.symbol}) - $${data.price.toFixed(2)}`;
-                    
-                    // Fetch options data
-                    return fetch(`/options_data?symbol=${stockSymbol}`);
+                    console.log("Stock Data received:", data);
+                    plotHistoricalData(data.historical);
+                    plotRealTimeData(data.real_time);
                 })
+                .catch(error => {
+                    console.error('Error fetching stock data:', error);
+                    showError('An error occurred while fetching stock data. Please try again.');
+                });
+        }
+
+        // Fetch and update options data
+        function updateOptionsData() {
+            const stockSymbol = document.getElementById('stock-symbol').value.trim().toUpperCase();
+            hideError(); // Clear previous errors
+
+            if (!stockSymbol) {
+                showError('Please enter a valid stock symbol.');
+                return;
+            }
+
+            console.log(`Fetching options data for: symbol=${stockSymbol}`);
+
+            // Fetch options data (shorter time frame)
+            fetch(`/options_data?symbol=${stockSymbol}`)
                 .then(response => {
+                    console.log("Response received:", response);
                     if (!response.ok) throw new Error('Options data not found');
                     return response.json();
                 })
-                .then(optionsData => {
-                    const optionsSection = document.getElementById('options-section');
-                    optionsSection.innerHTML = ''; // Clear previous data
+                .then(data => {
+                    console.log("Options Data received:", data);
 
-                    optionsData.forEach((item, index) => {
+                    const optionsSection = document.getElementById('options-section');
+                    optionsSection.innerHTML = '';  // Clear previous data
+
+                    data.options.forEach((item, index) => {
                         const optionBox = document.createElement('div');
                         optionBox.className = 'option-box';
                         optionBox.innerHTML = `
@@ -169,26 +224,15 @@
                         `;
                         optionsSection.appendChild(optionBox);
                     });
-
-                    // Fetch and plot historical data
-                    return fetch(`/historical_data?symbol=${stockSymbol}&period=${timePeriod}`); // Include time period
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('Historical data not found');
-                    return response.json();
-                })
-                .then(historicalData => {
-                    plotHistoricalData(historicalData);
                 })
                 .catch(error => {
-                    console.error('Error fetching data:', error);
-                    document.getElementById('stock-title').textContent = 'Options Data';
-                    document.getElementById('options-section').innerHTML = `<p style="color:red;">${error.message}</p>`;
+                    console.error('Error fetching options data:', error);
+                    showError('An error occurred while fetching options data. Please try again.');
                 });
         }
 
         function plotHistoricalData(data) {
-            const dates = data.map(entry => new Date(entry.date));
+            const dates = data.map(entry => new Date(entry.Date));
             const closePrices = data.map(entry => entry.Close);
             const sma20 = data.map(entry => entry.SMA_20);
             const upperBand = data.map(entry => entry['Upper Band']);
@@ -225,25 +269,40 @@
 
             const layout = {
                 title: 'Historical Close Prices and Bands',
-                xaxis: {
-                    title: 'Date',
-                    showgrid: true
-                },
-                yaxis: {
-                    title: 'Price ($)',
-                    showgrid: true
-                }
+                xaxis: { title: 'Date', showgrid: true },
+                yaxis: { title: 'Price ($)', showgrid: true }
             };
 
             Plotly.newPlot('historical-chart', [trace1, trace2, trace3, trace4], layout);
         }
 
-        // Event listener for Enter key
+        function plotRealTimeData(data) {
+            const dates = data.map(entry => new Date(entry.timestamp));
+            const prices = data.map(entry => entry.close);
+
+            const trace = {
+                x: dates,
+                y: prices,
+                mode: 'lines',
+                name: 'Real-Time Price',
+                line: { color: '#28a745' }
+            };
+
+            const layout = {
+                title: 'Real-Time Stock Prices',
+                xaxis: { title: 'Time', showgrid: true },
+                yaxis: { title: 'Price ($)', showgrid: true }
+            };
+
+            Plotly.newPlot('realtime-chart', [trace], layout);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const inputField = document.getElementById('stock-symbol');
             inputField.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    updateStockAndOptionsData(); // Call the update function on Enter key
+                    updateStockData();  // Fetch stock data
+                    updateOptionsData();  // Fetch options data separately
                 }
             });
         });
@@ -261,29 +320,55 @@
         </ul>
     </nav>
 
+    <!-- Stock Selection Section -->
     <section class="options section">
         <div class="stock-selector">
             <label for="stock-symbol">Enter Stock Symbol:</label>
             <input type="text" id="stock-symbol" placeholder="AAPL" required>
-            
-            <label for="time-period">Select Time Frame:</label>
+
+            <label for="time-period">Select Time Frame (Stock Data):</label>
             <select id="time-period">
                 <option value="1d">1 Day</option>
                 <option value="5d">5 Days</option>
-                <option value="1m">1 Month</option>
-                <option value="3m">3 Months</option>
+                <option value="1mo">1 Month</option>
+                <option value="3mo">3 Months</option>
+                <option value="6mo">6 Months</option>
                 <option value="1y">1 Year</option>
+                <option value="2y">2 Years</option>
                 <option value="5y">5 Years</option>
+                <option value="ytd">Year to Date</option>
+                <option value="max">Max</option>
             </select>
-            <button onclick="updateStockAndOptionsData()">Get Data</button>
+            <button onclick="updateStockData(); updateOptionsData();">Get Data</button>
         </div>
 
-        <h1 id="stock-title">Data</h1>
-        <div id="options-section"></div>
+        <!-- Error Message -->
+        <div id="error-message" style="color: red; display: none;"></div>
+
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="loading-spinner">
+            <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading...">
+        </div>
+
+        <h1 id="stock-title">Stock and Options Data</h1>
     </section>
 
+    <!-- Real-Time Stock Data Section -->
+    <section class="realtime-data section">
+        <h2>Real-Time Stock Prices</h2>
+        <div id="realtime-chart"></div>
+    </section>
+
+    <!-- Historical Stock Data Section -->
     <section class="historical-data section">
+        <h2>Historical Stock Prices and Indicators</h2>
         <div id="historical-chart"></div>
+    </section>
+
+    <!-- Options Data Section -->
+    <section class="options-data section">
+        <h2>Options Data</h2>
+        <div id="options-section"></div>
     </section>
 
 </body>

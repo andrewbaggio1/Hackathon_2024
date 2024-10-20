@@ -16,7 +16,7 @@ def prepare_data_summary(tickers):
     for ticker in tickers:
         # load processed historical data with optimized csv reading
         historical_data = pd.read_csv(
-            os.path.join('..', 'data', 'data', '{ticker}_historical_data.csv'),
+            os.path.join('..', 'data', 'data', f'{ticker}_historical_data.csv'),
             usecols=['Date', 'Close', 'High', 'Low', 'Volume'],
             dtype={'Date': 'str', 'Close': 'float', 'High': 'float', 'Low': 'float', 'Volume': 'int'}
         )

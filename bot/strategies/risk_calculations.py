@@ -16,6 +16,8 @@ from strategies import (  # Import your strategies from strategies.py
 
 # Directory containing your CSV data
 data_dir = '/Users/jbelmont/Downloads/WashU/Junior/Hackathon_2024/bot/data/data'
+data_dir_out = '/Users/jbelmont/Downloads/WashU/Junior/Hackathon_2024/bot/data/data_out'
+
 
 # List of top 50 tickers (you can adjust as needed)
 top_50_tickers = [
@@ -92,7 +94,7 @@ for ticker in top_50_tickers:
 
 
 # Define the output CSV file path
-output_file = 'risk_metrics_by_stock.csv'
+output_file = '/Users/jbelmont/Downloads/WashU/Junior/Hackathon_2024/bot/data/data_out/risk_metrics_by_stock.csv'
 
 # Open the CSV file for writing
 with open(output_file, mode='w', newline='') as file:

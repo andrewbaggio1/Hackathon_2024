@@ -163,4 +163,80 @@
         }
     </style>
 </head>
-<bod
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Bot Dashboard</div>
+        <ul>
+            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/options_equities">Options & Equities</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Documentation</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Left Section -->
+        <div class="left-section">
+            <!-- Dropdown Section -->
+            <div class="dropdown-section">
+                <h2>Select Ticker</h2>
+                <select class="dropdown">
+                    {% for ticker in tickers %}
+                        <option value="{{ ticker }}">{{ ticker }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Portfolio Graph -->
+            <div class="graph-section">
+                <h2>Portfolio Value</h2>
+                <div id="portfolio-graph"></div>
+            </div>
+        </div>
+
+        <!-- LLM Output Section -->
+        <div class="llm-section">
+            <h2>Market Snapshot</h2>
+            <div class="llm-output">
+                <div class="ai-logo">
+                    🤖 AI summary
+                </div>
+                <p>{{ llm_output }}</p>
+            </div>
+            <!-- Trades -->
+            <div class="trade-index">
+                <h3>Trades</h3>
+                <p>Information about current trades.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Example data for portfolio graph
+        var portfolioGraphData = {
+            x: ['January', 'February', 'March', 'April'],
+            y: [100, 200, 300, 400],
+            type: 'scatter',
+            line: { color: '#FFFFFF' } // White line on black background
+        };
+
+        var layout = {
+            title: 'Portfolio Value Over Time',
+            height: 500, // Increased height
+            width: '100%',
+            margin: { t: 50, l: 50, r: 20, b: 50 },
+            plot_bgcolor: '#000000', // Black background
+            paper_bgcolor: '#000000', // Black background
+            font: { color: '#FFFFFF' } // White text
+        };
+
+        Plotly.newPlot('portfolio-graph', [portfolioGraphData], layout);
+    </script>
+
+</body>
+</html>
