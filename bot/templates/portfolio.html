@@ -60,67 +60,99 @@
         .navbar ul li a:hover {
             color: #BBBBBB;
         }
-        /* Main Content */
+        /* Main Content Container */
         .container {
             flex: 1;
             display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center;     /* Center vertically */
-            padding: 40px 10px; /* Reduced horizontal padding for a balanced layout */
-            max-width: 1400px; /* Adjusted from 1600px to 1400px for a slightly narrower text box */
+            flex-direction: column; /* Stack content vertically */
+            align-items: center;
+            padding: 40px 10px;
+            max-width: 1400px;
             margin: 0 auto;
             width: 100%;
         }
-        /* LLM Output */
+        /* LLM Output Section */
         .llm-section {
             width: 100%;
-            max-width: 1400px; /* Adjusted from 1600px to 1400px */
-            min-height: 600px; /* Maintained height */
-            padding: 40px 20px; /* Slightly reduced horizontal padding */
-            background: rgba(255, 255, 255, 0.15); /* Increased opacity for more glassy effect */
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Added subtle border */
+            max-width: 1400px;
+            min-height: 600px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 15px;
-            backdrop-filter: blur(15px); /* Increased blur for enhanced glassiness */
-            box-shadow: none; /* Removed unwanted shadows */
+            backdrop-filter: blur(15px);
             color: #FFFFFF;
-            text-align: left; /* Align text to left */
+            text-align: left;
             display: flex;
             flex-direction: column;
+            margin-bottom: 40px;
         }
         .llm-output .ai-logo {
             font-weight: bold;
-            font-size: 28px; /* Increased font size for prominence */
-            text-align: left; /* Align to the left */
-            margin-bottom: 20px; /* Add space below the title */
+            font-size: 28px;
+            text-align: left;
+            margin-bottom: 20px;
         }
         .llm-output p {
-            font-size: 20px; /* Increased font size for readability */
+            font-size: 20px;
             line-height: 1.8;
-            white-space: pre-wrap; /* Preserve formatting */
-            word-wrap: break-word; /* Prevent overflow of long words */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        /* Image Section */
+        .image-section {
+            width: 100%;
+            max-width: 1400px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .image-section img {
+            max-width: 30%; /* Increased from 25% to 30% */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Optional: Adds a subtle shadow */
+        }
+        .image-section .caption {
+            font-size: 18px;
+            color: #FFFFFF;
+        }
+        .image-section .caption p {
+            margin: 0;
+            line-height: 1.6;
         }
         /* Responsive Design */
         @media (max-width: 1400px) {
-            .container {
-                max-width: 100%;
-            }
-            .llm-section {
+            .container, .llm-section, .image-section {
                 max-width: 100%;
             }
         }
-        @media (max-width: 600px) {
-            .llm-section {
-                padding: 30px 10px; /* Adjusted padding for smaller screens */
+        @media (max-width: 1000px) {
+            .llm-section, .image-section {
+                padding: 30px 10px;
                 width: 90%;
             }
-
             .llm-output .ai-logo {
                 font-size: 24px;
                 margin-bottom: 20px;
             }
-
-            .llm-output p {
+            .llm-output p,
+            .image-section .caption {
                 font-size: 18px;
+            }
+            .image-section img {
+                max-width: 60%; /* Adjusted for better visibility on small screens */
+            }
+        }
+        @media (max-width: 600px) {
+            .image-section img {
+                max-width: 40%; /* Further adjustments for very small screens */
             }
         }
     </style>
@@ -150,16 +182,15 @@
             </div>
         </div>
 
-    </div>
-
-    <!-- Image Container -->
-    <div class="image-container">
+        <!-- Image Section -->
         <div class="image-section">
             <img src="{{ url_for('static', filename='cum.png') }}" alt="Backtested Portfolio Performance">
             <div class="caption">
                 <p>The visualization above showcases the backtested portfolio performance of Apple from 2022 to 2024. Despite significant volatility in Apple's stock price during this period, our strategy achieved a 27.93% profit with a minimal volatility of 0.18%. In contrast, the traditional buy-and-hold approach yielded a 6.89% profit accompanied by a substantially higher volatility of 1.80%.</p>
             </div>
         </div>
+
     </div>
+
 </body>
 </html>
