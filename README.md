@@ -3,7 +3,7 @@
 # i like big oily men 
 # Algos we want to make:
 # HMM
-# trend filtering(?)
+
 # 
 
 # TO DO

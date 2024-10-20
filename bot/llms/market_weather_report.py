@@ -1,75 +1,133 @@
 import os
 import pandas as pd
-import numpy as np
-from transformers import pipeline  # import the transformers library
+from transformers import pipeline
+import logging
 
-def preprocess_data(historical_data):
-    # calculate daily returns and volatility using vectorized operations
-    historical_data['daily_return'] = historical_data['Close'].pct_change()
-    historical_data['volatility'] = historical_data['daily_return'].rolling(window=7).std()
-    historical_data['daily_range'] = historical_data['High'] - historical_data['Low']
-    historical_data['volume_change'] = historical_data['Volume'].pct_change()
-    return historical_data
+# Optional: Uncomment the following lines to enable logging
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def prepare_data_summary(tickers):
-    summaries = []
-    for ticker in tickers:
-        # load processed historical data with optimized csv reading
-        historical_data = pd.read_csv(
-            os.path.join('..', 'data', 'data', f'{ticker}_historical_data.csv'),
-            usecols=['Date', 'Close', 'High', 'Low', 'Volume'],
-            dtype={'Date': 'str', 'Close': 'float', 'High': 'float', 'Low': 'float', 'Volume': 'int'}
-        )
-        processed_data = preprocess_data(historical_data)
-
-        # extract key insights (e.g., average return, volatility, average daily range, volume change)
-        avg_return = processed_data['daily_return'].mean()
-        avg_volatility = processed_data['volatility'].mean()
-        avg_daily_range = processed_data['daily_range'].mean()
-        avg_volume_change = processed_data['volume_change'].mean()
-        summaries.append(
-            f"{ticker}: Avg Return: {avg_return:.2%}, Avg Volatility: {avg_volatility:.2%}, "
-            f"Avg Daily Range: {avg_daily_range:.2f}, Avg Volume Change: {avg_volume_change:.2%}"
-        )
-
-    return "\n".join(summaries)
-
-def generate_market_snapshot(data_summary):
+def summarize_market_data(friday_data):
     """
-    Generate a market snapshot using an LLM.
+    Summarize the Friday market data by identifying top gainers, top losers, and highest volume stocks.
+    
+    :param friday_data: DataFrame containing Friday's market data.
+    :return: A dictionary summarizing key market insights.
+    """
+    # Calculate percentage change based on previous day's Close price
+    # Assumption: 'Adj Close' represents the previous day's close
+    friday_data['pct_change'] = ((friday_data['Close'] - friday_data['Adj Close']) / friday_data['Adj Close']) * 100
+    
+    # Identify top 5 gainers
+    top_gainers = friday_data.nlargest(5, 'pct_change')[['Ticker', 'pct_change']]
+    
+    # Identify top 5 losers
+    top_losers = friday_data.nsmallest(5, 'pct_change')[['Ticker', 'pct_change']]
+    
+    # Identify top 5 highest volume stocks
+    top_volume = friday_data.nlargest(5, 'Volume')[['Ticker', 'Volume']]
+    
+    summary = {
+        'Top Gainers': top_gainers.to_dict(orient='records'),
+        'Top Losers': top_losers.to_dict(orient='records'),
+        'Highest Volume': top_volume.to_dict(orient='records')
+    }
+    
+    return summary
 
-    :param data_summary: Summary of processed data to feed into the LLM.
+def format_summary_for_prompt(summary, target_date):
+    """
+    Format the summarized data into a prompt suitable for the LLM.
+    
+    :param summary: Dictionary containing summarized market data.
+    :param target_date: The date of the market data.
+    :return: A formatted string to be used as a prompt.
+    """
+    prompt = f"Market Weather Forecast for {target_date}:\n\n"
+    
+    prompt += "Top 5 Gainers:\n"
+    for item in summary['Top Gainers']:
+        prompt += f"- {item['Ticker']}: {item['pct_change']:.2f}%\n"
+    
+    prompt += "\nTop 5 Losers:\n"
+    for item in summary['Top Losers']:
+        prompt += f"- {item['Ticker']}: {item['pct_change']:.2f}%\n"
+    
+    prompt += "\nTop 5 Highest Volume Stocks:\n"
+    for item in summary['Highest Volume']:
+        prompt += f"- {item['Ticker']}: {item['Volume']}\n"
+    
+    prompt += "\nProvide a concise weather forecast-style summary in plain language about the stock market's performance on the given date. Include insights on major trends, noteworthy stock movements, and any significant patterns."
+    
+    return prompt
+
+def generate_market_snapshot(prompt):
+    """
+    Generate a market snapshot using a Large Language Model (LLM).
+    
+    :param prompt: The prompt to be fed into the LLM.
     :return: Market snapshot as plain text.
     """
-    prompt = f"""
-    You are a financial market analyst. Here is this hour's processed market data:
-    {data_summary}
-
-    Provide a concise summary in plain language about the market's performance this hour.
-    Include insights on major trends, noteworthy stock movements, and any changes in options activity.
-    """
-    # use transformers pipeline for text summarization
-    summarizer = pipeline("summarization", model="distilbert-base-uncased")
-    response = summarizer(prompt, max_length=150, min_length=50, do_sample=False)
-    return response[0]['summary_text']
+    try:
+        # Initialize the text generation pipeline with an open-source model
+        generator = pipeline("text-generation", model="gpt2", max_length=300, temperature=0.7)
+        
+        # Generate the summary
+        response = generator(prompt, max_length=300, num_return_sequences=1)
+        
+        return response[0]['generated_text']
+    except Exception as e:
+        logging.error(f"Error generating summary: {e}")
+        return f"Error generating summary: {e}"
 
 def main():
-    # list of tickers to summarize (top 50 s&p 500 stocks)
-    tickers = [
-        'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'GOOG', 'NVDA', 'TSLA', 'BRK-B', 'META', 'UNH',
-        'XOM', 'JNJ', 'JPM', 'V', 'WMT', 'PG', 'MA', 'HD', 'CVX', 'ABBV',
-        'KO', 'MRK', 'LLY', 'BAC', 'PEP', 'PFE', 'COST', 'TMO', 'DIS', 'CSCO',
-        'MCD', 'ABT', 'DHR', 'ACN', 'WFC', 'AVGO', 'ADBE', 'VZ', 'CRM', 'TXN',
-        'NEE', 'CMCSA', 'NFLX', 'INTC', 'LIN', 'NKE', 'AMD', 'MDT', 'UNP', 'QCOM'
-    ]
-
-    # prepare data summary from processed data
-    data_summary = prepare_data_summary(tickers)
-
-    # market snapshot
-    snapshot = generate_market_snapshot(data_summary)
+    """
+    Main function to execute the data processing and generate the market snapshot.
+    """
+    # Path to the CSV file generated by the previous script
+    csv_file_path = os.path.join('friday_data', 'market_data_2024-10-18.csv')
+    
+    if not os.path.exists(csv_file_path):
+        logging.error(f"CSV file not found at {csv_file_path}. Please ensure the data is available.")
+        return
+    
+    # Load the aggregated market data
+    try:
+        friday_data = pd.read_csv(csv_file_path, parse_dates=['Date'])
+    except Exception as e:
+        logging.error(f"Error reading CSV file: {e}")
+        return
+    
+    # Summarize the data
+    summary = summarize_market_data(friday_data)
+    
+    # Format the summary into a prompt
+    target_date = '2024-10-18'
+    prompt = format_summary_for_prompt(summary, target_date)
+    
+    # Generate the market snapshot using the LLM
+    snapshot = generate_market_snapshot(prompt)
+    
     return snapshot
 
 if __name__ == "__main__":
     snapshot_text = main()
-    print(snapshot_text)
+    if snapshot_text:
+        print("Market Weather Forecast:")
+        print(snapshot_text)
+    
+    # 1. Scheduling Demonstration:
+    # The following code demonstrates how to update the weather forecast every 4 hours,
+    # assuming the CSV is updated every hour. This is commented out as per instructions.
+    
+    """
+    import time
+    
+    while True:
+        snapshot_text = main()
+        if snapshot_text:
+            print("Market Weather Forecast:")
+            print(snapshot_text)
+        
+        # Wait for 4 hours (4 * 60 * 60 seconds)
+        time.sleep(4 * 60 * 60)
+    """

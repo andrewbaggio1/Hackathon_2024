@@ -193,102 +193,6 @@
             Plotly.newPlot('chart', [trace1, trace2, trace3, trace4], layout);
         }
 
-        // Fetch and update options data
-        function updateOptionsData() {
-            const stockSymbol = document.getElementById('options-symbol').value.trim().toUpperCase();
-            hideError(); // Clear previous errors
-
-            if (!stockSymbol) {
-                showError('Please enter a valid stock symbol for options.');
-                return;
-            }
-
-            // Show the loading spinner
-            showLoading();
-
-            console.log(`Fetching options data for: symbol=${stockSymbol}`);
-
-            // Fetch options data
-            fetch(`/options_data?symbol=${stockSymbol}`)
-                .then(response => {
-                    hideLoading(); // Hide loading spinner after data is fetched
-                    if (!response.ok) throw new Error('Options data not found');
-                    return response.json();
-                })
-                .then(data => {
-                    console.log("Options Data received:", data);
-                    renderOptionsData(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching options data:', error);
-                    showError('An error occurred while fetching options data. Please try again.');
-                });
-        }
-
-        // Render options data into the HTML
-        function renderOptionsData(data) {
-            const optionsSection = document.getElementById('options-section');
-            optionsSection.innerHTML = '';  // Clear previous data
-
-            // Iterate over each expiration date
-            data.forEach((item, index) => {
-                const optionBox = document.createElement('div');
-                optionBox.className = 'option-box';
-
-                optionBox.innerHTML = `
-                    <h2>Expiration Date: ${item.expiration_date}</h2>
-                    ${createOptionsTable('Calls', item.calls, index, 'calls')}
-                    ${createOptionsTable('Puts', item.puts, index, 'puts')}
-                `;
-                optionsSection.appendChild(optionBox);
-            });
-        }
-
-        // Create table HTML for options (calls or puts)
-        function createOptionsTable(type, options, index, prefix) {
-            return `
-                <h3 class="toggle" onclick="toggleTable('${prefix}-${index}')">${type}</h3>
-                <table id="${prefix}-${index}" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>Contract Symbol</th>
-                            <th>Strike</th>
-                            <th>Last Price</th>
-                            <th>Bid</th>
-                            <th>Ask</th>
-                            <th>Volume</th>
-                            <th>Open Interest</th>
-                            <th>Implied Volatility</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${options.map(option => `
-                            <tr>
-                                <td>${option.contractSymbol}</td>
-                                <td>${option.strike}</td>
-                                <td>$${option.lastPrice !== null ? option.lastPrice.toFixed(2) : '-'}</td>
-                                <td>$${option.bid !== null ? option.bid.toFixed(2) : '-'}</td>
-                                <td>$${option.ask !== null ? option.ask.toFixed(2) : '-'}</td>
-                                <td>${option.volume !== null ? option.volume : '-'}</td>
-                                <td>${option.openInterest !== null ? option.openInterest : '-'}</td>
-                                <td>${option.impliedVolatility !== null ? (option.impliedVolatility * 100).toFixed(2) + '%' : '-'}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        // Toggle the visibility of option tables
-        function toggleTable(tableId) {
-            const table = document.getElementById(tableId);
-            if (table.style.display === 'none') {
-                table.style.display = 'table';
-            } else {
-                table.style.display = 'none';
-            }
-        }
-
         // Submit a trade order via Alpaca API
         function submitTradeOrder() {
             const symbol = document.getElementById('trade-symbol').value.trim().toUpperCase();
@@ -336,16 +240,16 @@
         function plotPortfolioChart(values, labels) {
             const data = [{
                 type: 'pie',
-                values: values,
+                values: values.map(val => parseFloat(val)),  // Ensure values are numbers
                 labels: labels,
                 textinfo: 'label+percent',
                 hole: 0.4
             }];
-
+        
             const layout = {
                 title: 'Portfolio Distribution',
             };
-
+        
             Plotly.newPlot('portfolio-chart', data, layout);
         }
 
@@ -441,7 +345,7 @@
     <nav class="navbar">
         <div class="logo">StockBot Dashboard</div>
         <ul>
-            <li><a href="/portfolio">Portfolio</a></li>
+            <li><a href="/portfolio">Summary</a></li>
             <li><a href="/options_equities">Options & Equities</a></li>
             <li><a href="{{ url_for('extra_information') }}">Documentation</a></li>
         </ul>
