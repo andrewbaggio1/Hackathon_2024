@@ -126,7 +126,7 @@ top_50_tickers = [
 ]
 
 # Directory where the historical data for all stocks is stored
-data_dir = '/Users/vpalava/PycharmProjects/Hackathon_2024/bot/data/data'  # Update this path
+data_dir = '/bot/strategies/RandomForest5Day.py'  # Update this path
 
 # Store forecast and investment results for each stock
 forecast_results = []
