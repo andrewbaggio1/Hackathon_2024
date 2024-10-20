@@ -137,7 +137,7 @@
         </ul>
     </nav>
 
-    <!-- Main Container -->
+    <!-- Main Content Container -->
     <div class="container">
 
         <!-- LLM Output Section -->
@@ -152,5 +152,14 @@
 
     </div>
 
+    <!-- Image Container -->
+    <div class="image-container">
+        <div class="image-section">
+            <img src="{{ url_for('static', filename='cum.png') }}" alt="Backtested Portfolio Performance">
+            <div class="caption">
+                <p>The visualization above showcases the backtested portfolio performance of Apple from 2022 to 2024. Despite significant volatility in Apple's stock price during this period, our strategy achieved a 27.93% profit with a minimal volatility of 0.18%. In contrast, the traditional buy-and-hold approach yielded a 6.89% profit accompanied by a substantially higher volatility of 1.80%.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

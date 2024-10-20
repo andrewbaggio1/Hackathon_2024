@@ -1,24 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Trading Dashboard</title>
+
+    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Include Inter Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS -->
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Black background */
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #FFFFFF; /* White text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Navbar */
         .navbar {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #000000;
+            padding: 10px 20px;
+            color: #FFFFFF;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .navbar .logo {
             font-size: 24px;
@@ -26,66 +47,235 @@
         }
         .navbar ul {
             list-style-type: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
             padding: 0;
         }
         .navbar ul li {
-            display: inline;
-            margin: 0 15px;
+            margin: 0;
         }
         .navbar ul li a {
-            color: white;
-            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            transition: color 0.3s;
         }
+        .navbar ul li a:hover {
+            color: #BBBBBB;
+        }
+        /* Main Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 10px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        /* Sections */
         .section {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-bottom: 2px solid #e0e0e0;
+            width: 100%;
+            max-width: 1400px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            color: #FFFFFF;
+            margin-bottom: 40px;
         }
         h1, h2 {
-            color: #4CAF50;
+            color: #FFFFFF;
+            margin-bottom: 20px;
         }
-        .option-box {
-            margin: 15px 0;
-            border: 1px solid #4CAF50;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            padding: 15px;
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+        }
+        input::placeholder {
+            color: #BBBBBB;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background-color: #BBBBBB;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 20px 0;
+            color: #FFFFFF;
         }
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
         th {
-            background-color: #f2f2f2;
+            background-color: rgba(255, 255, 255, 0.2);
         }
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .toggle {
-            cursor: pointer;
-            color: #4CAF50;
-            font-weight: bold;
+        /* Loading Spinner */
+        .loading-spinner img {
+            width: 50px;
+            height: 50px;
         }
-        .stock-selector, .options-selector {
-            margin: 20px 0;
-        }
-        #chart {
-            margin-top: 20px;
-        }
-        .loading-spinner {
+        /* Error Messages */
+        .error-message {
+            color: red;
+            margin-top: 10px;
             display: none;
-            margin-top: 20px;
+        }
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .container {
+                max-width: 100%;
+            }
+            .section {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            .section {
+                padding: 30px 10px;
+            }
+            h1, h2 {
+                font-size: 24px;
+            }
+            label, input, select, button {
+                font-size: 16px;
+            }
         }
     </style>
+
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">StockBot Dashboard</div>
+        <ul>
+            <li><a href="/portfolio">Summary</a></li>
+            <li><a href="/options_equities">Options & Equities</a></li>
+            <li><a href="{{ url_for('extra_information') }}">Documentation</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stock Selection Section -->
+        <section class="section">
+            <h2>Stock Data</h2>
+            <div>
+                <label for="stock-symbol">Enter Stock Symbol:</label>
+                <input type="text" id="stock-symbol" placeholder="AAPL" required>
+
+                <label for="time-period">Select Time Frame (Stock Data):</label>
+                <select id="time-period">
+                    <option value="1mo">1 Month</option>
+                    <option value="3mo">3 Months</option>
+                    <option value="6mo">6 Months</option>
+                    <option value="1y">1 Year</option>
+                    <option value="2y">2 Years</option>
+                    <option value="5y">5 Years</option>
+                    <option value="ytd">Year to Date</option>
+                    <option value="max">Max</option>
+                </select>
+                <button onclick="updateStockData();">Get Stock Data</button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading-spinner" class="loading-spinner" style="display: none;">
+                <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading...">
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" class="error-message"></div>
+
+            <!-- Stock Data Chart -->
+            <div id="chart"></div>
+        </section>
+
+        <!-- Trade Section -->
+        <section class="section">
+            <h2>Execute a Trade</h2>
+            <form class="trade-form">
+                <label for="trade-symbol">Stock Symbol:</label>
+                <input type="text" id="trade-symbol" placeholder="AAPL" required>
+
+                <label for="trade-quantity">Quantity:</label>
+                <input type="number" id="trade-quantity" placeholder="1" min="1" required>
+
+                <label for="trade-side">Action:</label>
+                <select id="trade-side" required>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                </select>
+
+                <button type="button" id="submit-trade">Submit Trade</button>
+            </form>
+
+            <!-- Error Message for Trade -->
+            <div id="trade-error-message" class="error-message"></div>
+        </section>
+
+        <!-- Trade History Section -->
+        <section class="section">
+            <h2>Trade History</h2>
+            <table id="trade-history-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Submitted At</th>
+                        <th>Filled At</th>
+                        <th>Cancel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Trade rows will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="section">
+            <h2>Portfolio Overview</h2>
+            <div id="portfolio-chart"></div>
+
+            <!-- Portfolio Details -->
+            <div id="portfolio-details" class="portfolio-details">
+                <!-- Details will be populated here by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
     <script>
         // Show the loading spinner
         function showLoading() {
@@ -135,10 +325,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Stock Data received:", data); // Log the full data received from the backend
+                    console.log("Stock Data received:", data);
                     if (!data.dates || !data.prices) {
                         console.error("Stock data is missing or undefined.");
-                        return; // Exit if the data is invalid
+                        return;
                     }
 
                     // Plot stock data including Bollinger Bands
@@ -153,7 +343,7 @@
         // Plot the stock data including Bollinger Bands
         function plotStockData(dates, prices, sma20, upper_band, lower_band) {
             const trace1 = {
-                x: dates.map(date => new Date(date)),  // Convert date strings to Date objects
+                x: dates.map(date => new Date(date)),
                 y: prices,
                 mode: 'lines',
                 name: 'Close Price',
@@ -187,7 +377,10 @@
             const layout = {
                 title: 'Stock Prices with Bollinger Bands',
                 xaxis: { title: 'Date', showgrid: true },
-                yaxis: { title: 'Price ($)', showgrid: true }
+                yaxis: { title: 'Price ($)', showgrid: true },
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: '#FFFFFF' }
             };
 
             Plotly.newPlot('chart', [trace1, trace2, trace3, trace4], layout);
@@ -196,19 +389,42 @@
         // Submit a trade order via Alpaca API
         function submitTradeOrder() {
             const symbol = document.getElementById('trade-symbol').value.trim().toUpperCase();
-            const qty = document.getElementById('trade-quantity').value;
+            const qtyInput = document.getElementById('trade-quantity').value;
             const side = document.getElementById('trade-side').value;
+            const orderType = 'market';  // Assuming market orders for simplicity
+            const timeInForce = 'day';   // Default time-in-force
 
-            if (!symbol || !qty) {
-                showError('Please fill out all trade fields.');
+            const errorContainer = document.getElementById('trade-error-message');
+            errorContainer.style.display = 'none';
+
+            // Validate inputs
+            if (!symbol || !qtyInput || !side) {
+                errorContainer.textContent = 'Please fill out all trade fields.';
+                errorContainer.style.display = 'block';
+                return;
+            }
+
+            const qty = parseFloat(qtyInput);
+
+            // Validate quantity
+            if (isNaN(qty) || qty <= 0) {
+                errorContainer.textContent = 'Please enter a valid quantity.';
+                errorContainer.style.display = 'block';
                 return;
             }
 
             const tradeData = {
                 symbol: symbol,
                 qty: qty,
-                side: side
+                side: side,
+                order_type: orderType,
+                time_in_force: timeInForce
             };
+
+            console.log("Submitting trade:", tradeData);
+
+            // Show loading spinner
+            showLoading();
 
             // Send trade request to backend
             fetch('/submit_trade', {
@@ -218,29 +434,46 @@
                 },
                 body: JSON.stringify(tradeData),
             })
-            .then(response => response.json())
+            .then(response => {
+                hideLoading();
+
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        const errorMessage = data.error || 'Trade submission failed';
+                        throw new Error(errorMessage);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.error) {
-                    showError(data.error);
+                    errorContainer.textContent = data.error;
+                    errorContainer.style.display = 'block';
                 } else {
                     alert('Trade executed successfully!');
+                    document.querySelector('.trade-form').reset();
+                    updatePortfolio();
+                    updateTradeHistory();
                 }
             })
             .catch(error => {
                 console.error('Error executing trade:', error);
-                showError('Failed to execute trade. Please try again.');
+                errorContainer.textContent = error.message || 'Failed to execute trade. Please try again.';
+                errorContainer.style.display = 'block';
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const tradeButton = document.getElementById('submit-trade');
-            tradeButton.addEventListener('click', submitTradeOrder);
-        });
         // Plot portfolio pie chart
         function plotPortfolioChart(values, labels) {
+            if (values.length === 0) {
+                // No data to display
+                document.getElementById('portfolio-chart').innerHTML = '<p>No assets in portfolio.</p>';
+                return;
+            }
+        
             const data = [{
                 type: 'pie',
-                values: values.map(val => parseFloat(val)),  // Ensure values are numbers
+                values: values.map(val => parseFloat(val)),
                 labels: labels,
                 textinfo: 'label+percent',
                 hole: 0.4
@@ -248,6 +481,9 @@
         
             const layout = {
                 title: 'Portfolio Distribution',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: '#FFFFFF' }
             };
         
             Plotly.newPlot('portfolio-chart', data, layout);
@@ -256,17 +492,18 @@
         // Fetch portfolio data and plot the pie chart
         function updatePortfolio() {
             fetch('/port')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch portfolio data.');
+                    return response.json();
+                })
                 .then(data => {
-                    // Update the portfolio pie chart
                     plotPortfolioChart(data.portfolio_data.values, data.portfolio_data.labels);
 
-                    // Display portfolio details (cash, buying power, equity)
                     const portfolioDetails = document.getElementById('portfolio-details');
                     portfolioDetails.innerHTML = `
-                        <p>Buying Power: <span>$${parseFloat(data.portfolio.buying_power).toFixed(2)}</span></p>
-                        <p>Cash: <span>$${parseFloat(data.portfolio.cash).toFixed(2)}</span></p>
-                        <p>Equity: <span>$${parseFloat(data.portfolio.equity).toFixed(2)}</span></p>
+                        <p>Buying Power: <span>$${parseFloat(data.portfolio_details.buying_power).toFixed(2)}</span></p>
+                        <p>Cash: <span>$${parseFloat(data.portfolio_details.cash).toFixed(2)}</span></p>
+                        <p>Equity: <span>$${parseFloat(data.portfolio_details.equity).toFixed(2)}</span></p>
                     `;
                 })
                 .catch(error => {
@@ -274,21 +511,25 @@
                 });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updatePortfolio();  // Load portfolio data and plot the chart on page load
-        });
         // Fetch trade history and display in table
         function updateTradeHistory() {
             fetch('/trades_history')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch trade history.');
+                    return response.json();
+                })
                 .then(data => {
                     const tradeTableBody = document.querySelector('#trade-history-table tbody');
-                    tradeTableBody.innerHTML = '';  // Clear existing rows
+                    tradeTableBody.innerHTML = '';
+
+                    if (data.trades.length === 0) {
+                        tradeTableBody.innerHTML = '<tr><td colspan="7">No trades found.</td></tr>';
+                        return;
+                    }
 
                     data.trades.forEach(trade => {
                         const row = document.createElement('tr');
 
-                        // Populate the trade data into the table
                         row.innerHTML = `
                             <td>${trade.symbol}</td>
                             <td>${trade.qty}</td>
@@ -319,124 +560,32 @@
                 },
                 body: JSON.stringify({ trade_id: tradeId })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to cancel trade.');
+                return response.json();
+            })
             .then(data => {
                 if (data.error) {
                     alert(data.error);
                 } else {
                     alert(data.message);
-                    updateTradeHistory();  // Refresh the trade history after canceling
+                    updateTradeHistory();
+                    updatePortfolio();
                 }
             })
             .catch(error => {
                 console.error('Error canceling trade:', error);
+                alert('An error occurred while canceling the trade.');
             });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateTradeHistory();  // Load the trade history when the page loads
+            updatePortfolio();
+            updateTradeHistory();
+            const tradeButton = document.getElementById('submit-trade');
+            tradeButton.addEventListener('click', submitTradeOrder);
         });
-
     </script>
-</head>
-<body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">StockBot Dashboard</div>
-        <ul>
-            <li><a href="/portfolio">Summary</a></li>
-            <li><a href="/options_equities">Options & Equities</a></li>
-            <li><a href="{{ url_for('extra_information') }}">Documentation</a></li>
-        </ul>
-    </nav>
-
-    <!-- Stock Selection Section -->
-    <section class="stock-selector section">
-        <div>
-            <label for="stock-symbol">Enter Stock Symbol:</label>
-            <input type="text" id="stock-symbol" placeholder="AAPL" required>
-
-            <label for="time-period">Select Time Frame (Stock Data):</label>
-            <select id="time-period">
-                <option value="1mo">1 Month</option>
-                <option value="3mo">3 Months</option>
-                <option value="6mo">6 Months</option>
-                <option value="1y">1 Year</option>
-                <option value="2y">2 Years</option>
-                <option value="5y">5 Years</option>
-                <option value="ytd">Year to Date</option>
-                <option value="max">Max</option>
-            </select>
-            <button onclick="updateStockData();">Get Stock Data</button>
-        </div>
-    </section>
-
-    <!-- Loading Spinner -->
-    <div id="loading-spinner" class="loading-spinner">
-        <img src="{{ url_for('static', filename='loading.gif') }}" alt="Loading...">
-    </div>
-
-    <!-- Stock Data Chart Section -->
-    <section class="stock-data section">
-        <h2>Stock Price Chart</h2>
-        <div id="chart"></div>
-    </section>
-
-    <!-- Trade Section (Alpaca Trading API) -->
-    <section class="trade-section section">
-        <h2>Execute a Trade</h2>
-        <form class="trade-form">
-            <label for="trade-symbol">Stock Symbol:</label>
-            <input type="text" id="trade-symbol" placeholder="AAPL" required>
-
-            <label for="trade-quantity">Quantity:</label>
-            <input type="number" id="trade-quantity" placeholder="1" required>
-
-            <label for="trade-side">Action:</label>
-            <select id="trade-side" required>
-                <option value="buy">Buy</option>
-                <option value="sell">Sell</option>
-            </select>
-
-            <button type="button" id="submit-trade">Submit Trade</button>
-        </form>
-        <!-- Error Message for Trade -->
-        <div id="error-message" style="color: red; display: none;"></div>
-    </section>
-
-     <!-- Trade History Section -->
-    <section class="trade-history-section section">
-        <h2>Trade History</h2>
-        <table id="trade-history-table">
-            <thead>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                    <th>Status</th>
-                    <th>Submitted At</th>
-                    <th>Filled At</th>
-                    <th>Cancel</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Trade rows will be populated here by JavaScript -->
-            </tbody>
-        </table>
-    </section>
-
-
-    <!-- Portfolio Section -->
-    <section class="portfolio-section section">
-        <h2>Portfolio Overview</h2>
-        <div id="portfolio-chart"></div>
-
-        <!-- Portfolio Details (Buying Power, Cash, Equity) -->
-        <div id="portfolio-details" class="portfolio-details">
-            <!-- Details will be populated here by JavaScript -->
-        </div>
-    </section>
 
 </body>
 </html>

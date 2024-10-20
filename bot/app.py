@@ -23,6 +23,10 @@ from alpaca.data.timeframe import TimeFrame
 import datetime
 import math
 import logging
+import openai
+import torch
+from transformers import pipeline, AutoModelForSeq2SeqLM, AutoTokenizer
+from llms.market_weather_report import *
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -36,6 +40,7 @@ app = Flask(__name__)
 # Set up Alpaca API credentials
 ALPACA_API_KEY = os.getenv('ALPACA_API_KEY')
 ALPACA_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
+OA_KEY = os.getenv('OAI_KEY')
 BASE_URL = 'https://paper-api.alpaca.markets'  # Ensure this is correct
 
 # Initialize Alpaca clients
@@ -48,6 +53,39 @@ HF_KEY = os.getenv('HF_Key')  # If used elsewhere
 # HELPERS #
 ###########
 
+# Configure logging to only display errors
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def generate_market_summary(market_data_text):
+    """
+    Generates a summary of the market data using OpenAI API.
+
+    Args:
+    - market_data_text: A string containing market data and trends.
+
+    Returns:
+    - summary: A string containing the generated summary.
+    """
+    try:
+        # Prepare the prompt with market data
+        prompt = f"Provide a concise and insightful summary of the following market data and trends:\n\n{market_data_text}\n\nSummary:"
+        
+        # Call OpenAI's API
+        response = openai.Completion.create(
+            engine='text-davinci-003',  # Use the appropriate engine
+            prompt=prompt,
+            max_tokens=150,
+            temperature=0.5,
+            n=1,
+            stop=None,
+        )
+        summary = response.choices[0].text.strip()
+        return summary
+    except Exception as e:
+        logger.error(f"Error generating market summary: {e}")
+        return "Unable to generate market summary at this time."
+    
 # Example to fetch recent bars for a symbol
 def get_real_time_stock_data(symbol):
     start = datetime.datetime.now() - datetime.timedelta(days=1)
@@ -173,11 +211,11 @@ def get_portfolio():
         return {}
 
 # Define supported TIFs based on Asset Class
-# SUPPORTED_TIF = {
-#     AssetClass.US_EQUITY: ['day', 'gtc', 'opg', 'cls', 'ioc', 'fok'],
-#     AssetClass.OPTIONS: ['day'],
-#     AssetClass.CRYPTO: ['gtc', 'ioc']
-# }
+SUPPORTED_TIF = {
+    'us_equity': ['day', 'gtc', 'opg', 'cls', 'ioc', 'fok'],
+    'options': ['day'],
+    'crypto': ['gtc', 'ioc']
+}
 
 def place_order(symbol, qty, side, order_type='market', time_in_force='day', limit_price=None):
     """Place a new order (market or limit) with proper TIF handling."""
@@ -186,26 +224,26 @@ def place_order(symbol, qty, side, order_type='market', time_in_force='day', lim
         asset = get_asset(symbol)
         if not asset:
             logger.error(f"Asset {symbol} not found.")
-            return {'error': f"Asset {symbol} not found."}
-        
-        asset_class = asset.class_
+            return {'error': f"Asset {symbol} not found."}, 400  # Return status code 400 for bad request
+
+        asset_class = asset.asset_class  # Corrected attribute name
 
         # Validate the provided TIF against the supported TIFs for the asset class
         if asset_class not in SUPPORTED_TIF:
             logger.error(f"Unsupported asset class: {asset_class} for symbol {symbol}.")
-            return {'error': f"Unsupported asset class: {asset_class} for symbol {symbol}."}
-        
+            return {'error': f"Unsupported asset class: {asset_class} for symbol {symbol}."}, 400
+
         if time_in_force.lower() not in SUPPORTED_TIF[asset_class]:
             logger.error(f"Invalid TimeInForce '{time_in_force}' for asset class '{asset_class}'.")
-            return {'error': f"Invalid TimeInForce '{time_in_force}' for asset class '{asset_class}'."}
-        
+            return {'error': f"Invalid TimeInForce '{time_in_force}' for asset class '{asset_class}'."}, 400
+
         # Map the time_in_force string to the TimeInForce enum
         try:
-            tif_enum = TimeInForce[time_in_force.upper()]
-        except KeyError:
+            tif_enum = TimeInForce(time_in_force.lower())
+        except ValueError:
             logger.error(f"TimeInForce '{time_in_force}' is not recognized.")
-            return {'error': f"TimeInForce '{time_in_force}' is not recognized."}
-        
+            return {'error': f"TimeInForce '{time_in_force}' is not recognized."}, 400
+
         # Create the appropriate order request based on order type
         if order_type.lower() == 'market':
             order_data = MarketOrderRequest(
@@ -217,20 +255,20 @@ def place_order(symbol, qty, side, order_type='market', time_in_force='day', lim
         elif order_type.lower() == 'limit' and limit_price is not None:
             order_data = LimitOrderRequest(
                 symbol=symbol,
+                limit_price=limit_price,
                 qty=qty,
                 side=OrderSide.BUY if side.lower() == 'buy' else OrderSide.SELL,
-                limit_price=limit_price,
                 time_in_force=tif_enum
             )
         else:
             logger.error("Invalid order type or missing limit price.")
-            return {'error': 'Invalid order type or missing limit price.'}
-        
+            return {'error': 'Invalid order type or missing limit price.'}, 400
+
         # Submit the order
         order = trading_client.submit_order(order_data)
         logger.info(f"Placed {order_type} order {order.id} for {qty} shares of {symbol} ({side}).")
         return {'message': 'Trade executed successfully', 'order_id': order.id}, 200
-    
+
     except Exception as e:
         logger.error(f"Error placing order for {symbol}: {e}")
         return {'error': str(e)}, 500
@@ -252,11 +290,19 @@ def get_order_history(limit=100):
 def get_asset(symbol):
     """Fetch asset information."""
     try:
-        asset = trading_client.get_asset(symbol)
-        logger.info(f"Fetched asset information for {symbol}.")
+        symbol_upper = symbol.upper()
+        logger.info(f"Attempting to fetch asset information for {symbol_upper}.")
+        asset = trading_client.get_asset(symbol_upper)  # Correct method
+        if not asset.tradable:
+            logger.error(f"Asset {symbol_upper} is not tradable.")
+            return None
+        if asset.status != 'active':
+            logger.error(f"Asset {symbol_upper} is not active.")
+            return None
+        logger.info(f"Fetched asset information for {symbol_upper}: {asset}")
         return asset
     except Exception as e:
-        logger.error(f"Error fetching asset information for {symbol}: {e}")
+        logger.error(f"Error fetching asset information for {symbol_upper}: {e}")
         return None
 
 def get_recent_trades():
@@ -284,7 +330,7 @@ def index():
 
 @app.route('/portfolio', methods=['GET', 'POST'])
 def portfolio_route():
-    """Render the portfolio page with current holdings."""
+    """Render the portfolio page with current holdings and LLM-generated summary."""
     port = get_portfolio()
 
     if not port:
@@ -296,7 +342,10 @@ def portfolio_route():
         "labels": [pos['symbol'] for pos in port.get('positions', [])]
     }
 
-    return render_template('portfolio.html', portfolio=port, portfolio_data=portfolio_data)
+    llm_output = main_green()
+
+    # Render the template with the portfolio data and LLM summary
+    return render_template('portfolio.html', portfolio=port, portfolio_data=portfolio_data, llm_output=llm_output)
 
 @app.route('/stock_data', methods=['GET'])
 def stock_data_route():
@@ -336,20 +385,19 @@ def submit_trade_route():
     side = data.get('side')
     order_type = data.get('order_type', 'market')  # Default to 'market'
     limit_price = data.get('limit_price', None)
+    time_in_force = data.get('time_in_force', 'day')  # Default to 'day'
 
     if not symbol or not qty or not side:
         return jsonify({'error': 'Invalid trade data provided.'}), 400
 
     try:
         # Place the order with Alpaca API
-        order = place_order(symbol, qty, side, order_type, limit_price=limit_price)
-        if order:
-            return jsonify({'message': 'Trade executed successfully', 'order_id': order.id}), 200
-        else:
-            return jsonify({'error': 'Failed to execute trade.'}), 500
+        response, status_code = place_order(symbol, qty, side, order_type, time_in_force, limit_price)
+        return jsonify(response), status_code
     except Exception as e:
         logger.error(f"Error submitting trade: {e}")
         return jsonify({'error': str(e)}), 500
+
 
 @app.route('/trades_history', methods=['GET'])
 def trades_history_route():
@@ -446,5 +494,44 @@ def test_account_route():
         logger.error(f"Error accessing account: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/market_summary', methods=['GET'])
+def market_summary_route():
+    """
+    Route to display the market summary and forecasting output.
+    """
+    try:
+        # Get stock symbol and period from query parameters
+        stock_symbol = request.args.get('symbol', 'AAPL')  # Default to AAPL
+        period = request.args.get('period', '1mo')
+
+        # Get stock data
+        stock_data = yf.Ticker(stock_symbol).history(period=period)
+
+        if stock_data.empty:
+            return jsonify({"error": "No data available for the specified symbol and period."}), 400
+
+        # Prepare market data for summary
+        market_data_text = stock_data[['Open', 'High', 'Low', 'Close', 'Volume']].tail(10).to_string()
+
+        # Generate market summary using OpenAI API
+        summary = generate_market_summary(market_data_text)
+
+        # Forecast using your model
+        forecasted_prices, model, y_test, X_test, y_train = forecast_stock(stock_data)
+
+        # Prepare data for display
+        forecasted_days = [f'Day {i+1}' for i in range(len(forecasted_prices))]
+        forecasted_values = forecasted_prices
+
+        # Render the template with summary and forecast
+        return render_template('market_summary.html', 
+                               summary=summary, 
+                               symbol=stock_symbol, 
+                               forecasted_days=forecasted_days, 
+                               forecasted_values=forecasted_values)
+    except Exception as e:
+        logger.error(f"Error in market_summary_route: {e}")
+        return jsonify({"error": "An error occurred while generating the market summary."}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)

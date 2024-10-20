@@ -121,3 +121,48 @@ p {
     width: 100%;
     height: 500px;
 }
+
+/* Loading Spinner Styles */
+.loading-spinner {
+    display: flex; /* Display as flex to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: fixed; /* Stay fixed relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    z-index: 9999; /* Ensure it's on top */
+}
+
+.loading-spinner img {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+}
+
+/* GIF Container Styles */
+.gif-container {
+    display: flex; /* Use flex to center the image */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Add some padding */
+    background-color: #fff; /* Background color to match sections */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+    margin: 2rem; /* Margin to separate from other elements */
+}
+
+.gif-container img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional: Rounded corners for the image */
+}
+
+.image-section img {
+    max-width: 30%; /* Adjust this percentage as needed */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 10px; /* Optional: Rounds the corners */
+    margin: 0 auto; /* Centers the image */
+    display: block; /* Necessary for margin auto to center the image */
+}

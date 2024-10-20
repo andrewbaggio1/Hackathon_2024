@@ -21,7 +21,7 @@ top_50_tickers = [
 import os
 
 # Directory where the historical data for all stocks is stored
-data_dir = '/Users/vpalava/PycharmProjects/Hackathon_2024/bot/data/data'
+data_dir = '/bot/data/data'
 
 # Loop through each stock file in the directory
 for filename in os.listdir(data_dir):

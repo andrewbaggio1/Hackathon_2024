@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extra Information - Stock Trading Dashboard</title>
+
+    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Include Inter Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS -->
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Black background */
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #FFFFFF; /* White text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Navbar */
         .navbar {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #000000;
+            padding: 10px 20px;
+            color: #FFFFFF;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .navbar .logo {
             font-size: 24px;
@@ -28,47 +47,105 @@
         }
         .navbar ul {
             list-style-type: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
             padding: 0;
         }
         .navbar ul li {
-            display: inline;
-            margin: 0 15px;
+            margin: 0;
         }
         .navbar ul li a {
-            color: white;
-            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            transition: color 0.3s;
         }
+        .navbar ul li a:hover {
+            color: #BBBBBB;
+        }
+        /* Main Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 10px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        /* Sections */
         .section {
-            margin: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1400px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            color: #FFFFFF;
+            margin-bottom: 40px;
         }
-        h1, h2 {
-            color: #4CAF50;
+        h1, h2, h3 {
+            color: #FFFFFF;
+            margin-bottom: 20px;
         }
-        .description {
-            background-color: #e8f5e9;
-            border-left: 5px solid #4CAF50;
-            padding: 15px;
-            border-radius: 8px;
+        p, ul, li {
+            font-size: 18px;
+            line-height: 1.6;
         }
         ul {
-            list-style-type: square;
+            list-style-type: disc;
             padding-left: 20px;
+            margin-bottom: 20px;
         }
         li {
-            margin: 5px 0;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #00BFFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
         .latex {
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            padding: 10px;
-            overflow: auto;
-            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 5px solid #FFFFFF;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            color: #FFFFFF;
+            margin: 20px 0;
+        }
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .container {
+                max-width: 100%;
+            }
+            .section {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            .section {
+                padding: 30px 10px;
+            }
+            h1, h2, h3 {
+                font-size: 24px;
+            }
+            p, ul, li {
+                font-size: 16px;
+            }
         }
     </style>
+
+    <!-- MathJax for LaTeX Rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 </head>
 <body>
 
@@ -82,239 +159,264 @@
         </ul>
     </nav>
 
-    <!-- Extra Information Section -->
-    <section class="section">
-        <h2>Extra Information</h2>
-        <p>
-            The "Extra Information" section provides users with deeper insights into trading theories and algorithms through detailed explanations and LaTeX proofs. This resource is designed to enhance your understanding of stock trading and improve your decision-making skills.
-        </p>
+    <!-- Main Container -->
+    <div class="container">
 
-        <h3>Key Topics</h3>
-        <ul>
-            <li><a href="#efficient-market-hypothesis">Efficient Market Hypothesis</a></li>
-            <li><a href="#black-scholes-model">Black-Scholes Model</a></li>
-            <li><a href="#arbitrage-pricing-theory">Arbitrage Pricing Theory</a></li>
-            <li><a href="#technical-analysis">Technical Analysis</a></li>
-            <li><a href="#fundamental-analysis">Fundamental Analysis</a></li>
-            <li><a href="#cox-rubinstein-model">Cox-Rubinstein Model</a></li>
-            <li><a href="#greek-calculations">Greek Calculations</a></li>
-            <li><a href="#vix">VIX</a></li>
-            <li><a href="#options-payoff-formulas">Options Payoff Formulas</a></li>
-            <li><a href="#example-portfolio-formulas">Example Portfolio Formulas</a></li>
-            <li><a href="#hidden-markov-models">Hidden Markov Models</a></li>
-        </ul>
+        <!-- Extra Information Section -->
+        <section class="section">
+            <h2>Extra Information</h2>
+            <p>
+                The "Extra Information" section provides users with deeper insights into trading theories and algorithms through detailed explanations and LaTeX proofs. This resource is designed to enhance your understanding of stock trading and improve your decision-making skills.
+            </p>
 
-        <h3 id="efficient-market-hypothesis">Efficient Market Hypothesis</h3>
-        <p>
-            The Efficient Market Hypothesis (EMH) suggests that asset prices fully reflect all available information. This means that it is impossible to "beat the market" consistently on a risk-adjusted basis since stock prices already incorporate and reflect all relevant information. EMH is categorized into three forms:
-        </p>
-        <ul>
-            <li><strong>Weak Form:</strong> Prices reflect all historical information.</li>
-            <li><strong>Semi-Strong Form:</strong> Prices reflect all publicly available information.</li>
-            <li><strong>Strong Form:</strong> Prices reflect all information, public and private.</li>
-        </ul>
-        <div class="latex">
-            \[
-            \text{Price}_{t} = E[\text{Price}_{t+1} | \mathcal{F}_{t}]
-            \]
-        </div>
-        <p>
-            Here, \( E[\text{Price}_{t+1} | \mathcal{F}_{t}] \) represents the expected price of the asset at time \( t+1 \), given all available information at time \( t \).
-        </p>
+            <h3>Key Topics</h3>
+            <ul>
+                <li><a href="#efficient-market-hypothesis">Efficient Market Hypothesis</a></li>
+                <li><a href="#black-scholes-model">Black-Scholes Model</a></li>
+                <li><a href="#arbitrage-pricing-theory">Arbitrage Pricing Theory</a></li>
+                <li><a href="#technical-analysis">Technical Analysis</a></li>
+                <li><a href="#fundamental-analysis">Fundamental Analysis</a></li>
+                <li><a href="#cox-rubinstein-model">Cox-Rubinstein Model</a></li>
+                <li><a href="#greek-calculations">Greek Calculations</a></li>
+                <li><a href="#vix">VIX</a></li>
+                <li><a href="#options-payoff-formulas">Options Payoff Formulas</a></li>
+                <li><a href="#example-portfolio-formulas">Example Portfolio Formulas</a></li>
+                <li><a href="#hidden-markov-models">Hidden Markov Models</a></li>
+                <li><a href="#goals">Goals</a></li>
+            </ul>
 
-        <h3 id="black-scholes-model">Black-Scholes Model</h3>
-        <p>
-            The Black-Scholes model is a mathematical model used for pricing options. It assumes that the stock follows a geometric Brownian motion with constant volatility. This model is foundational in modern financial theory and helps traders evaluate options pricing.
-        </p>
-        <p>
-            The formula for the price of a European call option \( C \) is given by:
-        </p>
-        <div class="latex">
-            \[
-            C = S_0 N(d_1) - Xe^{-rt} N(d_2)
-            \]
-            where
-            \[
-            d_1 = \frac{\ln(S_0 / X) + (r + \sigma^2 / 2)t}{\sigma \sqrt{t}}
-            \]
-            and
-            \[
-            d_2 = d_1 - \sigma \sqrt{t}
-            \]
-        </div>
-        <p>
-            In this formula:
-        </p>
-        <ul>
-            <li><strong> \( C \)</strong>: Call option price</li>
-            <li><strong> \( S_0 \)</strong>: Current stock price</li>
-            <li><strong> \( X \)</strong>: Strike price of the option</li>
-            <li><strong> \( r \)</strong>: Risk-free interest rate</li>
-            <li><strong> \( t \)</strong>: Time to expiration</li>
-            <li><strong> \( \sigma \)</strong>: Volatility of the stock</li>
-            <li><strong> \( N(d) \)</strong>: Cumulative distribution function of the standard normal distribution</li>
-        </ul>
-        <p>
-            The model's assumptions are key: it assumes no dividends are paid out during the life of the option and that markets are efficient, meaning that all available information is reflected in the asset's price.
-        </p>
+            <!-- Efficient Market Hypothesis -->
+            <h3 id="efficient-market-hypothesis">Efficient Market Hypothesis</h3>
+            <p>
+                The Efficient Market Hypothesis (EMH) suggests that asset prices fully reflect all available information. This means that it is impossible to "beat the market" consistently on a risk-adjusted basis since stock prices already incorporate and reflect all relevant information. EMH is categorized into three forms:
+            </p>
+            <ul>
+                <li><strong>Weak Form:</strong> Prices reflect all historical information.</li>
+                <li><strong>Semi-Strong Form:</strong> Prices reflect all publicly available information.</li>
+                <li><strong>Strong Form:</strong> Prices reflect all information, public and private.</li>
+            </ul>
+            <div class="latex">
+                \[
+                \text{Price}_{t} = E[\text{Price}_{t+1} \mid \mathcal{F}_{t}]
+                \]
+            </div>
+            <p>
+                Here, \( E[\text{Price}_{t+1} \mid \mathcal{F}_{t}] \) represents the expected price of the asset at time \( t+1 \), given all available information at time \( t \).
+            </p>
 
-        <h3 id="arbitrage-pricing-theory">Arbitrage Pricing Theory</h3>
-        <p>
-            Arbitrage Pricing Theory (APT) is a multi-factor model that describes the relationship between the expected return of an asset and its risk factors. It asserts that the price of an asset can be determined by its exposure to various risk factors. Unlike the Capital Asset Pricing Model (CAPM), which relies on a single factor (market risk), APT considers multiple factors influencing asset prices.
-        </p>
-        <p>
-            The expected return \( E[R_i] \) of an asset \( i \) is given by:
-        </p>
-        <div class="latex">
-            \[
-            E[R_i] = R_f + \beta_1 (E[R_1] - R_f) + \beta_2 (E[R_2] - R_f) + \ldots + \beta_n (E[R_n] - R_f)
-            \]
-            \text{where } R_f \text{ is the risk-free rate.}
-            \end{align}
-            \]
-        </div>
-        <p>
-            Here:
-        </p>
-        <ul>
-            <li><strong> \( R_f \)</strong>: Risk-free rate</li>
-            <li><strong> \( \beta_n \)</strong>: Sensitivity of the asset's return to the \( n \)-th factor</li>
-            <li><strong> \( E[R_n] \)</strong>: Expected return of the \( n \)-th factor</li>
-        </ul>
-        <p>
-            APT relies on the existence of arbitrage opportunities and assumes that investors will exploit these opportunities until they are eliminated, leading to equilibrium prices.
-        </p>
+            <!-- Black-Scholes Model -->
+            <h3 id="black-scholes-model">Black-Scholes Model</h3>
+            <p>
+                The Black-Scholes model is a mathematical model used for pricing options. It assumes that the stock follows a geometric Brownian motion with constant volatility. This model is foundational in modern financial theory and helps traders evaluate options pricing.
+            </p>
+            <p>
+                The formula for the price of a European call option \( C \) is given by:
+            </p>
+            <div class="latex">
+                \[
+                C = S_0 N(d_1) - Xe^{-rt} N(d_2)
+                \]
+                where
+                \[
+                d_1 = \frac{\ln(S_0 / X) + (r + \sigma^2 / 2)t}{\sigma \sqrt{t}}, \quad
+                d_2 = d_1 - \sigma \sqrt{t}
+                \]
+            </div>
+            <p>
+                In this formula:
+            </p>
+            <ul>
+                <li><strong> \( C \)</strong>: Call option price</li>
+                <li><strong> \( S_0 \)</strong>: Current stock price</li>
+                <li><strong> \( X \)</strong>: Strike price of the option</li>
+                <li><strong> \( r \)</strong>: Risk-free interest rate</li>
+                <li><strong> \( t \)</strong>: Time to expiration</li>
+                <li><strong> \( \sigma \)</strong>: Volatility of the stock</li>
+                <li><strong> \( N(d) \)</strong>: Cumulative distribution function of the standard normal distribution</li>
+            </ul>
+            <p>
+                The model's assumptions are key: it assumes no dividends are paid out during the life of the option and that markets are efficient, meaning that all available information is reflected in the asset's price.
+            </p>
 
-        <h3 id="technical-analysis">Technical Analysis</h3>
-        <p>
-            Technical analysis involves evaluating securities by analyzing statistics generated by market activity, such as past prices and volume. It is primarily used for short-term trading decisions. Key principles include:
-        </p>
-        <ul>
-            <li><strong>Price Discounts Everything:</strong> All available information is reflected in the price.</li>
-            <li><strong>Price Moves in Trends:</strong> Prices follow trends that persist for a time.</li>
-            <li><strong>History Tends to Repeat Itself:</strong> Market patterns repeat over time due to investor psychology.</li>
-        </ul>
+            <!-- Arbitrage Pricing Theory -->
+            <h3 id="arbitrage-pricing-theory">Arbitrage Pricing Theory</h3>
+            <p>
+                Arbitrage Pricing Theory (APT) is a multi-factor model that describes the relationship between the expected return of an asset and its risk factors. It asserts that the price of an asset can be determined by its exposure to various risk factors. Unlike the Capital Asset Pricing Model (CAPM), which relies on a single factor (market risk), APT considers multiple factors influencing asset prices.
+            </p>
+            <p>
+                The expected return \( E[R_i] \) of an asset \( i \) is given by:
+            </p>
+            <div class="latex">
+                \[
+                E[R_i] = R_f + \beta_1 (E[F_1] - R_f) + \beta_2 (E[F_2] - R_f) + \ldots + \beta_n (E[F_n] - R_f)
+                \]
+            </div>
+            <p>
+                Here:
+            </p>
+            <ul>
+                <li><strong> \( R_f \)</strong>: Risk-free rate</li>
+                <li><strong> \( \beta_n \)</strong>: Sensitivity of the asset's return to the \( n \)-th factor</li>
+                <li><strong> \( E[F_n] \)</strong>: Expected return of the \( n \)-th factor</li>
+            </ul>
+            <p>
+                APT relies on the existence of arbitrage opportunities and assumes that investors will exploit these opportunities until they are eliminated, leading to equilibrium prices.
+            </p>
 
-        <h3 id="fundamental-analysis">Fundamental Analysis</h3>
-        <p>
-            Fundamental analysis evaluates a security's intrinsic value by examining related economic and financial factors. This approach looks at the overall economy and industry conditions to make investment decisions. Key elements include:
-        </p>
-        <ul>
-            <li><strong>Earnings Reports:</strong> Analyzing earnings per share (EPS) and growth rates.</li>
-            <li><strong>Economic Indicators:</strong> GDP growth, unemployment rates, and inflation.</li>
-            <li><strong>Valuation Ratios:</strong> Price-to-earnings (P/E) ratio, price-to-book (P/B) ratio, etc.</li>
-        </ul>
+            <!-- Technical Analysis -->
+            <h3 id="technical-analysis">Technical Analysis</h3>
+            <p>
+                Technical analysis involves evaluating securities by analyzing statistics generated by market activity, such as past prices and volume. It is primarily used for short-term trading decisions. Key principles include:
+            </p>
+            <ul>
+                <li><strong>Price Discounts Everything:</strong> All available information is reflected in the price.</li>
+                <li><strong>Price Moves in Trends:</strong> Prices follow trends that persist for a time.</li>
+                <li><strong>History Tends to Repeat Itself:</strong> Market patterns repeat over time due to investor psychology.</li>
+            </ul>
 
-        <h3 id="cox-rubinstein-model">Cox-Rubinstein Model</h3>
-        <p>
-            The Cox-Rubinstein model is a binomial option pricing model that provides a discrete-time approach to option pricing. This model divides the time to expiration into several intervals, allowing for a more accurate option pricing mechanism compared to the Black-Scholes model. The binomial model considers two possible price movements (up or down) at each interval.
-        </p>
-        <div class="latex">
-            \[
-            C = e^{-rt} \left( pC_u + (1-p)C_d \right)
-            \]
-        </div>
-        <p>
-            In this formula:
-        </p>
-        <ul>
-            <li><strong> \( C \)</strong>: Current option price</li>
-            <li><strong> \( r \)</strong>: Risk-free rate</li>
-            <li><strong> \( t \)</strong>: Time to expiration</li>
-            <li><strong> \( p \)</strong>: Probability of an upward price movement</li>
-            <li><strong> \( C_u \)</strong>: Option price if the stock price goes up</li>
-            <li><strong> \( C_d \)</strong>: Option price if the stock price goes down</li>
-        </ul>
+            <!-- Fundamental Analysis -->
+            <h3 id="fundamental-analysis">Fundamental Analysis</h3>
+            <p>
+                Fundamental analysis evaluates a security's intrinsic value by examining related economic and financial factors. This approach looks at the overall economy and industry conditions to make investment decisions. Key elements include:
+            </p>
+            <ul>
+                <li><strong>Earnings Reports:</strong> Analyzing earnings per share (EPS) and growth rates.</li>
+                <li><strong>Economic Indicators:</strong> GDP growth, unemployment rates, and inflation.</li>
+                <li><strong>Valuation Ratios:</strong> Price-to-earnings (P/E) ratio, price-to-book (P/B) ratio, etc.</li>
+            </ul>
 
-        <h3 id="greek-calculations">Greek Calculations</h3>
-        <p>
-            Greeks are measures of the sensitivity of the price of options to changes in underlying parameters. They are crucial for risk management and trading strategies. Key Greeks include:
-        </p>
-        <ul>
-            <li><strong>Delta:</strong> Measures the sensitivity of an option's price to changes in the price of the underlying asset.</li>
-            <li><strong>Gamma:</strong> Measures the rate of change of delta with respect to changes in the underlying price.</li>
-            <li><strong>Theta:</strong> Measures the sensitivity of the price of an option to the passage of time (time decay).</li>
-            <li><strong>Vega:</strong> Measures sensitivity to volatility; how much the price of an option changes with a change in volatility of the underlying asset.</li>
-            <li><strong>Rho:</strong> Measures sensitivity to the interest rate; how much the price of an option changes with a change in interest rates.</li>
-        </ul>
+            <!-- Cox-Rubinstein Model -->
+            <h3 id="cox-rubinstein-model">Cox-Rubinstein Model</h3>
+            <p>
+                The Cox-Rubinstein model is a binomial option pricing model that provides a discrete-time approach to option pricing. This model divides the time to expiration into several intervals, allowing for a more accurate option pricing mechanism compared to the Black-Scholes model. The binomial model considers two possible price movements (up or down) at each interval.
+            </p>
+            <div class="latex">
+                \[
+                C = e^{-rt} \left( pC_u + (1-p)C_d \right)
+                \]
+            </div>
+            <p>
+                In this formula:
+            </p>
+            <ul>
+                <li><strong> \( C \)</strong>: Current option price</li>
+                <li><strong> \( r \)</strong>: Risk-free rate</li>
+                <li><strong> \( t \)</strong>: Time to expiration</li>
+                <li><strong> \( p \)</strong>: Probability of an upward price movement</li>
+                <li><strong> \( C_u \)</strong>: Option price if the stock price goes up</li>
+                <li><strong> \( C_d \)</strong>: Option price if the stock price goes down</li>
+            </ul>
 
-        <h3 id="vix">VIX</h3>
-        <p>
-            The VIX, or Volatility Index, is a measure of the market's expectation of future volatility based on options of the S&P 500 index. Often referred to as the "fear index," it tends to rise during periods of market turmoil.
-        </p>
+            <!-- Greek Calculations -->
+            <h3 id="greek-calculations">Greek Calculations</h3>
+            <p>
+                Greeks are measures of the sensitivity of the price of options to changes in underlying parameters. They are crucial for risk management and trading strategies. Key Greeks include:
+            </p>
+            <ul>
+                <li><strong>Delta:</strong> Measures the sensitivity of an option's price to changes in the price of the underlying asset.</li>
+                <li><strong>Gamma:</strong> Measures the rate of change of delta with respect to changes in the underlying price.</li>
+                <li><strong>Theta:</strong> Measures the sensitivity of the price of an option to the passage of time (time decay).</li>
+                <li><strong>Vega:</strong> Measures sensitivity to volatility; how much the price of an option changes with a change in volatility of the underlying asset.</li>
+                <li><strong>Rho:</strong> Measures sensitivity to the interest rate; how much the price of an option changes with a change in interest rates.</li>
+            </ul>
 
-        <h3 id="options-payoff-formulas">Options Payoff Formulas</h3>
-        <p>
-            The payoff from options can be calculated using simple formulas. For a call option, the payoff at expiration is:
-        </p>
-        <div class="latex">
-            \[
-            \text{Payoff}_{call} = \max(S_T - K, 0)
-            \]
-        </div>
-        <p>
-            For a put option, the payoff is:
-        </p>
-        <div class="latex">
-            \[
-            \text{Payoff}_{put} = \max(K - S_T, 0)
-            \]
-        </div>
-        <p>
-            Where:
-        </p>
-        <ul>
-            <li><strong> \( S_T \)</strong>: Stock price at expiration</li>
-            <li><strong> \( K \)</strong>: Strike price</li>
-        </ul>
+            <!-- VIX -->
+            <h3 id="vix">VIX</h3>
+            <p>
+                The VIX, or Volatility Index, is a measure of the market's expectation of future volatility based on options of the S&P 500 index. Often referred to as the "fear index," it tends to rise during periods of market turmoil.
+            </p>
 
-        <h3 id="example-portfolio-formulas">Example Portfolio Formulas</h3>
-        <p>
-            A portfolio's expected return can be calculated as:
-        </p>
-        <div class="latex">
-            \[
-            E[R_p] = w_1E[R_1] + w_2E[R_2] + \ldots + w_nE[R_n]
-            \]
-        </div>
-        <p>
-            Where:
-        </p>
-        <ul>
-            <li><strong> \( E[R_p] \)</strong>: Expected return of the portfolio</li>
-            <li><strong> \( w_i \)</strong>: Weight of asset \( i \) in the portfolio</li>
-            <li><strong> \( E[R_i] \)</strong>: Expected return of asset \( i \)</li>
-        </ul>
+            <!-- Options Payoff Formulas -->
+            <h3 id="options-payoff-formulas">Options Payoff Formulas</h3>
+            <p>
+                The payoff from options can be calculated using simple formulas. For a call option, the payoff at expiration is:
+            </p>
+            <div class="latex">
+                \[
+                \text{Payoff}_{\text{call}} = \max(S_T - K, 0)
+                \]
+            </div>
+            <p>
+                For a put option, the payoff is:
+            </p>
+            <div class="latex">
+                \[
+                \text{Payoff}_{\text{put}} = \max(K - S_T, 0)
+                \]
+            </div>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><strong> \( S_T \)</strong>: Stock price at expiration</li>
+                <li><strong> \( K \)</strong>: Strike price</li>
+            </ul>
 
-        <h3 id="hidden-markov-models">Hidden Markov Models</h3>
-        <p>
-            Hidden Markov Models (HMMs) are statistical models that represent systems that transition between hidden states over time. They are widely used in various fields, including finance, for modeling stock price movements. HMMs assume that the system is a Markov process with unobserved states. The basic components include:
-        </p>
-        <ul>
-            <li><strong>States:</strong> The hidden states that the system can be in.</li>
-            <li><strong>Observations:</strong> The observable outputs that are influenced by the hidden states.</li>
-            <li><strong>Transition Probabilities:</strong> The probabilities of moving from one state to another.</li>
-            <li><strong>Emission Probabilities:</strong> The probabilities of observing certain outputs from each state.</li>
-        </ul>
-        <p>
-            The key equations for HMMs are:
-        </p>
-        <div class="latex">
-            \[
-            P(O | \lambda) = \sum_{q} P(O | q, \lambda) P(q | \lambda)
-            \]
-        </div>
-        <p>
-            Where:
-        </p>
-        <ul>
-            <li><strong> \( O \)</strong>: Observed sequence</li>
-            <li><strong> \( \lambda \)</strong>: Model parameters</li>
-            <li><strong> \( q \)</strong>: Hidden states</li>
-        </ul>
-        <p>
-            HMMs provide a powerful framework for analyzing time series data and can be employed in stock price prediction and algorithmic trading strategies.
-        </p>
-    </section>
+            <!-- Example Portfolio Formulas -->
+            <h3 id="example-portfolio-formulas">Example Portfolio Formulas</h3>
+            <p>
+                A portfolio's expected return can be calculated as:
+            </p>
+            <div class="latex">
+                \[
+                E[R_p] = w_1E[R_1] + w_2E[R_2] + \ldots + w_nE[R_n]
+                \]
+            </div>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><strong> \( E[R_p] \)</strong>: Expected return of the portfolio</li>
+                <li><strong> \( w_i \)</strong>: Weight of asset \( i \) in the portfolio</li>
+                <li><strong> \( E[R_i] \)</strong>: Expected return of asset \( i \)</li>
+            </ul>
+
+            <!-- Hidden Markov Models -->
+            <h3 id="hidden-markov-models">Hidden Markov Models</h3>
+            <p>
+                Hidden Markov Models (HMMs) are statistical models that represent systems that transition between hidden states over time. They are widely used in various fields, including finance, for modeling stock price movements. HMMs assume that the system is a Markov process with unobserved states. The basic components include:
+            </p>
+            <ul>
+                <li><strong>States:</strong> The hidden states that the system can be in.</li>
+                <li><strong>Observations:</strong> The observable outputs that are influenced by the hidden states.</li>
+                <li><strong>Transition Probabilities:</strong> The probabilities of moving from one state to another.</li>
+                <li><strong>Emission Probabilities:</strong> The probabilities of observing certain outputs from each state.</li>
+            </ul>
+            <p>
+                The key equations for HMMs are:
+            </p>
+            <div class="latex">
+                \[
+                P(O \mid \lambda) = \sum_{q} P(O \mid q, \lambda) P(q \mid \lambda)
+                \]
+            </div>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><strong> \( O \)</strong>: Observed sequence</li>
+                <li><strong> \( \lambda \)</strong>: Model parameters</li>
+                <li><strong> \( q \)</strong>: Hidden states</li>
+            </ul>
+            <p>
+                HMMs provide a powerful framework for analyzing time series data and can be employed in stock price prediction and algorithmic trading strategies.
+            </p>
+            <!-- Goals Section -->
+            <h3 id="goals">Goals</h3>
+            <p>
+                As part of our continuous improvement and to provide more robust tools for our users, we have set the following goals:
+            </p>
+            <ul>
+                <li><strong>Implementing Options Trading:</strong> Enhancing the dashboard to support options trading will allow users to engage in more sophisticated trading strategies. This includes the ability to buy and sell call and put options, analyze options chains, and assess risk and reward profiles associated with different options contracts.</li>
+                <li><strong>Random Forest Regression:</strong> Integrating machine learning techniques, such as random forest regression, will enable predictive analytics for stock price movements. This model can help in forecasting future prices based on historical data, technical indicators, and other relevant features, providing users with data-driven insights for making informed trading decisions.</li>
+                <li><strong>Hidden Markov Models:</strong> Utilizing hidden Markov models (HMMs) will enhance our ability to model and predict the hidden states of the market. By identifying underlying states that influence observable market data, HMMs can improve the accuracy of trend predictions and signal generation, thereby assisting users in timing their trades more effectively.</li>
+            </ul>
+            <p>
+                Achieving these goals will significantly bolster the functionality of the StockBot Dashboard, offering users advanced tools and analytics to navigate the complexities of the stock market with greater confidence and precision.
+            </p>
+        </section>
+
+    </div>
+
 </body>
 </html>
